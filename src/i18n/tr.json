@@ -1,0 +1,84 @@
+{
+  "htmlTitle": "Fruit Destroy — Ücretsiz Meyve Eşleştirme Arcade Oyunu",
+  "playTitle": "Fruit Destroy Oyna — ücretsiz meyve eşleştirme oyunu",
+  "metaDescription": "Meyve çiftlerini eşleştir, kombo yap ve aç hayvanları kovala! Fruit Destroy'u tarayıcında ücretsiz oyna — bölümler, sonsuz mod ve günlük meydan okuma.",
+  "ogTitle": "Fruit Destroy — meyveleri eşleştir, hayvanları kovala!",
+  "ogDescription": "Kombolar, aç hayvanlar ve arkadaş meydan okumaları içeren ücretsiz meyve oyunu.",
+  "nav": {
+    "how": "Nasıl oynanır",
+    "critters": "Hayvanlar",
+    "modes": "Modlar",
+    "faq": "SSS",
+    "play": "Ücretsiz oyna"
+  },
+  "badge": "ÜCRETSİZ · İNDİRME YOK · ÜYELİK YOK",
+  "h1a": "Meyveleri eşleştir.",
+  "h1b": "Hayvanları kovala.",
+  "lead": "Fruit Destroy hızlı bir meyve eşleştirme oyunu. İki aynı meyveyi bul, sepete at ve kombo yap — maymun muzlarını kapmadan önce.",
+  "playNow": "▶ HEMEN OYNA",
+  "daily": "Günün meydan okuması →",
+  "howTitle": "Nasıl oynanır",
+  "steps": [
+    {
+      "title": "Aynı iki meyveye dokun",
+      "body": "Bir meyve seç ve eşini bul. Çiftler doğrudan sepete uçar."
+    },
+    {
+      "title": "Kombo yap",
+      "body": "3 saniye içinde yeni çift bul: ×1.2, ×1.5, ×2, ×3'e kadar."
+    },
+    {
+      "title": "Hayvanları kovala",
+      "body": "Aç hayvanlar sevdikleri meyvenin peşinde. Isırmadan önce dokun."
+    }
+  ],
+  "crittersTitle": "Aç hayvanlarla tanış",
+  "crittersLead": "3. bölümden itibaren hayvanlar tahtaya sızar. Kovalamak için dokun ve +50 puan kazan.",
+  "critterNames": [
+    "Maymun",
+    "Fare",
+    "Su aygırı",
+    "Kertenkele",
+    "Tavşan"
+  ],
+  "fromLevel": "{n}. bölümden itibaren",
+  "modesTitle": "Üç oyun modu",
+  "modes": [
+    {
+      "title": "Klasik",
+      "body": "Bölüm bölüm: daha çok meyve, çift ve hayvan. Bölüm başına 3 yıldıza kadar."
+    },
+    {
+      "title": "Sonsuz",
+      "body": "Yeni çiftler giderek hızlanarak düşer. Tahtanın dolmasına izin verme."
+    },
+    {
+      "title": "Günlük",
+      "body": "Her gün herkes için aynı yeni tahta. Tek resmi deneme."
+    }
+  ],
+  "playMode": "{m} oyna →",
+  "faq": [
+    {
+      "q": "Fruit Destroy ücretsiz mi?",
+      "a": "Evet. Tüm modlar tarayıcıda ücretsiz; indirme ve üyelik yok."
+    },
+    {
+      "q": "Telefonda çalışır mı?",
+      "a": "Evet. Telefon, tablet ve bilgisayarda her modern tarayıcıda çalışır."
+    },
+    {
+      "q": "Çocuklar için uygun mu?",
+      "a": "Evet. Şiddet ve sohbet yok, kurallar çok basit."
+    },
+    {
+      "q": "İlerlemem kaydedilir mi?",
+      "a": "Bölümler, rekorlar ve günlük seri cihazına kaydedilir."
+    }
+  ],
+  "ctaTitle": "Hazır mısın? Sepet bekliyor.",
+  "ctaLead": "Tek dokunuşla başla. Hesap yok, indirme yok.",
+  "ctaBtn": "▶ ÜCRETSİZ OYNA",
+  "privacy": "Gizlilik",
+  "terms": "Şartlar"
+}

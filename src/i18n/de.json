@@ -1,0 +1,84 @@
+{
+  "htmlTitle": "Fruit Destroy — Kostenloses Obst-Paare Arcade-Spiel",
+  "playTitle": "Fruit Destroy spielen — kostenloses Obst-Memory online",
+  "metaDescription": "Finde Obstpaare, baue Combos und verscheuche hungrige Tiere! Spiele Fruit Destroy kostenlos im Browser — Level, Endlosmodus und tägliche Challenge.",
+  "ogTitle": "Fruit Destroy — Obst sammeln, Tiere verscheuchen!",
+  "ogDescription": "Kostenloses Obst-Arcade-Spiel mit Combos, hungrigen Tieren und Freundes-Challenges.",
+  "nav": {
+    "how": "So geht's",
+    "critters": "Tiere",
+    "modes": "Modi",
+    "faq": "FAQ",
+    "play": "Gratis spielen"
+  },
+  "badge": "GRATIS · KEIN DOWNLOAD · KEINE ANMELDUNG",
+  "h1a": "Finde das Obst.",
+  "h1b": "Verscheuch die Tiere.",
+  "lead": "Fruit Destroy ist ein schnelles Obst-Arcade-Spiel. Finde zwei gleiche Früchte, wirf sie in den Korb und baue Combos — bevor der Affe deine Bananen klaut.",
+  "playNow": "▶ JETZT SPIELEN",
+  "daily": "Tägliche Challenge →",
+  "howTitle": "So geht's",
+  "steps": [
+    {
+      "title": "Tippe zwei gleiche an",
+      "body": "Wähle eine Frucht und finde ihren Zwilling. Paare fliegen direkt in den Korb."
+    },
+    {
+      "title": "Baue Combos",
+      "body": "Finde das nächste Paar innerhalb von 3 Sekunden: ×1.2, ×1.5, ×2 — bis ×3."
+    },
+    {
+      "title": "Verscheuch die Tiere",
+      "body": "Hungrige Tiere wollen ihr Lieblingsobst. Tippe sie an, bevor sie zubeißen."
+    }
+  ],
+  "crittersTitle": "Die hungrigen Tiere",
+  "crittersLead": "Ab Level 3 schleichen sich Tiere aufs Spielfeld. Tippe sie an, um sie zu verscheuchen: +50 Punkte.",
+  "critterNames": [
+    "Affe",
+    "Maus",
+    "Nilpferd",
+    "Eidechse",
+    "Hase"
+  ],
+  "fromLevel": "Ab Level {n}",
+  "modesTitle": "Drei Spielmodi",
+  "modes": [
+    {
+      "title": "Klassisch",
+      "body": "Level für Level: mehr Obstsorten, mehr Paare, mehr Tiere. Bis zu 3 Sterne pro Level."
+    },
+    {
+      "title": "Endlos",
+      "body": "Neue Paare fallen immer schneller. Halte das Feld so lange wie möglich frei."
+    },
+    {
+      "title": "Täglich",
+      "body": "Jeden Tag ein neues Feld, für alle gleich. Ein offizieller Versuch."
+    }
+  ],
+  "playMode": "{m} spielen →",
+  "faq": [
+    {
+      "q": "Ist Fruit Destroy kostenlos?",
+      "a": "Ja. Alle Modi sind kostenlos im Browser spielbar, ohne Download und Anmeldung."
+    },
+    {
+      "q": "Läuft es auf dem Handy?",
+      "a": "Ja. Das Spiel läuft in jedem modernen Browser auf Handy, Tablet und Computer."
+    },
+    {
+      "q": "Ist es für Kinder geeignet?",
+      "a": "Ja. Keine Gewalt, kein Chat und ganz einfache Regeln."
+    },
+    {
+      "q": "Wird mein Fortschritt gespeichert?",
+      "a": "Level, Bestwerte und Tagesserie werden auf deinem Gerät gespeichert."
+    }
+  ],
+  "ctaTitle": "Bereit? Der Korb wartet.",
+  "ctaLead": "Ein Tipp und los. Kein Konto, kein Download.",
+  "ctaBtn": "▶ GRATIS SPIELEN",
+  "privacy": "Datenschutz",
+  "terms": "AGB"
+}

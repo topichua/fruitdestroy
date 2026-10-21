@@ -1,0 +1,84 @@
+{
+  "htmlTitle": "Fruit Destroy — Jogo arcade grátis de combinar frutas",
+  "playTitle": "Jogue Fruit Destroy — jogo grátis de combinar frutas",
+  "metaDescription": "Combine pares de frutas, faça combos e espante os bichos famintos! Jogue Fruit Destroy grátis no navegador — fases, modo infinito e desafio diário.",
+  "ogTitle": "Fruit Destroy — combine frutas, espante os bichos!",
+  "ogDescription": "Jogo arcade grátis de frutas com combos, bichos famintos e desafios entre amigos.",
+  "nav": {
+    "how": "Como jogar",
+    "critters": "Bichos",
+    "modes": "Modos",
+    "faq": "FAQ",
+    "play": "Jogar grátis"
+  },
+  "badge": "GRÁTIS · SEM DOWNLOAD · SEM CADASTRO",
+  "h1a": "Combine as frutas.",
+  "h1b": "Espante os bichos.",
+  "lead": "Fruit Destroy é um jogo arcade rápido de frutas. Ache duas iguais, jogue na cesta e faça combos, antes que o macaco pegue suas bananas.",
+  "playNow": "▶ JOGAR AGORA",
+  "daily": "Desafio do dia →",
+  "howTitle": "Como jogar",
+  "steps": [
+    {
+      "title": "Toque em duas iguais",
+      "body": "Escolha uma fruta e ache o par. Os pares voam direto para a cesta."
+    },
+    {
+      "title": "Faça combos",
+      "body": "Ache outro par em 3 segundos: ×1.2, ×1.5, ×2, até ×3."
+    },
+    {
+      "title": "Espante os bichos",
+      "body": "Bichos famintos querem a fruta favorita. Toque neles antes da mordida."
+    }
+  ],
+  "crittersTitle": "Os bichos famintos",
+  "crittersLead": "A partir da fase 3, bichos entram no tabuleiro. Toque para espantá-los e ganhe +50 pontos.",
+  "critterNames": [
+    "Macaco",
+    "Rato",
+    "Hipopótamo",
+    "Lagarto",
+    "Coelho"
+  ],
+  "fromLevel": "Aparece a partir da fase {n}",
+  "modesTitle": "Três jeitos de jogar",
+  "modes": [
+    {
+      "title": "Clássico",
+      "body": "Fase por fase: mais frutas, mais pares e mais bichos. Até 3 estrelas por fase."
+    },
+    {
+      "title": "Infinito",
+      "body": "Novos pares caem cada vez mais rápido. Não deixe o tabuleiro encher."
+    },
+    {
+      "title": "Diário",
+      "body": "Um tabuleiro novo por dia, igual para todos. Uma tentativa oficial."
+    }
+  ],
+  "playMode": "Jogar {m} →",
+  "faq": [
+    {
+      "q": "Fruit Destroy é grátis?",
+      "a": "Sim. Todos os modos são grátis no navegador, sem download e sem cadastro."
+    },
+    {
+      "q": "Funciona no celular?",
+      "a": "Sim. Roda em qualquer navegador moderno no celular, tablet e computador."
+    },
+    {
+      "q": "É bom para crianças?",
+      "a": "Sim. Sem violência e sem chat, com regras bem simples."
+    },
+    {
+      "q": "Meu progresso fica salvo?",
+      "a": "Fases, recordes e sequência diária ficam salvos no seu aparelho."
+    }
+  ],
+  "ctaTitle": "Pronto? A cesta está esperando.",
+  "ctaLead": "Um toque e pronto. Sem conta, sem download.",
+  "ctaBtn": "▶ JOGAR GRÁTIS",
+  "privacy": "Privacidade",
+  "terms": "Termos"
+}

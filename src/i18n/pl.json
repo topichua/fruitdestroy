@@ -1,0 +1,84 @@
+{
+  "htmlTitle": "Fruit Destroy — darmowa gra zręcznościowa z owocami",
+  "playTitle": "Graj w Fruit Destroy — darmowa gra w łączenie owoców",
+  "metaDescription": "Łącz pary owoców, rób combo i przeganiaj głodne zwierzaki! Graj w Fruit Destroy za darmo w przeglądarce — poziomy, tryb bez końca i wyzwanie dnia.",
+  "ogTitle": "Fruit Destroy — łącz owoce, przeganiaj zwierzaki!",
+  "ogDescription": "Darmowa gra zręcznościowa z owocami. Combo, głodne zwierzaki i wyzwania dla znajomych.",
+  "nav": {
+    "how": "Jak grać",
+    "critters": "Zwierzaki",
+    "modes": "Tryby",
+    "faq": "FAQ",
+    "play": "Graj"
+  },
+  "badge": "ZA DARMO · BEZ POBIERANIA · BEZ REJESTRACJI",
+  "h1a": "Łącz owoce.",
+  "h1b": "Przeganiaj zwierzaki.",
+  "lead": "Fruit Destroy to szybka gra zręcznościowa z owocami. Znajdź dwa takie same owoce, wrzuć je do koszyka i rób combo — zanim małpa porwie twoje banany.",
+  "playNow": "▶ GRAJ TERAZ",
+  "daily": "Wyzwanie dnia →",
+  "howTitle": "Jak grać",
+  "steps": [
+    {
+      "title": "Kliknij dwa takie same",
+      "body": "Wybierz owoc i znajdź jego parę. Pary lecą prosto do koszyka."
+    },
+    {
+      "title": "Rób combo",
+      "body": "Znajdź kolejną parę w 3 sekundy: ×1.2, ×1.5, ×2 — aż do ×3."
+    },
+    {
+      "title": "Przeganiaj zwierzaki",
+      "body": "Głodne zwierzaki polują na ulubione owoce. Kliknij je, zanim coś zjedzą."
+    }
+  ],
+  "crittersTitle": "Poznaj głodne zwierzaki",
+  "crittersLead": "Od 3. poziomu na planszę wkradają się zwierzaki. Kliknij je, aby je przegonić i zdobyć +50 punktów.",
+  "critterNames": [
+    "Małpa",
+    "Mysz",
+    "Hipopotam",
+    "Jaszczurka",
+    "Królik"
+  ],
+  "fromLevel": "Od poziomu {n}",
+  "modesTitle": "Trzy tryby gry",
+  "modes": [
+    {
+      "title": "Klasyczny",
+      "body": "Poziom po poziomie: więcej owoców, par i zwierzaków. Do 3 gwiazdek na poziom."
+    },
+    {
+      "title": "Bez końca",
+      "body": "Nowe pary spadają coraz szybciej. Nie pozwól, by plansza się zapełniła."
+    },
+    {
+      "title": "Dzienny",
+      "body": "Nowa plansza codziennie, taka sama dla wszystkich. Jedna oficjalna próba."
+    }
+  ],
+  "playMode": "Graj: {m} →",
+  "faq": [
+    {
+      "q": "Czy Fruit Destroy jest darmowe?",
+      "a": "Tak. Wszystkie tryby są darmowe w przeglądarce, bez pobierania i rejestracji."
+    },
+    {
+      "q": "Czy działa na telefonie?",
+      "a": "Tak. Gra działa w każdej nowoczesnej przeglądarce na telefonie, tablecie i komputerze."
+    },
+    {
+      "q": "Czy gra jest dla dzieci?",
+      "a": "Tak. Bez przemocy i czatu, a zasady są proste."
+    },
+    {
+      "q": "Czy postęp jest zapisywany?",
+      "a": "Poziomy, rekordy i seria dzienna zapisują się na twoim urządzeniu."
+    }
+  ],
+  "ctaTitle": "Gotowy? Koszyk czeka.",
+  "ctaLead": "Jedno kliknięcie i grasz. Bez konta.",
+  "ctaBtn": "▶ GRAJ ZA DARMO",
+  "privacy": "Prywatność",
+  "terms": "Regulamin"
+}

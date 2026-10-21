@@ -1,0 +1,85 @@
+{
+  "htmlTitle": "Fruit Destroy — Free Fruit Matching Arcade Game Online",
+  "playTitle": "Play Fruit Destroy — Free Online Fruit Matching Game",
+  "metaDescription": "Match pairs of fruit, chain combos and shoo hungry critters before they eat your fruit! Play Fruit Destroy free in your browser — levels, Endless mode and a Daily Challenge.",
+  "ogTitle": "Fruit Destroy — Match fruit, beat the critters!",
+  "ogDescription": "Free fruit-matching arcade game. Chain combos, shoo hungry animals, beat your friends.",
+  "nav": {
+    "how": "How to play",
+    "critters": "Critters",
+    "modes": "Modes",
+    "faq": "FAQ",
+    "play": "Play free"
+  },
+  "badge": "FREE · NO DOWNLOAD · NO SIGN-UP",
+  "h1a": "Match the fruit.",
+  "h1b": "Beat the critters.",
+  "lead": "Fruit Destroy is a fast fruit-matching arcade game. Find two of the same fruit, toss them into the basket and chain combos — before the monkey grabs your bananas.",
+  "playNow": "▶ PLAY NOW",
+  "daily": "Today's Daily Challenge →",
+  "howTitle": "How to play",
+  "steps": [
+    {
+      "title": "Tap two that match",
+      "body": "Pick a fruit, then find its twin. Matched pairs fly straight into your basket."
+    },
+    {
+      "title": "Chain combos",
+      "body": "Match again within 3 seconds to build a combo: ×1.2, ×1.5, ×2 — all the way to ×3."
+    },
+    {
+      "title": "Shoo the critters",
+      "body": "Hungry animals go after their favourite fruit. Tap them before they take a bite."
+    }
+  ],
+  "crittersTitle": "Meet the hungry critters",
+  "crittersLead": "From level 3, animals sneak onto the board to eat their favourite fruit. Tap them to shoo them away for +50 points.",
+  "critterNames": [
+    "Monkey",
+    "Mouse",
+    "Hippo",
+    "Lizard",
+    "Bunny"
+  ],
+  "fromLevel": "Shows up from level {n}",
+  "modesTitle": "Three ways to play",
+  "modes": [
+    {
+      "title": "Classic",
+      "body": "Level by level, with more fruit types, more pairs and more critters as you go. Earn up to 3 stars per level."
+    },
+    {
+      "title": "Endless",
+      "body": "New pairs keep dropping, faster and faster. Keep the board from filling up for as long as you can."
+    },
+    {
+      "title": "Daily",
+      "body": "One new board a day, the same for every player. One official run — then compare with friends."
+    }
+  ],
+  "playMode": "Play {m} →",
+  "faqTitle": "FAQ",
+  "faq": [
+    {
+      "q": "Is Fruit Destroy free?",
+      "a": "Yes. Every mode is free to play in your browser, with no download and no sign-up."
+    },
+    {
+      "q": "Does it work on phones?",
+      "a": "Yes. Fruit Destroy runs in any modern browser on phones, tablets and computers."
+    },
+    {
+      "q": "Is it suitable for kids?",
+      "a": "Yes. There is no violence or chat, and the rules are simple: find two of the same fruit."
+    },
+    {
+      "q": "Is my progress saved?",
+      "a": "Your levels, best scores and daily streak are saved on your device."
+    }
+  ],
+  "ctaTitle": "Ready? The basket's waiting.",
+  "ctaLead": "One tap to start. No account, no download.",
+  "ctaBtn": "▶ PLAY FREE",
+  "privacy": "Privacy",
+  "terms": "Terms"
+}

@@ -1,0 +1,84 @@
+{
+  "htmlTitle": "Fruit Destroy — Juego arcade gratis de emparejar frutas",
+  "playTitle": "Juega a Fruit Destroy — juego gratis de emparejar frutas",
+  "metaDescription": "¡Empareja frutas, encadena combos y espanta a los animales hambrientos! Juega a Fruit Destroy gratis en tu navegador: niveles, modo infinito y reto diario.",
+  "ogTitle": "Fruit Destroy — ¡empareja frutas, espanta animales!",
+  "ogDescription": "Juego arcade gratis de frutas con combos, animales hambrientos y retos entre amigos.",
+  "nav": {
+    "how": "Cómo jugar",
+    "critters": "Animales",
+    "modes": "Modos",
+    "faq": "FAQ",
+    "play": "Jugar gratis"
+  },
+  "badge": "GRATIS · SIN DESCARGAS · SIN REGISTRO",
+  "h1a": "Empareja las frutas.",
+  "h1b": "Espanta a los bichos.",
+  "lead": "Fruit Destroy es un juego arcade rápido de frutas. Encuentra dos iguales, lánzalas a la cesta y encadena combos, antes de que el mono se lleve tus plátanos.",
+  "playNow": "▶ JUGAR AHORA",
+  "daily": "Reto de hoy →",
+  "howTitle": "Cómo jugar",
+  "steps": [
+    {
+      "title": "Toca dos iguales",
+      "body": "Elige una fruta y encuentra su pareja. Las parejas vuelan a la cesta."
+    },
+    {
+      "title": "Encadena combos",
+      "body": "Haz otra pareja en 3 segundos: ×1.2, ×1.5, ×2, hasta ×3."
+    },
+    {
+      "title": "Espanta a los bichos",
+      "body": "Los animales hambrientos buscan su fruta favorita. Tócalos antes de que muerdan."
+    }
+  ],
+  "crittersTitle": "Los animales hambrientos",
+  "crittersLead": "Desde el nivel 3, los animales se cuelan en el tablero. Tócalos para espantarlos y gana +50 puntos.",
+  "critterNames": [
+    "Mono",
+    "Ratón",
+    "Hipopótamo",
+    "Lagarto",
+    "Conejo"
+  ],
+  "fromLevel": "Aparece desde el nivel {n}",
+  "modesTitle": "Tres formas de jugar",
+  "modes": [
+    {
+      "title": "Clásico",
+      "body": "Nivel a nivel: más frutas, más parejas y más animales. Hasta 3 estrellas por nivel."
+    },
+    {
+      "title": "Infinito",
+      "body": "Caen parejas nuevas cada vez más rápido. Evita que el tablero se llene."
+    },
+    {
+      "title": "Diario",
+      "body": "Un tablero nuevo cada día, igual para todos. Un intento oficial."
+    }
+  ],
+  "playMode": "Jugar {m} →",
+  "faq": [
+    {
+      "q": "¿Fruit Destroy es gratis?",
+      "a": "Sí. Todos los modos son gratis en tu navegador, sin descargas ni registro."
+    },
+    {
+      "q": "¿Funciona en el móvil?",
+      "a": "Sí. Funciona en cualquier navegador moderno en móvil, tableta y ordenador."
+    },
+    {
+      "q": "¿Es apto para niños?",
+      "a": "Sí. Sin violencia ni chat, y las reglas son muy simples."
+    },
+    {
+      "q": "¿Se guarda mi progreso?",
+      "a": "Tus niveles, récords y racha diaria se guardan en tu dispositivo."
+    }
+  ],
+  "ctaTitle": "¿Listo? La cesta te espera.",
+  "ctaLead": "Un toque y a jugar. Sin cuenta ni descargas.",
+  "ctaBtn": "▶ JUGAR GRATIS",
+  "privacy": "Privacidad",
+  "terms": "Términos"
+}

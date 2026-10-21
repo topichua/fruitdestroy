@@ -1,0 +1,84 @@
+{
+  "htmlTitle": "Fruit Destroy — Jeu d'arcade gratuit d'association de fruits",
+  "playTitle": "Jouer à Fruit Destroy — jeu gratuit de paires de fruits",
+  "metaDescription": "Associe les fruits par paires, enchaîne les combos et chasse les animaux gourmands ! Joue à Fruit Destroy gratuitement : niveaux, mode infini et défi du jour.",
+  "ogTitle": "Fruit Destroy — associe les fruits, chasse les bestioles !",
+  "ogDescription": "Jeu d'arcade gratuit avec des fruits, des combos et des animaux gourmands.",
+  "nav": {
+    "how": "Comment jouer",
+    "critters": "Bestioles",
+    "modes": "Modes",
+    "faq": "FAQ",
+    "play": "Jouer"
+  },
+  "badge": "GRATUIT · SANS TÉLÉCHARGEMENT · SANS INSCRIPTION",
+  "h1a": "Associe les fruits.",
+  "h1b": "Chasse les bestioles.",
+  "lead": "Fruit Destroy est un jeu d'arcade rapide. Trouve deux fruits identiques, lance-les dans le panier et enchaîne les combos, avant que le singe ne vole tes bananes.",
+  "playNow": "▶ JOUER",
+  "daily": "Défi du jour →",
+  "howTitle": "Comment jouer",
+  "steps": [
+    {
+      "title": "Touche deux fruits identiques",
+      "body": "Choisis un fruit et trouve son jumeau. Les paires filent dans le panier."
+    },
+    {
+      "title": "Enchaîne les combos",
+      "body": "Refais une paire en 3 secondes : ×1.2, ×1.5, ×2, jusqu'à ×3."
+    },
+    {
+      "title": "Chasse les bestioles",
+      "body": "Les animaux gourmands visent leur fruit préféré. Touche-les avant qu'ils croquent."
+    }
+  ],
+  "crittersTitle": "Les bestioles gourmandes",
+  "crittersLead": "Dès le niveau 3, des animaux se faufilent sur le plateau. Touche-les pour les chasser : +50 points.",
+  "critterNames": [
+    "Singe",
+    "Souris",
+    "Hippopotame",
+    "Lézard",
+    "Lapin"
+  ],
+  "fromLevel": "Dès le niveau {n}",
+  "modesTitle": "Trois façons de jouer",
+  "modes": [
+    {
+      "title": "Classique",
+      "body": "Niveau après niveau : plus de fruits, de paires et de bestioles. Jusqu'à 3 étoiles."
+    },
+    {
+      "title": "Infini",
+      "body": "De nouvelles paires tombent de plus en plus vite. Ne laisse pas le plateau se remplir."
+    },
+    {
+      "title": "Quotidien",
+      "body": "Un nouveau plateau chaque jour, le même pour tous. Un essai officiel."
+    }
+  ],
+  "playMode": "Jouer en {m} →",
+  "faq": [
+    {
+      "q": "Fruit Destroy est-il gratuit ?",
+      "a": "Oui. Tous les modes sont gratuits dans ton navigateur, sans téléchargement ni inscription."
+    },
+    {
+      "q": "Ça marche sur mobile ?",
+      "a": "Oui. Le jeu fonctionne dans tout navigateur moderne sur mobile, tablette et ordinateur."
+    },
+    {
+      "q": "Est-ce adapté aux enfants ?",
+      "a": "Oui. Pas de violence ni de chat, et des règles très simples."
+    },
+    {
+      "q": "Ma progression est-elle sauvegardée ?",
+      "a": "Tes niveaux, records et série quotidienne sont enregistrés sur ton appareil."
+    }
+  ],
+  "ctaTitle": "Prêt ? Le panier t'attend.",
+  "ctaLead": "Un toucher pour commencer. Sans compte.",
+  "ctaBtn": "▶ JOUER GRATUITEMENT",
+  "privacy": "Confidentialité",
+  "terms": "Conditions"
+}
