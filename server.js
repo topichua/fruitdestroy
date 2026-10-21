@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { LANGS, DEFAULT_LANG, t } from './src/i18n/index.js';
 import { renderLanding } from './src/render/landing.js';
 import { renderGame } from './src/render/game.js';
+import { renderAchievements, renderDaily } from './src/render/pages.js';
 import { sitemap, robots, adsTxt } from './src/render/seo-files.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -37,8 +38,20 @@ app.get('/:lang/play/', (req, res, next) => {
   if (!codes.includes(lang)) return next();
   send(res, renderGame({ ...ctx, lang, s: t(lang) }));
 });
+app.get('/:lang/daily/', (req, res, next) => {
+  const lang = req.params.lang;
+  if (!codes.includes(lang)) return next();
+  send(res, renderDaily({ ...ctx, lang, s: t(lang) }));
+});
+app.get('/:lang/achievements/', (req, res, next) => {
+  const lang = req.params.lang;
+  if (!codes.includes(lang)) return next();
+  send(res, renderAchievements({ ...ctx, lang, s: t(lang) }));
+});
 app.get('/:lang', (req, res, next) => codes.includes(req.params.lang) ? res.redirect(301, `/${req.params.lang}/`) : next());
 app.get('/:lang/play', (req, res, next) => codes.includes(req.params.lang) ? res.redirect(301, `/${req.params.lang}/play/`) : next());
+app.get('/:lang/daily', (req, res, next) => codes.includes(req.params.lang) ? res.redirect(301, `/${req.params.lang}/daily/`) : next());
+app.get('/:lang/achievements', (req, res, next) => codes.includes(req.params.lang) ? res.redirect(301, `/${req.params.lang}/achievements/`) : next());
 
 app.get('/sitemap.xml', (req, res) => res.type('application/xml').send(sitemap(ctx)));
 app.get('/robots.txt', (req, res) => res.type('text/plain').send(robots(ctx)));

@@ -37,6 +37,12 @@ export const RULES = {
   comboWindow: 3
 };
 
+// Classic only. Two walkers through level 10, then +1 every 8 levels, capped at 6.
+export function walkerCap(mode, level) {
+  if (mode !== 'classic') return 2;
+  return Math.min(6, 2 + Math.floor(Math.max(0, level - 3) / 8));
+}
+
 export const LIGHT_THEMES = new Set(['jungle', 'forest', 'desert']);
 
 export function rng(seed) {

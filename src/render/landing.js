@@ -2,8 +2,9 @@ import { esc, hreflangLinks, adSlot } from './util.js';
 
 const CRITTERS = [['🐒', '🍌', 3], ['🐭', '🍓', 4], ['🦛', '🍉', 5], ['🦎', '🍅', 6], ['🐰', '🥕', 7]];
 const STEP_ICONS = ['👆', '🔥', '🐒'];
-const MODE_ICONS = ['🗺️', '♾️', '📅'];
-const MODE_CLASS = ['', 'mode-cyan', 'mode-pink'];
+const MODE_ICONS = ['🗺️', '♾️', '📅', '⏱️'];
+const MODE_CLASS = ['', 'mode-cyan', 'mode-pink', 'mode-cyan'];
+const MODE_HASH = ['', '#endless', '#daily', '#time'];
 const PREVIEW = [[8,30,'🍓',-10,'sel'],[24,52,'🍋',8],[6,62,'🍉',-6],[38,30,'🍇',4],[40,62,'🍓',12],[72,48,'🫐',-8],[84,22,'🍊',6],[86,62,'🍌',-12,'target'],[20,10,'🍑',10],[56,62,'🍊',-4],[70,8,'🍒',8],[30,82,'🍍',-8]];
 
 export function renderLanding({ SITE_URL, ADSENSE_CLIENT, LANGS, lang, s }) {
@@ -84,6 +85,13 @@ ${ADSENSE_CLIENT ? `<script async src="https://pagead2.googlesyndication.com/pag
   </div>
 </section>
 
+<section id="progress" class="wrap sec" data-progress>
+  <h2>${esc(s.progressTitle)}</h2>
+  <p class="sub" data-progress-note>${esc(s.progressNote)}</p>
+  <ul class="progress-list" hidden></ul>
+  <p class="row"><a href="/${lang}/daily/">Daily challenge</a><a href="/${lang}/achievements/">Achievements</a></p>
+</section>
+
 <section id="how" class="wrap sec">
   <h2>${esc(s.howTitle)}</h2>
   <ol class="grid g260">
@@ -106,7 +114,7 @@ ${ADSENSE_CLIENT ? `<script async src="https://pagead2.googlesyndication.com/pag
 <section id="modes" class="wrap sec">
   <h2>${esc(s.modesTitle)}</h2>
   <div class="grid g300">
-    ${s.modes.map((m, i) => `<a class="card mode ${MODE_CLASS[i]}" href="${play}"><span class="ico">${MODE_ICONS[i]}</span><h3>${esc(m.title)}</h3><p>${esc(m.body)}</p><span class="link-cyan">${esc(s.playMode.replace('{m}', m.title))}</span></a>`).join('')}
+    ${s.modes.map((m, i) => `<a class="card mode ${MODE_CLASS[i] || ''}" href="${play}${MODE_HASH[i] || ''}"><span class="ico">${MODE_ICONS[i] || '🎮'}</span><h3>${esc(m.title)}</h3><p>${esc(m.body)}</p><span class="link-cyan">${esc(s.playMode.replace('{m}', m.title))}</span></a>`).join('')}
   </div>
 </section>
 
@@ -138,6 +146,7 @@ ${ADSENSE_CLIENT ? `<script async src="https://pagead2.googlesyndication.com/pag
     <div class="legal"><a href="/${lang}/privacy/">${esc(s.privacy)}</a><a href="/${lang}/terms/">${esc(s.terms)}</a></div>
   </div>
 </footer>
+<script type="module" src="/game/progress.js"></script>
 </body>
 </html>`;
 }

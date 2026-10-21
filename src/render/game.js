@@ -37,7 +37,7 @@ ${ADSENSE_CLIENT ? `<script async src="https://pagead2.googlesyndication.com/pag
 </div>
 <script type="module">
   import { mount } from '/game/main.js';
-  mount(document.getElementById('screen'), { siteUrl: ${JSON.stringify(SITE_URL)} });
+  mount(document.getElementById('screen'), { siteUrl: ${JSON.stringify(SITE_URL)}, lang: ${JSON.stringify(lang)} });
 </script>
 </body>
 </html>`;

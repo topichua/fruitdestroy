@@ -71,3 +71,9 @@ details p{margin-top:12px!important}
 .anchor{display:none;position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(7,6,26,.95);border-top:1px solid var(--n300);padding:8px}
 @media (max-width:760px){.anchor{display:block}body{padding-bottom:66px}.faq{grid-template-columns:1fr}.faq-ad{position:static}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+.progress-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.progress-list li{background:var(--n100);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.progress-list span{color:var(--n600);font-size:13px;font-weight:700}
+.page h1{font-size:clamp(32px,5vw,52px);margin-bottom:16px}
+.achieve-page .card.is-on{box-shadow:0 0 0 2px var(--cyan),0 0 24px rgba(25,227,255,.35)}
+.achieve-page .card:not(.is-on){opacity:.55}

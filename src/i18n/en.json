@@ -42,7 +42,13 @@
     "Bunny"
   ],
   "fromLevel": "Shows up from level {n}",
-  "modesTitle": "Three ways to play",
+  "modesTitle": "Ways to play",
+  "progressTitle": "Your progress",
+  "progressNote": "Play a game and your records show up here. They stay on this device.",
+  "dailyTitle": "Daily Fruit Challenge — Fruit Destroy",
+  "dailyDescription": "One fruit-matching board a day, the same for every player. Play today's challenge free in your browser.",
+  "achTitle": "Achievements — Fruit Destroy",
+  "achDescription": "Achievements you can earn in Fruit Destroy on this device: combos, high scores, daily challenges and perfect clears.",
   "modes": [
     {
       "title": "Classic",
@@ -55,6 +61,10 @@
     {
       "title": "Daily",
       "body": "One new board a day, the same for every player. One official run — then compare with friends."
+    },
+    {
+      "title": "Time Attack",
+      "body": "Sixty seconds. Score as much as you can before the clock or the board runs out."
     }
   ],
   "playMode": "Play {m} →",

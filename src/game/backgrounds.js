@@ -5,6 +5,7 @@ const CYCLE = ['jungle', 'forest', 'desert'];
 export function themeName(state) {
   if (RULES.boardBg !== 'auto') return RULES.boardBg;
   if (state.mode === 'endless') return 'jungle';
+  if (state.mode === 'time') return 'forest';
   if (state.mode === 'daily') return 'desert';
   return CYCLE[((state.level || 1) - 1) % CYCLE.length];
 }
@@ -13,7 +14,7 @@ const hidden = { display: 'none' };
 const fill = { position: 'absolute', inset: '0', pointerEvents: 'none' };
 
 function danger(mode, live) {
-  if (mode !== 'endless') return hidden;
+  if (mode !== 'endless' && mode !== 'time') return hidden;
   return {
     display: 'block',
     height: `${Math.min(100, live / CAP * 100)}%`

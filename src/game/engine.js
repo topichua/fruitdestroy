@@ -1,8 +1,9 @@
 import {
   ANIMALS, BH, BW, CAP, CH, COLS, CW, FRUITS, GONE, ROWS, RULES, TILE,
-  fmt, multFor, rng
+  fmt, multFor, num, rng, walkerCap
 } from './config.js';
 import { save } from './storage.js';
+import { comboCallout, daySeed, remember } from './session.js';
 
 const basketCell = cell => Math.floor(cell / COLS) === ROWS - 1 && cell % COLS >= 3 && cell % COLS <= 5;
 
@@ -23,6 +24,11 @@ export class Game {
     this.tickId = null;
     this.countId = null;
     this.onChange = null;
+    this.onEvent = null;
+  }
+
+  emit(name, props) {
+    this.onEvent?.(name, props);
   }
 
   patch(partial) {
@@ -76,19 +82,22 @@ export class Game {
     return out;
   }
 
-  start(mode, level) {
+  start(mode, level, options = {}) {
+    if (mode === 'classic' && !level) level = save.get('level', 1);
     this.clearTimers();
     this.tickId = globalThis.__frTick = setInterval(() => this.tick(), 100);
-    const today = new Date();
-    const daySeed = today.getUTCFullYear() * 10000 + (today.getUTCMonth() + 1) * 100 + today.getUTCDate();
-    this.r = rng(mode === 'daily' ? daySeed : (Date.now() & 0xffffffff));
+    const seed = options.seed != null ? (Number(options.seed) >>> 0) : (mode === 'daily' ? daySeed() : (Date.now() >>> 0));
+    this.seed = seed;
+    this.r = rng(seed);
     const cfg = mode === 'endless'
       ? { types: 8, initial: 12, target: Infinity, limit: Infinity }
-      : mode === 'daily'
-        ? { types: 8, initial: 16, target: 18, limit: 90 }
-        : { types: Math.min(4 + level, 12), initial: RULES.density, target: 10 + level, limit: RULES.timer };
+      : mode === 'time'
+        ? { types: 6, initial: 12, target: Infinity, limit: 60 }
+        : mode === 'daily'
+          ? { types: 8, initial: 16, target: 18, limit: 90 }
+          : { types: Math.min(4 + level, 12), initial: RULES.density, target: 10 + level, limit: RULES.timer };
     const unlockAt = RULES.animalsFrom - 3;
-    const critters = mode === 'endless'
+    const critters = mode === 'endless' || mode === 'time'
       ? ANIMALS
       : mode === 'daily'
         ? ANIMALS.slice(0, 3)
@@ -106,14 +115,32 @@ export class Game {
       : '';
     let fruits = [];
     for (let i = 0; i < cfg.initial / 2; i++) fruits = this.spawnPair(fruits, cfg.types);
+    save.set('lastMode', mode);
     this.patch({
       screen: 'play', mode, level, paused: false, fruits, floats: [], sel: null,
       score: 0, combo: 0, lastMatch: -99, matches: 0, misses: 0, bestCombo: 0,
       elapsed: 0, spawned: cfg.initial / 2, nextSpawn: 2.4, result: null, copied: false,
-      critters, animals: [], eaten: 0, shooed: 0, intro,
-      nextAnimal: mode === 'endless' ? 15 : 5,
+      critters, animals: [], eaten: 0, shooed: 0, intro, seed, callout: null,
+      challenge: options.challenge || null,
+      officialDaily: mode === 'daily' && seed === daySeed(),
+      nextAnimal: mode === 'endless' ? 15 : mode === 'time' ? 8 : 5,
       ...cfg
     });
+    this.emit('game_start', {
+      gameMode: mode,
+      challengeId: options.challenge ? String(seed) : undefined,
+      isNewPlayer: !save.get('played', false)
+    });
+    if (mode === 'daily') this.emit('daily_challenge_started', { gameMode: 'daily', challengeId: String(seed) });
+  }
+
+  ramp(elapsed, up) {
+    const s = this.state;
+    if (s.mode !== 'endless' && s.mode !== 'time') return;
+    const types = Math.min(12, (s.mode === 'time' ? 6 : 8) + Math.floor(elapsed / 20));
+    if (types <= s.types) return;
+    for (let kind = 0; kind < types; kind++) if (!this.kinds.includes(kind)) this.kinds.push(kind);
+    up.types = types;
   }
 
   tap(id) {
@@ -141,16 +168,22 @@ export class Game {
       const pts = Math.round((100 + Math.max(0, Math.round(60 - gap * 20))) * mult);
       let fruits = s.fruits.map(item => ids.includes(item.id) ? { ...item, st: 'fly' } : item);
       let spawned = s.spawned;
-      if (s.mode !== 'endless' && spawned < s.target) {
+      if (s.mode !== 'endless' && s.mode !== 'time' && spawned < s.target) {
         fruits = this.spawnPair(fruits, s.types);
         spawned++;
       }
-      const floater = { id: this.uid++, x: fruit.x, y: fruit.y, text: `+${pts}${mult > 1 ? ' ×' + mult : ''}` };
+      const floater = { id: this.uid++, x: fruit.x, y: fruit.y, text: `+${pts}${mult > 1 ? ' ×' + mult : ''}`, combo };
       const matches = s.matches + 1;
+      const callout = comboCallout(combo);
+      const crossed = callout && comboCallout(combo - 1) !== callout;
       this.patch({
         sel: null, fruits, spawned, score: s.score + pts, combo, lastMatch: s.elapsed, matches,
-        bestCombo: Math.max(s.bestCombo, combo), floats: [...s.floats, floater]
+        bestCombo: Math.max(s.bestCombo, combo), floats: [...s.floats, floater],
+        callout: crossed ? { n: this.uid++, text: callout, combo } : (combo >= 2 ? s.callout : null),
+        shake: crossed && combo >= 5
       });
+      this.emit('match', { gameMode: s.mode, combo, score: pts });
+      if (crossed) this.emit('combo_achieved', { gameMode: s.mode, combo, callout });
       this.later(() => this.patch({ fruits: this.state.fruits.filter(item => !ids.includes(item.id)) }), 480);
       this.later(() => this.patch({ floats: this.state.floats.filter(item => item.id !== floater.id) }), 900);
       if (s.mode !== 'endless' && matches >= s.target) this.later(() => this.finish(true), 450);
@@ -160,9 +193,11 @@ export class Game {
     this.patch({
       sel: null,
       combo: 0,
+      callout: null,
       misses: s.misses + 1,
       fruits: s.fruits.map(item => ids.includes(item.id) ? { ...item, st: 'bad' } : item)
     });
+    this.emit('miss', { gameMode: s.mode });
     this.later(() => this.patch({
       fruits: this.state.fruits.map(item => ids.includes(item.id) && item.st === 'bad' ? { ...item, st: 'idle' } : item)
     }), 380);
@@ -173,20 +208,21 @@ export class Game {
     if (s.screen !== 'play' || s.paused || s.result) return;
     const elapsed = +(s.elapsed + 0.1).toFixed(1);
     const up = { elapsed };
-    if (s.combo > 0 && elapsed - s.lastMatch > RULES.comboWindow) up.combo = 0;
-    this.stepAnimals(s, elapsed, up);
-    if (s.mode === 'endless') {
-      if (elapsed >= s.nextSpawn) {
-        up.fruits = this.spawnPair(up.fruits || s.fruits, s.types);
-        up.nextSpawn = elapsed + this.interval(elapsed);
-      }
-      const live = (up.fruits || s.fruits).filter(item => !GONE.has(item.st)).length;
-      this.patch(up);
-      if (live >= CAP) this.finish(false);
-    } else {
-      this.patch(up);
-      if (elapsed >= s.limit) this.finish(false);
+    if (s.combo > 0 && elapsed - s.lastMatch > RULES.comboWindow) {
+      up.combo = 0;
+      up.callout = null;
     }
+    this.ramp(elapsed, up);
+    this.stepAnimals(s, elapsed, up);
+    const flooding = s.mode === 'endless' || s.mode === 'time';
+    if (flooding && elapsed >= s.nextSpawn) {
+      up.fruits = this.spawnPair(up.fruits || s.fruits, up.types || s.types);
+      up.nextSpawn = elapsed + this.interval(elapsed);
+    }
+    const live = (up.fruits || s.fruits).filter(item => !GONE.has(item.st)).length;
+    this.patch(up);
+    if (flooding && live >= CAP) this.finish(false);
+    else if (s.mode !== 'endless' && elapsed >= s.limit) this.finish(s.mode === 'time');
   }
 
   stepAnimals(s, elapsed, up) {
@@ -199,7 +235,10 @@ export class Game {
     let sel = s.sel;
     const alive = fruit => fruit && !GONE.has(fruit.st);
     if (elapsed >= s.nextAnimal) {
-      if (animals.filter(animal => animal.ph === 'walk').length < 2) {
+      const cap = s.mode === 'endless' || s.mode === 'time'
+        ? Math.min(5, 2 + Math.floor(elapsed / 25))
+        : walkerCap(s.mode, s.level);
+      if (animals.filter(animal => animal.ph === 'walk').length < cap) {
         const taken = new Set(animals.map(animal => animal.tid));
         const options = s.critters.filter(animal => fruits.some(fruit => fruit.k === animal.food && alive(fruit) && !taken.has(fruit.id)));
         if (options.length) {
@@ -216,7 +255,12 @@ export class Game {
           });
         }
       }
-      up.nextAnimal = elapsed + (s.mode === 'classic' ? Math.max(4, 11 - s.level * 0.4) : 6);
+      const gap = s.mode === 'classic'
+        ? Math.max(4, 11 - s.level * 0.4)
+        : s.mode === 'daily'
+          ? 6
+          : Math.max(3.2, 6 - elapsed * 0.04);
+      up.nextAnimal = elapsed + gap;
     }
     animals = animals.filter(animal => {
       const kind = ANIMALS[animal.a];
@@ -249,7 +293,7 @@ export class Game {
         const ids = fruits.filter(fruit => fruit.p === target.p && alive(fruit)).map(fruit => fruit.id);
         fruits = fruits.map(fruit => ids.includes(fruit.id) ? { ...fruit, st: 'eaten' } : fruit);
         if (ids.includes(sel)) sel = null;
-        if (s.mode !== 'endless') fruits = this.spawnPair(fruits, s.types);
+        if (s.mode !== 'endless' && s.mode !== 'time') fruits = this.spawnPair(fruits, s.types);
         eaten++;
         score = Math.max(0, score - 50);
         const floater = { id: this.uid++, x: target.x, y: target.y, bad: true, text: `${kind.e} ate ${FRUITS[kind.food][0]} −50` };
@@ -282,6 +326,7 @@ export class Game {
       floats: [...s.floats, floater]
     });
     this.later(() => this.patch({ floats: this.state.floats.filter(item => item.id !== floater.id) }), 900);
+    this.emit('shoo', { gameMode: s.mode });
   }
 
   interval(t) {
@@ -316,6 +361,18 @@ export class Game {
         stats: [{ v: fmt(s.elapsed), k: 'survived' }, { v: `${acc}%`, k: 'accuracy' }, { v: `${s.bestCombo}`, k: 'best combo' }],
         retryPrimary: true
       };
+    } else if (s.mode === 'time') {
+      const timeBest = save.get('timeBest', 0);
+      const record = s.score > timeBest;
+      result = {
+        win: !!win,
+        kicker: 'TIME ATTACK · 60 SECONDS',
+        title: win ? "Time's up!" : 'Board full!',
+        note: record ? 'New time-attack record!' : `Time-attack best: ${num(timeBest)}.`,
+        newBest: newBest || record,
+        stats: [{ v: num(s.score), k: 'score' }, { v: `${acc}%`, k: 'accuracy' }, { v: `${s.bestCombo} ×${multFor(s.bestCombo)}`, k: 'best combo' }],
+        retryPrimary: true
+      };
     } else if (win) {
       const used = s.elapsed / s.limit;
       const stars = used <= 0.5 ? 3 : used <= 0.75 ? 2 : 1;
@@ -344,6 +401,25 @@ export class Game {
         retryPrimary: true
       };
     }
+    const isNewPlayer = !save.get('played', false);
+    const memory = remember({ ...s, win: !!win });
+    if (s.challenge) result.versus = { target: s.challenge.score, beat: s.score > s.challenge.score, tie: s.score === s.challenge.score };
+    result.personalBest = save.get('best', 0);
+    result.unlocked = memory.unlocked;
+    result.streak = memory.streak;
+    this.emit('game_over', {
+      gameMode: s.mode,
+      score: s.score,
+      durationSeconds: s.elapsed,
+      challengeId: s.challenge ? String(s.seed) : undefined,
+      isNewPlayer,
+      win: !!win,
+      combo: s.bestCombo
+    });
+    if (newBest) this.emit('personal_best', { gameMode: s.mode, score: s.score, durationSeconds: s.elapsed });
+    if (s.mode === 'daily' && win && s.officialDaily) this.emit('daily_challenge_completed', { gameMode: 'daily', score: s.score, durationSeconds: s.elapsed });
+    if (s.challenge) this.emit('challenge_completed', { gameMode: s.mode, score: s.score, challengeId: String(s.seed) });
+    for (const item of memory.unlocked) this.emit('achievement_unlocked', { id: item.id, gameMode: s.mode });
     this.patch({ screen: 'result', result, paused: false, count: 0 });
     const target = s.score;
     const started = performance.now();
