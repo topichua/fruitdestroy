@@ -37,12 +37,20 @@ Set env vars from `.env.example` (`SITE_URL` must be your real domain).
 
 Then in Google Search Console add the domain and submit `https://yourdomain/sitemap.xml`.
 
+## Layout
+- `server.js` — routes, language redirect, SEO files
+- `src/render/` — landing page and the play-page shell (title, hreflang, ads)
+- `src/i18n/` — translations, one JSON file per language
+- `src/game/` — the game, served as ES modules at `/game/`
+- `public/static/site.css` — landing styles
+
 ## Editing
 - Texts / translations: `src/i18n/{lang}.json` (missing keys fall back to `en.json`). New language: add the JSON + one line in `LANGS` in `src/i18n/index.js`.
 - Landing markup: `src/render/landing.js` · styles: `public/static/site.css`
+- Game rules and simulation: `src/game/engine.js` · tuning (board size, timer, critters): `src/game/config.js`
+- Game screens: `src/game/view.js` · styles: `src/game/game.css` · board themes: `src/game/backgrounds.js`
 - Social preview images: put `public/static/og/{lang}-1200x630.png` (one per language)
 - Ads: set `ADSENSE_CLIENT` and each `AD_SLOT_*` id; until then dashed placeholders render. Rules → `ADS.md`.
-- `public/game.html` is a self-contained build of the game from the design project — rebuild there and replace the file; don't hand-edit it.
 
 ## Not done yet
 - Game UI text is English only (landing is fully translated)

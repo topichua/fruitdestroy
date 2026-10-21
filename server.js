@@ -1,6 +1,5 @@
 import express from 'express';
 import compression from 'compression';
-import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { LANGS, DEFAULT_LANG, t } from './src/i18n/index.js';
@@ -12,7 +11,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
 const SITE_URL = (process.env.SITE_URL || 'https://fruitdestroy.gg').replace(/\/$/, '');
 const ADSENSE_CLIENT = process.env.ADSENSE_CLIENT || '';
-const GAME_HTML = fs.readFileSync(path.join(__dirname, 'public/game.html'), 'utf8');
+const dev = process.env.NODE_ENV !== 'production';
 const codes = LANGS.map(l => l.code);
 const ctx = { SITE_URL, ADSENSE_CLIENT, LANGS };
 
@@ -20,6 +19,7 @@ const app = express();
 app.disable('x-powered-by');
 app.use(compression());
 app.use('/static', express.static(path.join(__dirname, 'public/static'), { maxAge: '7d' }));
+app.use('/game', express.static(path.join(__dirname, 'src/game'), { maxAge: dev ? 0 : '1h', index: false }));
 
 const send = (res, html) => res.set('Content-Type', 'text/html; charset=utf-8').set('Cache-Control', 'public, max-age=300').send(html);
 
@@ -35,7 +35,7 @@ app.get('/:lang/', (req, res, next) => {
 app.get('/:lang/play/', (req, res, next) => {
   const lang = req.params.lang;
   if (!codes.includes(lang)) return next();
-  send(res, renderGame(GAME_HTML, { ...ctx, lang, s: t(lang) }));
+  send(res, renderGame({ ...ctx, lang, s: t(lang) }));
 });
 app.get('/:lang', (req, res, next) => codes.includes(req.params.lang) ? res.redirect(301, `/${req.params.lang}/`) : next());
 app.get('/:lang/play', (req, res, next) => codes.includes(req.params.lang) ? res.redirect(301, `/${req.params.lang}/play/`) : next());
