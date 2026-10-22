@@ -14,7 +14,7 @@ function applyStyle(el, style) {
   }
 }
 
-function fruitStyle(fruit, tile, light, targeted) {
+function fruitStyle(fruit, tile, light, targeted) { 
   const tint = FRUITS[fruit.k][1];
   const style = {
     left: `${fruit.x}px`,
