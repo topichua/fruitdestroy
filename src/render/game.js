@@ -1,4 +1,4 @@
-import { ADS_ON, esc, favicon, googleTag, hreflangLinks, adSlot, i18nScript } from './util.js';
+import { ADS_ON, esc, favicon, googleTag, hreflangLinks, adSlot, i18nScript, adsenseTag } from './util.js';
 
 export function renderGame({ SITE_URL, ADSENSE_CLIENT, LANGS, lang, s, embed = false, portal = '' }) {
   const locale = LANGS.find(l => l.code === lang);
@@ -23,7 +23,7 @@ ${embed ? `<meta name="robots" content="noindex, nofollow">\n<link rel="canonica
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Chakra+Petch:wght@500;600;700&display=swap">
 <link rel="stylesheet" href="/game/game.css">
-${ADSENSE_CLIENT ? `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${esc(ADSENSE_CLIENT)}" crossorigin="anonymous"></script>` : ''}
+${embed ? '' : adsenseTag(ADSENSE_CLIENT)}
 </head>
 <body>
 <div class="stage">

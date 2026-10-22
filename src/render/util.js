@@ -3,6 +3,7 @@ export const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;'
 export const i18nScript = copy => `<script type="application/json" id="i18n">${JSON.stringify(copy).replace(/</g, '\\u003c')}</script>`;
 
 const GA_ID = 'G-3G1Q7Z4ESN';
+export const ADSENSE_CLIENT_ID = 'ca-pub-7568002828900289';
 
 // Flip to true to show AdSense units and the dashed placeholders.
 export const ADS_ON = false;
@@ -19,6 +20,10 @@ export const googleTag = (portal = '') => `<!-- Google tag (gtag.js) -->
   ${portal ? `gtag('set', { portal: ${JSON.stringify(portal)} });
   gtag('config', '${GA_ID}', { campaign_source: ${JSON.stringify(portal)}, campaign_medium: 'embed' });` : `gtag('config', '${GA_ID}');`}
 </script>`;
+
+export const adsenseTag = (client = ADSENSE_CLIENT_ID) => client
+  ? `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${esc(client)}" crossorigin="anonymous"></script>`
+  : '';
 
 export const hreflangLinks = (SITE_URL, LANGS, suffix = '/') =>
   LANGS.map(l => `<link rel="alternate" hreflang="${l.hreflang}" href="${SITE_URL}/${l.code}${suffix}">`).join('\n') +

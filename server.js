@@ -8,12 +8,12 @@ import { renderGame } from './src/render/game.js';
 import { renderAchievements, renderDaily } from './src/render/pages.js';
 import { sitemap, robots, adsTxt } from './src/render/seo-files.js';
 import { portalFrom } from './src/game/portal.js';
-import { favicon, googleTag } from './src/render/util.js';
+import { ADSENSE_CLIENT_ID, favicon, googleTag } from './src/render/util.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
 const SITE_URL = (process.env.SITE_URL || 'https://fruitdestroy.com').replace(/\/$/, '');
-const ADSENSE_CLIENT = process.env.ADSENSE_CLIENT || '';
+const ADSENSE_CLIENT = process.env.ADSENSE_CLIENT || ADSENSE_CLIENT_ID;
 const dev = process.env.NODE_ENV !== 'production';
 const codes = LANGS.map(l => l.code);
 const ctx = { SITE_URL, ADSENSE_CLIENT, LANGS };

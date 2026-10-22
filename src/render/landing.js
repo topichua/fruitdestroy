@@ -1,4 +1,4 @@
-import { esc, favicon, googleTag, hreflangLinks, adSlot, i18nScript } from './util.js';
+import { esc, favicon, googleTag, hreflangLinks, adSlot, i18nScript, adsenseTag } from './util.js';
 
 const CRITTERS = [['🐒', '🍌', 3], ['🐭', '🍓', 4], ['🦛', '🍉', 5], ['🦎', '🍅', 6], ['🐰', '🥕', 7]];
 const STEP_ICONS = ['👆', '🔥', '🐒'];
@@ -51,7 +51,7 @@ ${LANGS.filter(l => l.code !== lang).map(l => `<meta property="og:locale:alterna
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Chakra+Petch:wght@500;600;700&display=swap">
 <link rel="stylesheet" href="/static/site.css">
-${ADSENSE_CLIENT ? `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}" crossorigin="anonymous"></script>` : ''}
+${adsenseTag(ADSENSE_CLIENT)}
 </head>
 <body>
 <header class="top">

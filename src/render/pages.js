@@ -1,7 +1,7 @@
 import { ACHIEVEMENTS } from '../game/achievements.js';
-import { esc, favicon, googleTag, hreflangLinks, i18nScript } from './util.js';
+import { esc, favicon, googleTag, hreflangLinks, i18nScript, adsenseTag } from './util.js';
 
-function shell({ SITE_URL, LANGS, lang, s, path, title, description, body }) {
+function shell({ SITE_URL, ADSENSE_CLIENT, LANGS, lang, s, path, title, description, body }) {
   const locale = LANGS.find(item => item.code === lang);
   const url = `${SITE_URL}/${lang}${path}`;
   const data = {
@@ -16,6 +16,7 @@ function shell({ SITE_URL, LANGS, lang, s, path, title, description, body }) {
 <html lang="${locale.hreflang}">
 <head>
 ${googleTag()}
+${adsenseTag(ADSENSE_CLIENT)}
 ${favicon()}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
