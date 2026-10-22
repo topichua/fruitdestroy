@@ -10,7 +10,7 @@ import { sitemap, robots, adsTxt } from './src/render/seo-files.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
-const SITE_URL = (process.env.SITE_URL || 'https://fruitdestroy.gg').replace(/\/$/, '');
+const SITE_URL = (process.env.SITE_URL || 'https://fruitdestroy.com').replace(/\/$/, '');
 const ADSENSE_CLIENT = process.env.ADSENSE_CLIENT || '';
 const dev = process.env.NODE_ENV !== 'production';
 const codes = LANGS.map(l => l.code);

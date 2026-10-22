@@ -4,10 +4,10 @@
 Google indexes one language per URL. Don't swap text with JS on the same URL.
 
 ```
-https://fruitdestroy.gg/            → x-default (language picker or auto-redirect by Accept-Language, 302 not 301)
-https://fruitdestroy.gg/en/         → English
-https://fruitdestroy.gg/uk/         → Українська
-https://fruitdestroy.gg/pl/  /de/  /es/  /fr/  /pt-br/  /tr/
+https://fruitdestroy.com/            → x-default (language picker or auto-redirect by Accept-Language, 302 not 301)
+https://fruitdestroy.com/en/         → English
+https://fruitdestroy.com/uk/         → Українська
+https://fruitdestroy.com/pl/  /de/  /es/  /fr/  /pt-br/  /tr/
 ```
 Sub-pages follow the same pattern: `/uk/daily/`, `/uk/endless/`, `/uk/c/K7Q2X` (challenge links: `noindex`).
 
@@ -42,11 +42,11 @@ Have a native speaker check each; keywords should be what people actually search
 ```xml
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://fruitdestroy.gg/uk/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://fruitdestroy.gg/en/"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://fruitdestroy.gg/uk/"/>
+    <loc>https://fruitdestroy.com/uk/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fruitdestroy.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://fruitdestroy.com/uk/"/>
     <!-- …all languages… -->
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://fruitdestroy.gg/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fruitdestroy.com/"/>
   </url>
   <!-- repeat one <url> per language page -->
 </urlset>
@@ -56,7 +56,7 @@ Have a native speaker check each; keywords should be what people actually search
 User-agent: *
 Allow: /
 Disallow: /*/c/
-Sitemap: https://fruitdestroy.gg/sitemap.xml
+Sitemap: https://fruitdestroy.com/sitemap.xml
 ```
 
 ## 5. In-game text
