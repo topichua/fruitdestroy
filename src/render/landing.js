@@ -1,4 +1,4 @@
-import { esc, favicon, googleTag, hreflangLinks, adSlot } from './util.js';
+import { esc, favicon, googleTag, hreflangLinks, adSlot, i18nScript } from './util.js';
 
 const CRITTERS = [['🐒', '🍌', 3], ['🐭', '🍓', 4], ['🦛', '🍉', 5], ['🦎', '🍅', 6], ['🐰', '🥕', 7]];
 const STEP_ICONS = ['👆', '🔥', '🐒'];
@@ -91,7 +91,7 @@ ${ADSENSE_CLIENT ? `<script async src="https://pagead2.googlesyndication.com/pag
   <h2>${esc(s.progressTitle)}</h2>
   <p class="sub" data-progress-note>${esc(s.progressNote)}</p>
   <ul class="progress-list" hidden></ul>
-  <p class="row"><a href="/${lang}/daily/">Daily challenge</a><a href="/${lang}/achievements/">Achievements</a></p>
+  <p class="row"><a href="/${lang}/daily/">${esc(s.ui.pages.dailyLink)}</a><a href="/${lang}/achievements/">${esc(s.ui.pages.achLink)}</a></p>
 </section>
 
 <section id="how" class="wrap sec">
@@ -142,12 +142,13 @@ ${ADSENSE_CLIENT ? `<script async src="https://pagead2.googlesyndication.com/pag
 <footer class="foot">
   <div class="wrap foot-row">
     <span class="brand">Fruit Destroy!</span>
-    <nav aria-label="Language" class="langs">
+    <nav aria-label="${esc(s.language)}" class="langs">
       ${LANGS.map(l => `<a href="/${l.code}/" hreflang="${l.hreflang}" lang="${l.hreflang}"${l.code === lang ? ' aria-current="page"' : ''}>${l.label}</a>`).join('')}
     </nav>
     <div class="legal"><a href="/${lang}/privacy/">${esc(s.privacy)}</a><a href="/${lang}/terms/">${esc(s.terms)}</a></div>
   </div>
 </footer>
+${i18nScript(s)}
 <script type="module" src="/game/progress.js"></script>
 </body>
 </html>`;

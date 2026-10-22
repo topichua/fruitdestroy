@@ -1,22 +1,26 @@
 import { sound } from './audio.js';
 import { track } from './analytics.js';
 import { Game } from './engine.js';
+import { portalFrom } from './portal.js';
 import { readChallenge } from './session.js';
 import { GameView } from './view.js';
 
 export function mount(screen, options) {
   const game = new Game();
   const view = new GameView(screen, game, options);
-  game.onChange = () => view.draw();
+  const portal = portalFrom(new URLSearchParams(location.search).get('from')) || undefined;
+  game.onChange = () => { view.draw(); fit(); };
   game.onEvent = (name, props) => {
     const referrer = name === 'game_start' || name === 'challenge_opened' ? (document.referrer || undefined) : undefined;
-    track(name, { ...props, referrer });
+    track(name, { ...props, referrer, portal });
     sound.play(name, props);
   };
 
+  const embed = !!options.embed;
   const scale = document.getElementById('scale');
   const stage = scale.closest('.stage');
   const compactQuery = window.matchMedia('(max-width: 820px)');
+  if (embed) stage.classList.add('is-embed');
   const fit = () => {
     const viewport = window.visualViewport;
     const width = viewport?.width || window.innerWidth;
@@ -34,6 +38,17 @@ export function mount(screen, options) {
       scale.style.margin = '0';
       const boardScale = Math.min(1, (width - 8) / 840, (height - 112) / 680);
       stage.style.setProperty('--board-scale', String(boardScale));
+      return;
+    }
+    if (embed) {
+      scale.style.transform = 'none';
+      scale.style.margin = '0';
+      const board = stage.querySelector('.board');
+      if (board) {
+        const box = board.getBoundingClientRect();
+        const boardScale = Math.min(box.width / 840, box.height / 680);
+        stage.style.setProperty('--board-scale', String(boardScale || 1));
+      }
       return;
     }
     stage.style.removeProperty('--board-scale');

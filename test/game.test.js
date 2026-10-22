@@ -4,7 +4,9 @@ import { earnedIds } from '../src/game/achievements.js';
 import { multFor, walkerCap } from '../src/game/config.js';
 import { Game } from '../src/game/engine.js';
 import { GLOBAL_LEADERBOARD } from '../src/game/leaderboard.js';
+import { portalFrom } from '../src/game/portal.js';
 import { save } from '../src/game/storage.js';
+import { t } from '../src/i18n/index.js';
 import {
   challengeUrl, comboCallout, daySeed, msUntilNextUtcDay, nextStreak, readChallenge, shareText
 } from '../src/game/session.js';
@@ -31,6 +33,37 @@ function layout(game) {
 function stop(game) {
   game.clearTimers();
 }
+
+function leaves(obj, prefix = '') {
+  if (Array.isArray(obj)) return obj.flatMap((item, index) => leaves(item, `${prefix}.${index}`));
+  if (obj && typeof obj === 'object') return Object.entries(obj).flatMap(([key, value]) => leaves(value, prefix ? `${prefix}.${key}` : key));
+  return [prefix];
+}
+
+test('every language translates the game labels', () => {
+  const english = t('en');
+  const keys = leaves(english.ui);
+  for (const code of ['uk', 'pl', 'de', 'es', 'fr', 'pt-br', 'tr']) {
+    const copy = t(code);
+    const missing = keys.filter(key => !leaves(copy.ui).includes(key));
+    assert.deepEqual(missing, []);
+    assert.notEqual(copy.ui.play, english.ui.play);
+    assert.notEqual(copy.ui.how, english.ui.how);
+    assert.notEqual(copy.modes[3].title, 'Time Attack');
+    assert.notEqual(copy.progressTitle, english.progressTitle);
+  }
+  assert.equal(t('uk').ui.classic, 'Класика');
+  assert.equal(t('uk').ui.pages.play, 'Грати');
+  assert.equal(t('uk').modes[3].title, 'На час');
+});
+
+test('embed source keeps a site name and drops anything else', () => {
+  assert.equal(portalFrom('playminigames.net'), 'playminigames.net');
+  assert.equal(portalFrom('https://PlayMiniGames.net/games/fruit'), 'playminigames.net');
+  assert.equal(portalFrom('playminigames'), 'playminigames');
+  assert.equal(portalFrom('<script>'), '');
+  assert.equal(portalFrom(''), '');
+});
 
 test('combo words sit on top of the existing multipliers', () => {
   assert.equal(multFor(2), 1.2);

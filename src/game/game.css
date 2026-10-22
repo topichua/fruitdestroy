@@ -576,6 +576,54 @@ button { font: inherit; color: inherit; }
 }
 
 /* Phones: fill the visible viewport, center the board, stack the controls under it. */
+.stage.is-embed {
+  align-items: stretch;
+  justify-content: stretch;
+  background: var(--color-bg);
+  background-image: none;
+}
+.stage.is-embed .stage-scale {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  transform: none !important;
+  margin: 0 !important;
+}
+.stage.is-embed .layout,
+.stage.is-embed .layout.is-ads-off,
+.stage.is-embed .cabinet {
+  width: 100%;
+  height: 100%;
+}
+.stage.is-embed .layout.is-ads-off {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+}
+.stage.is-embed .cabinet {
+  border-radius: 0;
+  box-shadow: none;
+}
+.stage.is-embed:not(.is-compact) .menu { overflow: auto; }
+.stage.is-embed:not(.is-compact) .play {
+  height: 100%;
+  padding: 8px;
+  gap: 8px;
+  grid-template-columns: minmax(200px, 240px) minmax(0, 1fr);
+}
+.stage.is-embed:not(.is-compact) .board {
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+}
+.stage.is-embed:not(.is-compact) .playfield {
+  inset: auto;
+  top: 50%;
+  left: 50%;
+  width: 840px;
+  height: 680px;
+  transform: translate(-50%, -50%) scale(var(--board-scale, 1));
+  transform-origin: center center;
+}
 .stage.is-compact { align-items: stretch; justify-content: stretch; }
 .stage.is-compact .stage-scale {
   width: 100%;

@@ -1,7 +1,7 @@
 import { ACHIEVEMENTS } from '../game/achievements.js';
-import { esc, favicon, googleTag, hreflangLinks } from './util.js';
+import { esc, favicon, googleTag, hreflangLinks, i18nScript } from './util.js';
 
-function shell({ SITE_URL, LANGS, lang, path, title, description, body }) {
+function shell({ SITE_URL, LANGS, lang, s, path, title, description, body }) {
   const locale = LANGS.find(item => item.code === lang);
   const url = `${SITE_URL}/${lang}${path}`;
   const data = {
@@ -39,9 +39,10 @@ ${hreflangLinks(SITE_URL, LANGS, path)}
 <link rel="stylesheet" href="/static/site.css">
 </head>
 <body>
-<header class="top"><nav class="wrap nav"><a class="brand" href="/${lang}/">Fruit Destroy!</a><a class="btn btn-sm" href="/${lang}/play/">Play</a></nav></header>
+<header class="top"><nav class="wrap nav"><a class="brand" href="/${lang}/">Fruit Destroy!</a><a class="btn btn-sm" href="/${lang}/play/">${esc(s.ui.pages.play)}</a></nav></header>
 <main class="wrap sec page">${body}</main>
-<footer class="foot"><div class="wrap foot-row"><a class="brand" href="/${lang}/">Fruit Destroy!</a><nav aria-label="Language" class="langs">${LANGS.map(item => `<a href="/${item.code}${path}" hreflang="${item.hreflang}"${item.code === lang ? ' aria-current="page"' : ''}>${item.label}</a>`).join('')}</nav></div></footer>
+<footer class="foot"><div class="wrap foot-row"><a class="brand" href="/${lang}/">Fruit Destroy!</a><nav aria-label="${esc(s.language)}" class="langs">${LANGS.map(item => `<a href="/${item.code}${path}" hreflang="${item.hreflang}"${item.code === lang ? ' aria-current="page"' : ''}>${item.label}</a>`).join('')}</nav></div></footer>
+${i18nScript(s)}
 <script type="module" src="/game/progress.js"></script>
 </body>
 </html>`;
@@ -56,15 +57,18 @@ export function renderDaily(ctx) {
     description: s.dailyDescription,
     body: `<h1>${esc(s.dailyTitle)}</h1>
 <p class="lead">${esc(s.dailyDescription)}</p>
-<p class="sub">Next board in <strong data-countdown>00:00:00</strong> UTC. Everyone gets the same fruit layout for the calendar day.</p>
-<p><a class="btn btn-lg" href="/${lang}/play/#daily">Play today's challenge</a></p>
-<p class="sub">Your streak is saved on this device. A shared score is a target to beat, not a public rank.</p>`
+<p class="sub">${esc(s.ui.pages.nextBoardBefore)} <strong data-countdown>00:00:00</strong> ${esc(s.ui.pages.nextBoardAfter)}</p>
+<p><a class="btn btn-lg" href="/${lang}/play/#daily">${esc(s.ui.pages.playToday)}</a></p>
+<p class="sub">${esc(s.ui.pages.streakNote)}</p>`
   });
 }
 
 export function renderAchievements(ctx) {
   const { s } = ctx;
-  const items = ACHIEVEMENTS.map(item => `<li class="card" data-ach="${esc(item.id)}"><h2>${item.emoji} ${esc(item.name)}</h2><p>${esc(item.detail)}</p></li>`).join('');
+  const items = ACHIEVEMENTS.map(item => {
+    const copy = s.ui.ach[item.id] || item;
+    return `<li class="card" data-ach="${esc(item.id)}"><h2>${item.emoji} ${esc(copy.name)}</h2><p>${esc(copy.detail)}</p></li>`;
+  }).join('');
   return shell({
     ...ctx,
     path: '/achievements/',

@@ -1,8 +1,9 @@
 import { save } from './storage.js';
 import { localRecords } from './leaderboard.js';
+import { phrase, tx } from './copy.js';
 import { formatCountdown, msUntilNextUtcDay } from './session.js';
 
-const NAMES = { classic: 'Classic', endless: 'Endless', time: 'Time Attack', daily: 'Daily' };
+const modeName = mode => tx(`ui.${mode}`) || mode;
 
 const box = document.querySelector('[data-progress]');
 if (box && save.get('played')) {
@@ -10,11 +11,15 @@ if (box && save.get('played')) {
   const list = box.querySelector('ul');
   if (note) note.hidden = true;
   if (list) {
-    const recent = (save.get('recent', []) || []).map(mode => NAMES[mode] || mode);
+    const recent = (save.get('recent', []) || []).map(modeName);
     const rows = localRecords();
-    if (recent.length) rows.push({ label: 'Recently played', value: recent.join(', ') });
+    if (recent.length) rows.push({ id: 'recent', value: recent.join(', ') });
     list.hidden = false;
-    list.innerHTML = rows.map(row => `<li><span>${row.label}</span><strong>${row.value}</strong></li>`).join('');
+    list.innerHTML = rows.map(row => {
+      const label = tx(`ui.recordLabels.${row.id}`) || row.id;
+      const value = row.id === 'streak' ? phrase('ui.day', row.n) : row.value;
+      return `<li><span>${label}</span><strong>${value}</strong></li>`;
+    }).join('');
   }
 }
 

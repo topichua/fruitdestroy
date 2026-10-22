@@ -7,6 +7,7 @@ import { renderLanding } from './src/render/landing.js';
 import { renderGame } from './src/render/game.js';
 import { renderAchievements, renderDaily } from './src/render/pages.js';
 import { sitemap, robots, adsTxt } from './src/render/seo-files.js';
+import { portalFrom } from './src/game/portal.js';
 import { favicon, googleTag } from './src/render/util.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -37,7 +38,7 @@ app.get('/:lang/', (req, res, next) => {
 app.get('/:lang/play/', (req, res, next) => {
   const lang = req.params.lang;
   if (!codes.includes(lang)) return next();
-  send(res, renderGame({ ...ctx, lang, s: t(lang) }));
+  send(res, renderGame({ ...ctx, lang, s: t(lang), portal: portalFrom(req.query.from) }));
 });
 const searchOf = req => {
   const q = req.originalUrl.indexOf('?');
@@ -51,7 +52,7 @@ app.get('/:lang/embed/', (req, res, next) => {
   const lang = req.params.lang;
   if (!codes.includes(lang)) return next();
   res.set('Content-Security-Policy', 'frame-ancestors *');
-  send(res, renderGame({ ...ctx, lang, s: t(lang), embed: true }));
+  send(res, renderGame({ ...ctx, lang, s: t(lang), embed: true, portal: portalFrom(req.query.from) }));
 });
 app.get('/:lang/daily/', (req, res, next) => {
   const lang = req.params.lang;

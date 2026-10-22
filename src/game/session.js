@@ -89,7 +89,8 @@ export function challengeUrl({ origin, lang = 'en', mode, level = 0, seed, score
   return url.toString();
 }
 
-export function shareText({ mode, score, streak, url }) {
+export function shareText({ mode, score, streak, url, lines: custom }) {
+  if (custom) return custom;
   const lines = [mode === 'daily' ? '🍉 Fruit Destroy Daily' : '🍉 Fruit Destroy', '', `Score: ${Math.round(score).toLocaleString('en-US')}`];
   if (mode === 'daily' && streak > 0) lines.push(`Streak: ${streak} day${streak === 1 ? '' : 's'}`);
   lines.push('', 'Can you beat me?', '', url);

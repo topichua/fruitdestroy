@@ -1,13 +1,13 @@
-import { ADS_ON, esc, favicon, googleTag, hreflangLinks, adSlot } from './util.js';
+import { ADS_ON, esc, favicon, googleTag, hreflangLinks, adSlot, i18nScript } from './util.js';
 
-export function renderGame({ SITE_URL, ADSENSE_CLIENT, LANGS, lang, s, embed = false }) {
+export function renderGame({ SITE_URL, ADSENSE_CLIENT, LANGS, lang, s, embed = false, portal = '' }) {
   const locale = LANGS.find(l => l.code === lang);
   const url = `${SITE_URL}/${lang}/${embed ? 'embed' : 'play'}/`;
   const ad = (name, w, h, format, className) => adSlot(name, w, h, { client: ADSENSE_CLIENT, format, className });
   return `<!doctype html>
 <html lang="${locale.hreflang}">
 <head>
-${googleTag()}
+${googleTag(portal)}
 ${favicon()}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -36,9 +36,10 @@ ${ADSENSE_CLIENT ? `<script async src="https://pagead2.googlesyndication.com/pag
     </div>
   </div>
 </div>
+${i18nScript(s)}
 <script type="module">
   import { mount } from '/game/main.js';
-  mount(document.getElementById('screen'), { siteUrl: ${JSON.stringify(SITE_URL)}, lang: ${JSON.stringify(lang)} });
+  mount(document.getElementById('screen'), { siteUrl: ${JSON.stringify(SITE_URL)}, lang: ${JSON.stringify(lang)}, embed: ${embed ? 'true' : 'false'} });
 </script>
 </body>
 </html>`;

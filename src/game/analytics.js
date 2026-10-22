@@ -10,6 +10,7 @@ export function track(name, props = {}) {
       durationSeconds: props.durationSeconds,
       challengeId: props.challengeId,
       referrer: props.referrer,
+      portal: props.portal,
       isNewPlayer: props.isNewPlayer,
       combo: props.combo,
       id: props.id

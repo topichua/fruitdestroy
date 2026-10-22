@@ -109,10 +109,8 @@ export class Game {
     });
     const fresh = critters.filter(animal => mode === 'classic' && level === animal.from + unlockAt);
     const intro = critters.length
-      ? fresh.length
-        ? `NEW: ${fresh.map(animal => `${animal.e} ${animal.name} eats ${FRUITS[animal.food][0]}`).join(' · ')} — tap critters to shoo them!`
-        : `Hungry critters: ${critters.map(animal => animal.e + '→' + FRUITS[animal.food][0]).join('  ')} — tap to shoo!`
-      : '';
+      ? { fresh: fresh.map(animal => ({ e: animal.e, name: animal.name, fruit: FRUITS[animal.food][0] })) }
+      : null;
     let fruits = [];
     for (let i = 0; i < cfg.initial / 2; i++) fruits = this.spawnPair(fruits, cfg.types);
     save.set('lastMode', mode);
@@ -296,7 +294,7 @@ export class Game {
         if (s.mode !== 'endless' && s.mode !== 'time') fruits = this.spawnPair(fruits, s.types);
         eaten++;
         score = Math.max(0, score - 50);
-        const floater = { id: this.uid++, x: target.x, y: target.y, bad: true, text: `${kind.e} ate ${FRUITS[kind.food][0]} −50` };
+        const floater = { id: this.uid++, x: target.x, y: target.y, bad: true, key: 'ate', vars: { emoji: kind.e, fruit: FRUITS[kind.food][0] }, text: `${kind.e} ate ${FRUITS[kind.food][0]} −50` };
         floats = [...floats, floater];
         this.later(() => this.patch({ fruits: this.state.fruits.filter(fruit => !ids.includes(fruit.id)) }), 420);
         this.later(() => this.patch({ floats: this.state.floats.filter(item => item.id !== floater.id) }), 1300);
@@ -318,7 +316,7 @@ export class Game {
     if (s.screen !== 'play' || s.paused) return;
     const animal = s.animals.find(item => item.id === id);
     if (!animal || animal.ph !== 'walk') return;
-    const floater = { id: this.uid++, x: animal.x, y: animal.y, text: 'Shoo! +50' };
+    const floater = { id: this.uid++, x: animal.x, y: animal.y, key: 'shoo', text: 'Shoo! +50' };
     this.patch({
       animals: s.animals.map(item => item.id === id ? { ...item, ph: 'flee' } : item),
       score: s.score + 50,
@@ -358,7 +356,10 @@ export class Game {
         title: 'Fruit avalanche!',
         note: record ? 'New survival record!' : `${fmt(endlessBest - s.elapsed)} off your best survival of ${fmt(endlessBest)}.`,
         newBest: newBest || record,
-        stats: [{ v: fmt(s.elapsed), k: 'survived' }, { v: `${acc}%`, k: 'accuracy' }, { v: `${s.bestCombo}`, k: 'best combo' }],
+        kind: 'endless',
+        record,
+        vars: { gap: fmt(Math.max(0, endlessBest - s.elapsed)), best: fmt(endlessBest) },
+        stats: [{ v: fmt(s.elapsed), k: 'survived' }, { v: `${acc}%`, k: 'accuracy' }, { v: `${s.bestCombo}`, k: 'bestCombo' }],
         retryPrimary: true
       };
     } else if (s.mode === 'time') {
@@ -370,7 +371,10 @@ export class Game {
         title: win ? "Time's up!" : 'Board full!',
         note: record ? 'New time-attack record!' : `Time-attack best: ${num(timeBest)}.`,
         newBest: newBest || record,
-        stats: [{ v: num(s.score), k: 'score' }, { v: `${acc}%`, k: 'accuracy' }, { v: `${s.bestCombo} ×${multFor(s.bestCombo)}`, k: 'best combo' }],
+        kind: 'time',
+        record,
+        vars: { best: num(timeBest) },
+        stats: [{ v: num(s.score), k: 'score' }, { v: `${acc}%`, k: 'accuracy' }, { v: `${s.bestCombo} ×${multFor(s.bestCombo)}`, k: 'bestCombo' }],
         retryPrimary: true
       };
     } else if (win) {
@@ -387,7 +391,9 @@ export class Game {
           : 'Perfect peel. Three stars.',
         newBest,
         canNext: s.mode === 'classic',
-        stats: [{ v: `${acc}%`, k: 'accuracy' }, { v: `${s.bestCombo} ×${multFor(s.bestCombo)}`, k: 'best combo' }, { v: fmt(s.elapsed), k: 'time' }],
+        kind: 'clear',
+        vars: { time: fmt(s.limit * (stars === 2 ? 0.5 : 0.75)), star: stars === 2 ? 'third' : 'another' },
+        stats: [{ v: `${acc}%`, k: 'accuracy' }, { v: `${s.bestCombo} ×${multFor(s.bestCombo)}`, k: 'bestCombo' }, { v: fmt(s.elapsed), k: 'time' }],
         retryPrimary: s.mode !== 'classic'
       };
     } else {
@@ -397,7 +403,9 @@ export class Game {
         title: "Time's up!",
         note: `${s.target - s.matches} pairs short. Chain combos to move faster.`,
         newBest,
-        stats: [{ v: `${s.matches}/${s.target}`, k: 'pairs' }, { v: `${acc}%`, k: 'accuracy' }, { v: `${s.bestCombo}`, k: 'best combo' }],
+        kind: 'timeout',
+        vars: { short: s.target - s.matches },
+        stats: [{ v: `${s.matches}/${s.target}`, k: 'pairs' }, { v: `${acc}%`, k: 'accuracy' }, { v: `${s.bestCombo}`, k: 'bestCombo' }],
         retryPrimary: true
       };
     }

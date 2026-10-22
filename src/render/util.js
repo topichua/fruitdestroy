@@ -1,5 +1,7 @@
 export const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
+export const i18nScript = copy => `<script type="application/json" id="i18n">${JSON.stringify(copy).replace(/</g, '\\u003c')}</script>`;
+
 const GA_ID = 'G-3G1Q7Z4ESN';
 
 // Flip to true to show AdSense units and the dashed placeholders.
@@ -8,13 +10,14 @@ export const ADS_ON = false;
 export const favicon = () => `<link rel="icon" href="/static/favicon.png" type="image/png" sizes="48x48">
 <link rel="apple-touch-icon" href="/static/favicon.png">`;
 
-export const googleTag = () => `<!-- Google tag (gtag.js) -->
+export const googleTag = (portal = '') => `<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', '${GA_ID}');
+  ${portal ? `gtag('set', { portal: ${JSON.stringify(portal)} });
+  gtag('config', '${GA_ID}', { campaign_source: ${JSON.stringify(portal)}, campaign_medium: 'embed' });` : `gtag('config', '${GA_ID}');`}
 </script>`;
 
 export const hreflangLinks = (SITE_URL, LANGS, suffix = '/') =>

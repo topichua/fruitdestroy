@@ -17,11 +17,11 @@ export function localRecords() {
   const week = save.get('weekBest', { id: '', score: 0 });
   const streak = save.get('streak', { streak: 0 });
   return [
-    { label: 'Best score', value: num(save.get('best', 0)) },
-    { label: 'Endless survival', value: fmt(save.get('endlessBest', 0)) },
-    { label: 'Time attack', value: num(save.get('timeBest', 0)) },
-    { label: 'Daily best', value: num(save.get('dailyBest', 0)) },
-    { label: 'This week', value: week.id === utcWeek() ? num(week.score) : num(0) },
-    { label: 'Daily streak', value: `${streak.streak || 0} day${streak.streak === 1 ? '' : 's'}` }
+    { id: 'best', value: num(save.get('best', 0)) },
+    { id: 'endless', value: fmt(save.get('endlessBest', 0)) },
+    { id: 'time', value: num(save.get('timeBest', 0)) },
+    { id: 'daily', value: num(save.get('dailyBest', 0)) },
+    { id: 'week', value: week.id === utcWeek() ? num(week.score) : num(0) },
+    { id: 'streak', n: streak.streak || 0, value: String(streak.streak || 0) }
   ];
 }

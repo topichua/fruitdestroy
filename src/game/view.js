@@ -6,55 +6,11 @@ import { localRecords } from './leaderboard.js';
 import { save } from './storage.js';
 import { challengeUrl, formatCountdown, msUntilNextUtcDay, playerName, shareText } from './session.js';
 import { sound } from './audio.js';
+import { phrase, tx } from './copy.js';
 
-const SHARED_RULES = [
-  'Tap two of the same fruit. They fly into the basket.',
-  'Match again within 3 seconds for a combo: ×1.2, ×1.5, ×2, then ×3. A miss resets it.',
-  'A critter walks toward its fruit. Tap it to shoo it for +50. If it eats, you lose 50.'
-];
-
-const MODE_RULES = [
-  {
-    id: 'classic',
-    name: 'Classic',
-    aim: 'Clear the pair goal before the 60-second clock runs out.',
-    points: [
-      'Each level asks for more pairs and adds fruit types.',
-      'Under 30 seconds is 3 stars. Under 45 seconds is 2 stars.',
-      'Critters start showing up at level 3. Later levels send more at once.'
-    ]
-  },
-  {
-    id: 'endless',
-    name: 'Endless',
-    aim: 'Last as long as you can. The round ends when the board is full.',
-    points: [
-      'New pairs drop in, faster the longer you survive. Matching clears space.',
-      'More fruit types and more critters join as the run goes on.',
-      'Your survival time is saved on this device.'
-    ]
-  },
-  {
-    id: 'time',
-    name: 'Time Attack',
-    aim: 'Score as much as you can in 60 seconds.',
-    points: [
-      'When the clock ends, that score is your result.',
-      'A full board ends the round early. Clear pairs faster than they arrive.',
-      'Critters are in from the start.'
-    ]
-  },
-  {
-    id: 'daily',
-    name: 'Daily',
-    aim: 'Clear 18 pairs in 90 seconds. Every player gets this same board today.',
-    points: [
-      'The board changes at midnight UTC.',
-      'Winning today extends the streak saved on this device.',
-      'A score in a shared link is a target to beat, not a public rank.'
-    ]
-  }
-];
+const MODE_IDS = ['classic', 'endless', 'time', 'daily'];
+const CRITTER_INDEX = { Monkey: 0, Mouse: 1, Hippo: 2, Lizard: 3, Bunny: 4 };
+const CALLOUTS = { 'GREAT!': '2', 'AMAZING!': '3', 'INCREDIBLE!': '5', 'UNSTOPPABLE!': '8' };
 
 function applyStyle(el, style) {
   for (const [key, value] of Object.entries(style)) {
@@ -149,6 +105,89 @@ export class GameView {
     screen.addEventListener('pointerdown', () => sound.unlock(), { once: true });
   }
 
+  t(key, vars) {
+    return tx(`ui.${key}`, vars);
+  }
+
+  modeName(id) {
+    return this.t(id) || id;
+  }
+
+  critterName(name) {
+    const index = CRITTER_INDEX[name];
+    return index == null ? name : (tx(`critterNames.${index}`) || name);
+  }
+
+  lines(key, count = 3) {
+    return Array.from({ length: count }, (_, index) => this.t(`${key}.${index}`));
+  }
+
+  ruleFor(id, level) {
+    const aim = id === 'classic'
+      ? this.t('rules.classic.aim', { pairs: 10 + (level || 1) })
+      : this.t(`rules.${id}.aim`);
+    return { name: this.modeName(id), aim, points: this.lines(`rules.${id}.points`) };
+  }
+
+  introText(state) {
+    const intro = state.intro;
+    if (!intro) return '';
+    if (typeof intro === 'string') return intro;
+    if (intro.fresh?.length) {
+      const list = intro.fresh.map(animal => this.t('introNewItem', {
+        emoji: animal.e,
+        name: this.critterName(animal.name),
+        fruit: animal.fruit
+      })).join(' · ');
+      return this.t('introNew', { list });
+    }
+    const list = (state.critters || []).map(animal => `${animal.e}→${FRUITS[animal.food][0]}`).join('  ');
+    return this.t('introHungry', { list });
+  }
+
+  floatText(floater) {
+    if (floater.key === 'ate') return this.t('ate', floater.vars) || floater.text;
+    if (floater.key === 'shoo') return this.t('shoo') || floater.text;
+    return floater.text;
+  }
+
+  resultCopy(result, state) {
+    const vars = result.vars || {};
+    if (result.kind === 'endless') {
+      return {
+        kicker: this.t('results.endlessKicker'),
+        title: this.t('results.endlessTitle'),
+        note: result.record ? this.t('results.endlessRecord') : this.t('results.endlessNote', vars)
+      };
+    }
+    if (result.kind === 'time') {
+      return {
+        kicker: this.t('results.timeKicker'),
+        title: result.win ? this.t('results.timeTitle') : this.t('results.boardFullTitle'),
+        note: result.record ? this.t('results.timeRecord') : this.t('results.timeNote', vars)
+      };
+    }
+    const kicker = state.mode === 'daily'
+      ? this.t('results.dailyKicker')
+      : this.t('results.levelKicker', { n: state.level });
+    if (result.kind === 'clear') {
+      const star = this.t(vars.star === 'third' ? 'results.thirdStar' : 'results.anotherStar');
+      return {
+        kicker,
+        title: this.t('results.cleared'),
+        note: (result.stars || 0) >= 3 ? this.t('results.perfect') : this.t('results.starNote', { time: vars.time, star })
+      };
+    }
+    if (result.kind === 'timeout') {
+      return {
+        kicker,
+        title: this.t('results.timeTitle'),
+        note: this.t('results.pairsShort', { n: vars.short })
+      };
+    }
+    return { kicker: result.kicker || '', title: result.title || '', note: result.note || '' };
+  }
+
   draw() {
     if (this.pending && this.game.state.screen === 'menu') {
       if (this.shown !== 'brief') {
@@ -228,22 +267,19 @@ export class GameView {
 
   showBrief() {
     const { mode, level } = this.pending;
-    const rule = MODE_RULES.find(item => item.id === mode);
-    const aim = mode === 'classic'
-      ? `Clear ${10 + level} pairs before the 60-second clock runs out.`
-      : rule.aim;
+    const rule = this.ruleFor(mode, level);
     this.screen.innerHTML = `
       <section class="menu sheet">
         <header class="menu-bar">
-          <button type="button" class="icon-btn" data-action="brief-back" aria-label="Back">${iconHTML('arrowRight')}</button>
+          <button type="button" class="icon-btn" data-action="brief-back" aria-label="${this.t('back')}">${iconHTML('arrowRight')}</button>
           <div class="logo">${rule.name}</div>
         </header>
         <div class="sheet-body brief">
-          <p class="rule-aim">${aim}</p>
+          <p class="rule-aim">${rule.aim}</p>
           <ul class="rule-list">${rule.points.map(line => `<li>${line}</li>`).join('')}</ul>
-          <h3>How a round works</h3>
-          <ul class="rule-list">${SHARED_RULES.map(line => `<li>${line}</li>`).join('')}</ul>
-          <button type="button" class="btn-primary" data-action="start-mode">${iconHTML('playFill')}PLAY ${rule.name.toUpperCase()}</button>
+          <h3>${this.t('howRound')}</h3>
+          <ul class="rule-list">${this.lines('shared').map(line => `<li>${line}</li>`).join('')}</ul>
+          <button type="button" class="btn-primary" data-action="start-mode">${iconHTML('playFill')}${this.t('playNamed', { mode: rule.name })}</button>
         </div>
       </section>`;
   }
@@ -270,7 +306,23 @@ export class GameView {
   async share(preferSystem) {
     const state = this.game.state;
     const url = this.challengeLink();
-    const text = shareText({ mode: state.mode, score: state.score, streak: state.result?.streak || 0, url });
+    const streak = state.result?.streak || 0;
+    const text = shareText({
+      mode: state.mode,
+      score: state.score,
+      streak,
+      url,
+      lines: [
+        `🍉 ${state.mode === 'daily' ? this.t('shareDaily') : this.t('shareTitle')}`,
+        '',
+        this.t('shareScore', { score: num(state.score) }),
+        ...(state.mode === 'daily' && streak > 0 ? [this.t('shareStreak', { n: phrase('ui.day', streak) })] : []),
+        '',
+        this.t('shareBeat'),
+        '',
+        url
+      ].join('\n')
+    });
     this.game.emit(preferSystem ? 'share_clicked' : 'challenge_created', {
       gameMode: state.mode,
       score: state.score,
@@ -278,7 +330,7 @@ export class GameView {
     });
     if (preferSystem && navigator.share) {
       try {
-        await navigator.share({ title: 'Fruit Destroy', text, url });
+        await navigator.share({ title: this.t('shareTitle'), text, url });
         return;
       } catch { /* dismissed or unsupported */ }
     }
@@ -290,7 +342,7 @@ export class GameView {
   toggleMute(button) {
     const muted = sound.toggle();
     button.setAttribute('aria-pressed', String(muted));
-    button.textContent = muted ? 'Muted' : 'Sound';
+    button.textContent = muted ? this.t('muted') : this.t('sound');
   }
 
   stopClock() {
@@ -304,16 +356,16 @@ export class GameView {
     const timeBest = num(save.get('timeBest', 0));
     const level = save.get('level', 1);
     const last = save.get('lastMode', 'classic');
-    const resume = last === 'classic' ? `Level ${level}` : last === 'endless' ? 'Endless' : last === 'time' ? 'Time Attack' : 'Daily';
+    const resume = last === 'classic' ? this.t('level', { n: level }) : this.modeName(last);
     this.screen.innerHTML = `
       <section class="menu">
         <header class="menu-bar">
           <div class="logo">Fruit Destroy!</div>
           <div class="menu-tools">
-            <button type="button" class="icon-btn" data-action="rules" aria-label="How to play">${iconHTML('info')}</button>
-            <button type="button" class="icon-btn" data-action="achievements" aria-label="Achievements">${iconHTML('starFill')}</button>
-            <button type="button" class="icon-btn" data-action="records" aria-label="Records">${iconHTML('trophy')}</button>
-            <p class="best-pill"><span>Best</span><strong>${best}</strong></p>
+            <button type="button" class="icon-btn" data-action="rules" aria-label="${this.t('how')}">${iconHTML('info')}</button>
+            <button type="button" class="icon-btn" data-action="achievements" aria-label="${this.t('achievements')}">${iconHTML('starFill')}</button>
+            <button type="button" class="icon-btn" data-action="records" aria-label="${this.t('records')}">${iconHTML('trophy')}</button>
+            <p class="best-pill"><span>${this.t('best')}</span><strong>${best}</strong></p>
           </div>
         </header>
         <div class="menu-body">
@@ -321,50 +373,50 @@ export class GameView {
           <div class="hero-copy">
             <p class="fruit-row" aria-hidden="true"><span>🍓</span><span>🍋</span><span>🍉</span><span>🫐</span></p>
             <h1>Fruit<br><span>Destroy!</span></h1>
-            <p class="lede">Tap two that match. Chain combos. Don't let the board fill up.</p>
+            <p class="lede">${this.t('lede')}</p>
             <div class="play-row">
-              <button type="button" class="btn-primary btn-xl" data-action="${last}">${iconHTML('playFill')}PLAY</button>
-              <p class="continue">Resume ${resume}</p>
+              <button type="button" class="btn-primary btn-xl" data-action="${last}">${iconHTML('playFill')}${this.t('play')}</button>
+              <p class="continue">${this.t('resume', { mode: resume })}</p>
             </div>
           </div>
           <div class="mode-list">
             <button type="button" class="mode-card" data-action="classic">
               <span class="mode-icon">${iconHTML('map')}</span>
-              <span><strong>Classic</strong><small>Level ${level} · clear the pairs</small></span>
+              <span><strong>${this.t('classic')}</strong><small>${this.t('classicHint', { n: level })}</small></span>
               ${iconHTML('arrowRight')}
             </button>
             <button type="button" class="mode-card mode-endless" data-action="endless">
               <span class="mode-icon mode-icon-cyan">${iconHTML('infinity')}</span>
-              <span><strong>Endless</strong><small>Survive · best ${endlessBest}</small></span>
+              <span><strong>${this.t('endless')}</strong><small>${this.t('endlessHint', { best: endlessBest })}</small></span>
               ${iconHTML('arrowRight')}
             </button>
             <button type="button" class="mode-card mode-time" data-action="time">
               <span class="mode-icon mode-icon-cyan">${iconHTML('timer')}</span>
-              <span><strong>Time Attack</strong><small>60 seconds · best ${timeBest}</small></span>
+              <span><strong>${this.t('time')}</strong><small>${this.t('timeHint', { best: timeBest })}</small></span>
               ${iconHTML('arrowRight')}
             </button>
             <button type="button" class="mode-card mode-daily" data-action="daily">
               <span class="mode-icon">${iconHTML('calendar')}</span>
-              <span><strong>Daily</strong><small>Same board worldwide · <span data-countdown>next soon</span></small></span>
+              <span><strong>${this.t('daily')}</strong><small>${this.t('dailyHint', { when: `<span data-countdown>${this.t('nextSoon')}</span>` })}</small></span>
               ${iconHTML('arrowRight')}
             </button>
           </div>
         </div>
       </section>`;
     const countdown = this.screen.querySelector('[data-countdown]');
-    const paint = () => { countdown.textContent = `next in ${formatCountdown(msUntilNextUtcDay())}`; };
+    const paint = () => { countdown.textContent = this.t('nextIn', { time: formatCountdown(msUntilNextUtcDay()) }); };
     paint();
     this.clock = setInterval(paint, 1000);
   }
 
   showSheet(kind) {
     this.stopClock();
-    const title = kind === 'records' ? 'Your records' : kind === 'rules' ? 'How to play' : 'Achievements';
+    const title = kind === 'records' ? this.t('yourRecords') : kind === 'rules' ? this.t('how') : this.t('achievements');
     const body = kind === 'records' ? this.recordsBody() : kind === 'rules' ? this.rulesHTML() : this.achievementsBody();
     this.screen.innerHTML = `
       <section class="menu sheet">
         <header class="menu-bar">
-          <button type="button" class="icon-btn" data-action="back" aria-label="Back">${iconHTML('arrowRight')}</button>
+          <button type="button" class="icon-btn" data-action="back" aria-label="${this.t('back')}">${iconHTML('arrowRight')}</button>
           <div class="logo">${title}</div>
         </header>
         <div class="sheet-body">${body}</div>
@@ -372,15 +424,22 @@ export class GameView {
   }
 
   rulesHTML(mode) {
-    const shared = `<section class="rule-block"><h3>Every mode</h3><ul class="rule-list">${SHARED_RULES.map(line => `<li>${line}</li>`).join('')}</ul></section>`;
-    const modes = MODE_RULES.filter(item => !mode || item.id === mode);
-    const blocks = modes.map(item => `<section class="rule-block"><h3>${item.name}</h3><p class="rule-aim">${item.aim}</p><ul class="rule-list">${item.points.map(line => `<li>${line}</li>`).join('')}</ul></section>`).join('');
+    const shared = `<section class="rule-block"><h3>${this.t('everyMode')}</h3><ul class="rule-list">${this.lines('shared').map(line => `<li>${line}</li>`).join('')}</ul></section>`;
+    const modes = MODE_IDS.filter(id => !mode || id === mode);
+    const blocks = modes.map(id => {
+      const item = this.ruleFor(id, id === 'classic' ? save.get('level', 1) : 0);
+      return `<section class="rule-block"><h3>${item.name}</h3><p class="rule-aim">${item.aim}</p><ul class="rule-list">${item.points.map(line => `<li>${line}</li>`).join('')}</ul></section>`;
+    }).join('');
     return shared + blocks;
   }
 
   recordsBody() {
-    const rows = localRecords().map(row => `<li><span>${row.label}</span><strong>${row.value}</strong></li>`).join('');
-    return `<p class="sheet-note">Saved on this device for ${playerName()}. There is no global ranking yet — a score in a link is a target, not a verified place.</p><ul class="record-list">${rows}</ul>`;
+    const rows = localRecords().map(row => {
+      const label = this.t(`recordLabels.${row.id}`);
+      const value = row.id === 'streak' ? phrase('ui.day', row.n) : row.value;
+      return `<li><span>${label}</span><strong>${value}</strong></li>`;
+    }).join('');
+    return `<p class="sheet-note">${this.t('recordsNote', { name: playerName() })}</p><ul class="record-list">${rows}</ul>`;
   }
 
   achievementsBody() {
@@ -390,7 +449,9 @@ export class GameView {
       const unlocked = !!have[item.id];
       const progress = achievementProgress(item.id, profile);
       const width = Math.round(progress.current / progress.goal * 100);
-      return `<li class="${unlocked ? 'is-on' : ''}"><span>${item.emoji}</span><span><strong>${item.name}</strong><small>${item.detail}</small><i style="width:${width}%"></i></span></li>`;
+      const name = this.t(`ach.${item.id}.name`) || item.name;
+      const detail = this.t(`ach.${item.id}.detail`) || item.detail;
+      return `<li class="${unlocked ? 'is-on' : ''}"><span>${item.emoji}</span><span><strong>${name}</strong><small>${detail}</small><i style="width:${width}%"></i></span></li>`;
     }).join('')}</ul>`;
   }
 
@@ -400,15 +461,15 @@ export class GameView {
       <section class="play">
         <aside class="hud">
           <header class="hud-top">
-            <button type="button" class="icon-btn" data-action="pause" aria-label="Pause">${iconHTML('pause')}</button>
-            <button type="button" class="icon-btn" data-action="help" aria-label="How to play">${iconHTML('info')}</button>
+            <button type="button" class="icon-btn" data-action="pause" aria-label="${this.t('pause')}">${iconHTML('pause')}</button>
+            <button type="button" class="icon-btn" data-action="help" aria-label="${this.t('how')}">${iconHTML('info')}</button>
             <div class="logo">Fruit Destroy!</div>
-            <button type="button" class="icon-btn mute-btn" data-action="mute" aria-pressed="${sound.muted()}" aria-label="Mute sound">${sound.muted() ? 'Muted' : 'Sound'}</button>
+            <button type="button" class="icon-btn mute-btn" data-action="mute" aria-pressed="${sound.muted()}" aria-label="${this.t('mute')}">${sound.muted() ? this.t('muted') : this.t('sound')}</button>
           </header>
           <section class="panel">
-            <p class="kicker">Score</p>
+            <p class="kicker">${this.t('score')}</p>
             <p class="score" data-field="score"></p>
-            <p class="muted">Best <span data-field="best"></span></p>
+            <p class="muted">${this.t('best')} <span data-field="best"></span></p>
             <p class="beat" data-field="beat" hidden></p>
           </section>
           <section class="panel combo" data-field="combo">
@@ -425,21 +486,21 @@ export class GameView {
               <span class="time">${iconHTML('timer')}<span data-field="time"></span></span>
             </div>
             <div data-panel="endless" hidden>
-              <div class="stat-line"><span>Board full</span><span data-field="occ"></span></div>
+              <div class="stat-line"><span>${this.t('boardFull')}</span><span data-field="occ"></span></div>
               <div class="bar bar-thick"><span data-field="occ-bar"></span></div>
               <p class="muted" data-field="speed"></p>
             </div>
             <div data-panel="timed" hidden>
-              <div class="stat-line"><span>Match pairs</span><span data-field="pairs"></span></div>
+              <div class="stat-line"><span>${this.t('matchPairs')}</span><span data-field="pairs"></span></div>
               <div class="bar bar-thick"><span data-field="pairs-bar"></span></div>
             </div>
           </section>
           <section class="panel critter-panel" data-panel="critters" hidden>
-            <p class="critter-title">Hungry critters</p>
+            <p class="critter-title">${this.t('hungry')}</p>
             <p class="muted" data-field="critter-stats"></p>
             <div class="chips" data-field="chips"></div>
           </section>
-          <p class="hint">Esc to pause · match pairs into the basket · tap critters to shoo</p>
+          <p class="hint">${this.t('hint')}</p>
         </aside>
         <div class="board" data-field="board">
           <div class="bg base" data-layer="base"></div>
@@ -458,18 +519,18 @@ export class GameView {
         </div>
         <div class="pause" data-panel="help" hidden>
           <div class="pause-card help-card">
-            <div class="pause-head"><h2>How to play</h2></div>
+            <div class="pause-head"><h2>${this.t('how')}</h2></div>
             <div data-field="help-body"></div>
-            <button type="button" class="btn-primary" data-action="close-help">GOT IT</button>
+            <button type="button" class="btn-primary" data-action="close-help">${this.t('gotIt')}</button>
           </div>
         </div>
         <div class="pause" data-panel="pause" hidden>
           <div class="pause-card">
-            <div class="pause-head"><h2>Paused</h2><p data-field="pause-meta"></p></div>
-            <button type="button" class="btn-primary" data-action="resume">${iconHTML('playFill')}RESUME</button>
+            <div class="pause-head"><h2>${this.t('paused')}</h2><p data-field="pause-meta"></p></div>
+            <button type="button" class="btn-primary" data-action="resume">${iconHTML('playFill')}${this.t('resumeBtn')}</button>
             <div class="pause-actions">
-              <button type="button" class="btn-ghost" data-action="retry">${iconHTML('restart')}Restart</button>
-              <button type="button" class="btn-ghost" data-action="menu">${iconHTML('home')}Quit</button>
+              <button type="button" class="btn-ghost" data-action="retry">${iconHTML('restart')}${this.t('restart')}</button>
+              <button type="button" class="btn-ghost" data-action="menu">${iconHTML('home')}${this.t('quit')}</button>
             </div>
           </div>
         </div>
@@ -477,7 +538,7 @@ export class GameView {
     this.liveBest = save.get('best', 0);
     this.calloutN = 0;
     field(this.screen, 'best').textContent = num(this.liveBest);
-    field(this.screen, 'intro').textContent = state.intro || '';
+    field(this.screen, 'intro').textContent = this.introText(state);
     const chips = field(this.screen, 'chips');
     (state.critters || []).forEach(animal => {
       const chip = document.createElement('span');
@@ -520,12 +581,12 @@ export class GameView {
     score.classList.toggle('is-record', this.liveBest > 0 && (state.score || 0) > this.liveBest);
     const beat = field(this.screen, 'beat');
     beat.hidden = !state.challenge;
-    if (state.challenge) beat.textContent = `Beat ${num(state.challenge.score)}`;
+    if (state.challenge) beat.textContent = this.t('beat', { score: num(state.challenge.score) });
     field(this.screen, 'mult').textContent = `×${mult}`;
-    field(this.screen, 'combo-sub').textContent = state.combo >= 2 ? `${state.combo} in a row` : state.combo === 1 ? 'Match again fast!' : 'Chain matches';
+    field(this.screen, 'combo-sub').textContent = state.combo >= 2 ? this.t('inARow', { n: state.combo }) : state.combo === 1 ? this.t('matchAgain') : this.t('chain');
     field(this.screen, 'combo').classList.toggle('is-hot', hot);
     field(this.screen, 'combo-bar').style.width = `${comboLeft * 100}%`;
-    field(this.screen, 'mode').textContent = state.mode === 'endless' ? 'ENDLESS' : state.mode === 'time' ? 'TIME' : state.mode === 'daily' ? 'DAILY' : `LV ${state.level}`;
+    field(this.screen, 'mode').textContent = state.mode === 'endless' ? this.t('modeEndless') : state.mode === 'time' ? this.t('modeTime') : state.mode === 'daily' ? this.t('modeDaily') : this.t('modeLevel', { n: state.level });
     field(this.screen, 'time').textContent = state.mode === 'endless' ? fmt(state.elapsed || 0) : fmt((state.limit || 0) - (state.elapsed || 0));
     this.paintCallout(state);
     if (flood) {
@@ -534,12 +595,15 @@ export class GameView {
       const occ = field(this.screen, 'occ-bar');
       occ.style.width = `${Math.min(100, ratio * 100)}%`;
       occ.classList.toggle('is-hot', ratio > 0.75);
-      field(this.screen, 'speed').textContent = `Speed ${Math.round((2.4 - this.game.interval(state.elapsed || 0)) / 0.16) + 1} · new pair every ${this.game.interval(state.elapsed || 0).toFixed(1)}s`;
+      field(this.screen, 'speed').textContent = this.t('speed', {
+        n: Math.round((2.4 - this.game.interval(state.elapsed || 0)) / 0.16) + 1,
+        s: this.game.interval(state.elapsed || 0).toFixed(1)
+      });
     } else {
       field(this.screen, 'pairs').textContent = `${state.matches || 0} / ${state.target || 0}`;
       field(this.screen, 'pairs-bar').style.width = `${Math.min(100, (state.matches || 0) / (state.target || 1) * 100)}%`;
     }
-    field(this.screen, 'critter-stats').textContent = `ate ${state.eaten || 0} · shooed ${state.shooed || 0}`;
+    field(this.screen, 'critter-stats').textContent = this.t('critterStats', { ate: state.eaten || 0, shooed: state.shooed || 0 });
     const board = field(this.screen, 'board');
     board.classList.toggle('is-danger', flood && live / CAP > 0.75);
     field(this.screen, 'basket-count').textContent = String((state.matches || 0) * 2);
@@ -571,7 +635,7 @@ export class GameView {
         applyStyle(el, layers[name]);
       }
       const label = field(this.screen, 'theme');
-      label.textContent = layers.name;
+      label.textContent = this.t(`themes.${theme}`) || layers.name;
       label.style.color = layers.labelColor;
     }
     const danger = this.screen.querySelector('[data-layer="danger"]');
@@ -632,7 +696,7 @@ export class GameView {
       el.style.cursor = animal.ph === 'walk' ? 'pointer' : 'default';
       el.querySelector('.animal-face').style.transform = `scaleX(${animal.dir === 1 ? -1 : 1})`;
       const bubble = el.querySelector('.animal-bubble');
-      bubble.textContent = animal.ph === 'eat' ? 'NOM!' : animal.ph === 'flee' ? '💨' : FRUITS[kind.food][0];
+      bubble.textContent = animal.ph === 'eat' ? (this.t('nom') || 'NOM!') : animal.ph === 'flee' ? '💨' : FRUITS[kind.food][0];
       bubble.style.fontSize = animal.ph === 'eat' ? '15px' : '20px';
     }
     for (const el of [...this.play.animals.children]) {
@@ -651,7 +715,7 @@ export class GameView {
       el.dataset.id = id;
       el.style.left = `${Math.min(floater.x, BW - 140)}px`;
       el.style.top = `${Math.max(floater.y - 20, 0)}px`;
-      el.textContent = floater.text;
+      el.textContent = this.floatText(floater);
       this.play.floats.append(el);
       if ((floater.combo || 0) >= 2) this.burst(floater);
     }
@@ -664,46 +728,47 @@ export class GameView {
     const state = this.game.state;
     const result = state.result || {};
     const win = !!result.win;
+    const copy = this.resultCopy(result, state);
     const versus = result.versus
       ? result.versus.tie
-        ? `Tied at ${num(result.versus.target)}. A higher score wins.`
+        ? this.t('tied', { score: num(result.versus.target) })
         : result.versus.beat
-          ? `You beat ${num(result.versus.target)}.`
-          : `Short of ${num(result.versus.target)}.`
+          ? this.t('youBeat', { score: num(result.versus.target) })
+          : this.t('shortOf', { score: num(result.versus.target) })
       : '';
-    const unlocked = (result.unlocked || []).map(item => `${item.emoji} ${item.name}`).join(' · ');
+    const unlocked = (result.unlocked || []).map(item => `${item.emoji} ${this.t(`ach.${item.id}.name`) || item.name}`).join(' · ');
     const stars = [0, 1, 2].map(i => {
       const on = i < (result.stars || 0);
       const size = i === 1 ? 96 : 76;
       const delay = on ? `animation-delay:${0.25 + i * 0.18}s;` : '';
       return `<span class="star${on ? ' is-on' : ''}" style="font-size:${size}px;transform:rotate(${(i - 1) * 10}deg);${delay}">${iconHTML('starFill')}</span>`;
     }).join('');
-    const stats = (result.stats || []).map(stat => `<div class="stat"><strong>${stat.v}</strong><span>${stat.k}</span></div>`).join('');
+    const stats = (result.stats || []).map(stat => `<div class="stat"><strong>${stat.v}</strong><span>${this.t(`stats.${stat.k}`) || stat.k}</span></div>`).join('');
     this.screen.innerHTML = `
       <section class="result ${win ? 'is-win' : 'is-lose'}">
         <div class="result-blob" aria-hidden="true"></div>
         <div class="result-copy">
-          <p class="kicker">${result.kicker || ''}</p>
-          <h2>${result.title || ''}</h2>
+          <p class="kicker">${copy.kicker || ''}</p>
+          <h2>${copy.title || ''}</h2>
           ${result.stars ? `<div class="stars">${stars}</div>` : ''}
-          <p class="note">${result.note || ''}</p>
+          <p class="note">${copy.note || ''}</p>
           ${versus ? `<p class="versus">${versus}</p>` : ''}
-          ${state.mode === 'daily' && result.streak ? `<p class="versus">${result.streak} day streak</p>` : ''}
-          ${unlocked ? `<p class="versus">Unlocked: ${unlocked}</p>` : ''}
+          ${state.mode === 'daily' && result.streak ? `<p class="versus">${this.t('streakLine', { n: phrase('ui.day', result.streak) })}</p>` : ''}
+          ${unlocked ? `<p class="versus">${this.t('unlocked', { list: unlocked })}</p>` : ''}
         </div>
         <div class="result-card">
           <div class="result-score">
             <p data-field="count"></p>
-            ${result.newBest ? '<span class="new-best">NEW PERSONAL BEST!</span>' : ''}
-            <small class="best-line">Personal best ${num(result.personalBest || 0)}</small>
+            ${result.newBest ? `<span class="new-best">${this.t('newBest')}</span>` : ''}
+            <small class="best-line">${this.t('personalBest', { score: num(result.personalBest || 0) })}</small>
           </div>
           <div class="stats">${stats}</div>
-          ${result.canNext ? `<button type="button" class="btn-primary" data-action="next">NEXT LEVEL${iconHTML('arrowRight')}</button>` : ''}
-          <button type="button" class="btn-primary" data-action="${state.challenge ? 'rematch' : 'retry'}">${iconHTML('restart')}${state.challenge ? 'REMATCH' : 'PLAY AGAIN'}</button>
+          ${result.canNext ? `<button type="button" class="btn-primary" data-action="next">${this.t('nextLevel')}${iconHTML('arrowRight')}</button>` : ''}
+          <button type="button" class="btn-primary" data-action="${state.challenge ? 'rematch' : 'retry'}">${iconHTML('restart')}${state.challenge ? this.t('rematch') : this.t('again')}</button>
           <div class="result-actions">
-            <button type="button" class="btn-ghost" data-action="share"><span data-field="share">Share score</span></button>
-            <button type="button" class="btn-ghost" data-action="challenge">${iconHTML('users')}<span data-field="challenge">Challenge a friend</span></button>
-            <button type="button" class="icon-btn" data-action="menu" aria-label="Menu">${iconHTML('home')}</button>
+            <button type="button" class="btn-ghost" data-action="share"><span data-field="share">${this.t('share')}</span></button>
+            <button type="button" class="btn-ghost" data-action="challenge">${iconHTML('users')}<span data-field="challenge">${this.t('challenge')}</span></button>
+            <button type="button" class="icon-btn" data-action="menu" aria-label="${this.t('menu')}">${iconHTML('home')}</button>
           </div>
         </div>
       </section>`;
@@ -716,8 +781,8 @@ export class GameView {
     const challenge = field(this.screen, 'challenge');
     if (count) count.textContent = num(state.count || 0);
     const share = field(this.screen, 'share');
-    if (challenge) challenge.textContent = state.copied ? 'Link copied!' : 'Challenge a friend';
-    if (share) share.textContent = state.copied ? 'Copied!' : 'Share score';
+    if (challenge) challenge.textContent = state.copied ? this.t('linkCopied') : this.t('challenge');
+    if (share) share.textContent = state.copied ? this.t('copied') : this.t('share');
   }
 
   paintCallout(state) {
@@ -730,7 +795,8 @@ export class GameView {
     if (this.calloutN === state.callout.n) return;
     this.calloutN = state.callout.n;
     el.hidden = false;
-    el.textContent = state.callout.text;
+    const calloutKey = CALLOUTS[state.callout.text];
+    el.textContent = calloutKey ? (this.t(`callouts.${calloutKey}`) || state.callout.text) : state.callout.text;
     el.dataset.combo = String(state.callout.combo);
     el.classList.remove('is-on');
     void el.offsetWidth;
