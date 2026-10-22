@@ -39,6 +39,20 @@ app.get('/:lang/play/', (req, res, next) => {
   if (!codes.includes(lang)) return next();
   send(res, renderGame({ ...ctx, lang, s: t(lang) }));
 });
+const searchOf = req => {
+  const q = req.originalUrl.indexOf('?');
+  return q === -1 ? '' : req.originalUrl.slice(q);
+};
+app.get(['/embed', '/embed/'], (req, res) => {
+  const lang = req.acceptsLanguages(...codes) || DEFAULT_LANG;
+  res.redirect(302, `/${lang}/embed/${searchOf(req)}`);
+});
+app.get('/:lang/embed/', (req, res, next) => {
+  const lang = req.params.lang;
+  if (!codes.includes(lang)) return next();
+  res.set('Content-Security-Policy', 'frame-ancestors *');
+  send(res, renderGame({ ...ctx, lang, s: t(lang), embed: true }));
+});
 app.get('/:lang/daily/', (req, res, next) => {
   const lang = req.params.lang;
   if (!codes.includes(lang)) return next();
@@ -50,7 +64,8 @@ app.get('/:lang/achievements/', (req, res, next) => {
   send(res, renderAchievements({ ...ctx, lang, s: t(lang) }));
 });
 app.get('/:lang', (req, res, next) => codes.includes(req.params.lang) ? res.redirect(301, `/${req.params.lang}/`) : next());
-app.get('/:lang/play', (req, res, next) => codes.includes(req.params.lang) ? res.redirect(301, `/${req.params.lang}/play/`) : next());
+app.get('/:lang/play', (req, res, next) => codes.includes(req.params.lang) ? res.redirect(301, `/${req.params.lang}/play/${searchOf(req)}`) : next());
+app.get('/:lang/embed', (req, res, next) => codes.includes(req.params.lang) ? res.redirect(301, `/${req.params.lang}/embed/${searchOf(req)}`) : next());
 app.get('/:lang/daily', (req, res, next) => codes.includes(req.params.lang) ? res.redirect(301, `/${req.params.lang}/daily/`) : next());
 app.get('/:lang/achievements', (req, res, next) => codes.includes(req.params.lang) ? res.redirect(301, `/${req.params.lang}/achievements/`) : next());
 

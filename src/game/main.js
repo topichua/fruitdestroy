@@ -57,13 +57,16 @@ export function mount(screen, options) {
   });
 
   const challenge = readChallenge(location.search);
+  const queryMode = new URLSearchParams(location.search).get('mode');
+  const fromQuery = ['classic', 'endless', 'time', 'daily'].includes(queryMode) ? queryMode : null;
   const hashed = { '#daily': 'daily', '#endless': 'endless', '#time': 'time', '#classic': 'classic' }[location.hash];
+  const requested = hashed || fromQuery;
   if (challenge) {
     game.emit('challenge_opened', { gameMode: challenge.mode, score: challenge.score, challengeId: String(challenge.seed) });
     view.brief(challenge.mode, challenge.level, {
       seed: challenge.seed,
       challenge: { score: challenge.score, mode: challenge.mode, level: challenge.level, seed: challenge.seed }
     });
-  } else if (hashed) view.brief(hashed, hashed === 'classic' ? undefined : 0);
+  } else if (requested) view.brief(requested, requested === 'classic' ? undefined : 0);
   else view.draw();
 }
