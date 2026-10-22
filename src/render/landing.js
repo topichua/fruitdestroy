@@ -1,4 +1,4 @@
-import { esc, hreflangLinks, adSlot } from './util.js';
+import { esc, googleTag, hreflangLinks, adSlot } from './util.js';
 
 const CRITTERS = [['🐒', '🍌', 3], ['🐭', '🍓', 4], ['🦛', '🍉', 5], ['🦎', '🍅', 6], ['🐰', '🥕', 7]];
 const STEP_ICONS = ['👆', '🔥', '🐒'];
@@ -22,6 +22,7 @@ export function renderLanding({ SITE_URL, ADSENSE_CLIENT, LANGS, lang, s }) {
   return `<!doctype html>
 <html lang="${L.hreflang}">
 <head>
+${googleTag()}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(s.htmlTitle)}</title>

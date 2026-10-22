@@ -1,5 +1,5 @@
 import { ACHIEVEMENTS } from '../game/achievements.js';
-import { esc, hreflangLinks } from './util.js';
+import { esc, googleTag, hreflangLinks } from './util.js';
 
 function shell({ SITE_URL, LANGS, lang, path, title, description, body }) {
   const locale = LANGS.find(item => item.code === lang);
@@ -15,6 +15,7 @@ function shell({ SITE_URL, LANGS, lang, path, title, description, body }) {
   return `<!doctype html>
 <html lang="${locale.hreflang}">
 <head>
+${googleTag()}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)}</title>

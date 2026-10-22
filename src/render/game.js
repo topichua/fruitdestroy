@@ -1,4 +1,4 @@
-import { esc, hreflangLinks, adSlot } from './util.js';
+import { esc, googleTag, hreflangLinks, adSlot } from './util.js';
 
 export function renderGame({ SITE_URL, ADSENSE_CLIENT, LANGS, lang, s }) {
   const locale = LANGS.find(l => l.code === lang);
@@ -7,6 +7,7 @@ export function renderGame({ SITE_URL, ADSENSE_CLIENT, LANGS, lang, s }) {
   return `<!doctype html>
 <html lang="${locale.hreflang}">
 <head>
+${googleTag()}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(s.playTitle)}</title>

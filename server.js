@@ -7,6 +7,7 @@ import { renderLanding } from './src/render/landing.js';
 import { renderGame } from './src/render/game.js';
 import { renderAchievements, renderDaily } from './src/render/pages.js';
 import { sitemap, robots, adsTxt } from './src/render/seo-files.js';
+import { googleTag } from './src/render/util.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
@@ -58,6 +59,6 @@ app.get('/robots.txt', (req, res) => res.type('text/plain').send(robots(ctx)));
 app.get('/ads.txt', (req, res) => res.type('text/plain').send(adsTxt(ctx)));
 app.get('/healthz', (req, res) => res.send('ok'));
 
-app.use((req, res) => res.status(404).type('html').send(`<!doctype html><meta charset="utf-8"><title>404 — Fruit Destroy</title><body style="background:#0e0c22;color:#f4f1ff;font-family:system-ui;display:grid;place-items:center;height:100vh;margin:0"><div style="text-align:center"><div style="font-size:64px">🍌💨</div><h1>Page not found</h1><a style="color:#ff86ba" href="/">Back to the game</a></div>`));
+app.use((req, res) => res.status(404).type('html').send(`<!doctype html><head>${googleTag()}<meta charset="utf-8"><title>404 — Fruit Destroy</title></head><body style="background:#0e0c22;color:#f4f1ff;font-family:system-ui;display:grid;place-items:center;height:100vh;margin:0"><div style="text-align:center"><div style="font-size:64px">🍌💨</div><h1>Page not found</h1><a style="color:#ff86ba" href="/">Back to the game</a></div>`));
 
 app.listen(PORT, () => console.log(`Fruit Destroy on http://localhost:${PORT}`));

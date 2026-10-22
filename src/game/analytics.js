@@ -21,6 +21,8 @@ export function track(name, props = {}) {
     globalThis.dispatchEvent?.(new CustomEvent('fruitdestroy:analytics', { detail: event }));
   } catch { /* non-browser */ }
   if (Array.isArray(globalThis.dataLayer)) globalThis.dataLayer.push({ event: name, ...event.props });
+  const params = Object.fromEntries(Object.entries(event.props).filter(([, value]) => value !== undefined));
+  globalThis.gtag?.('event', name, params);
 }
 
 export function recentEvents() {

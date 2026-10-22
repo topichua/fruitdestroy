@@ -1,5 +1,16 @@
 export const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
+const GA_ID = 'G-3G1Q7Z4ESN';
+
+export const googleTag = () => `<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '${GA_ID}');
+</script>`;
+
 export const hreflangLinks = (SITE_URL, LANGS, suffix = '/') =>
   LANGS.map(l => `<link rel="alternate" hreflang="${l.hreflang}" href="${SITE_URL}/${l.code}${suffix}">`).join('\n') +
   `\n<link rel="alternate" hreflang="x-default" href="${SITE_URL}/">`;
