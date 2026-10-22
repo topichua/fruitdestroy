@@ -7,6 +7,55 @@ import { save } from './storage.js';
 import { challengeUrl, formatCountdown, msUntilNextUtcDay, playerName, shareText } from './session.js';
 import { sound } from './audio.js';
 
+const SHARED_RULES = [
+  'Tap two of the same fruit. They fly into the basket.',
+  'Match again within 3 seconds for a combo: ×1.2, ×1.5, ×2, then ×3. A miss resets it.',
+  'A critter walks toward its fruit. Tap it to shoo it for +50. If it eats, you lose 50.'
+];
+
+const MODE_RULES = [
+  {
+    id: 'classic',
+    name: 'Classic',
+    aim: 'Clear the pair goal before the 60-second clock runs out.',
+    points: [
+      'Each level asks for more pairs and adds fruit types.',
+      'Under 30 seconds is 3 stars. Under 45 seconds is 2 stars.',
+      'Critters start showing up at level 3. Later levels send more at once.'
+    ]
+  },
+  {
+    id: 'endless',
+    name: 'Endless',
+    aim: 'Last as long as you can. The round ends when the board is full.',
+    points: [
+      'New pairs drop in, faster the longer you survive. Matching clears space.',
+      'More fruit types and more critters join as the run goes on.',
+      'Your survival time is saved on this device.'
+    ]
+  },
+  {
+    id: 'time',
+    name: 'Time Attack',
+    aim: 'Score as much as you can in 60 seconds.',
+    points: [
+      'When the clock ends, that score is your result.',
+      'A full board ends the round early. Clear pairs faster than they arrive.',
+      'Critters are in from the start.'
+    ]
+  },
+  {
+    id: 'daily',
+    name: 'Daily',
+    aim: 'Clear 18 pairs in 90 seconds. Every player gets this same board today.',
+    points: [
+      'The board changes at midnight UTC.',
+      'Winning today extends the streak saved on this device.',
+      'A score in a shared link is a target to beat, not a public rank.'
+    ]
+  }
+];
+
 function applyStyle(el, style) {
   for (const [key, value] of Object.entries(style)) {
     const cssKey = key.replace(/[A-Z]/g, letter => '-' + letter.toLowerCase());
@@ -101,6 +150,14 @@ export class GameView {
   }
 
   draw() {
+    if (this.pending && this.game.state.screen === 'menu') {
+      if (this.shown !== 'brief') {
+        this.shown = 'brief';
+        this.stopClock();
+        this.showBrief();
+      }
+      return;
+    }
     const { screen } = this.game.state;
     if (this.shown !== screen) {
       this.shown = screen;
@@ -136,12 +193,59 @@ export class GameView {
     else if (action === 'mute') this.toggleMute(button);
     else if (action === 'records') this.showSheet('records');
     else if (action === 'achievements') this.showSheet('achievements');
+    else if (action === 'rules') this.showSheet('rules');
+    else if (action === 'start-mode') this.confirmBrief();
+    else if (action === 'brief-back') this.cancelBrief();
+    else if (action === 'help') game.patch({ help: true, paused: true });
+    else if (action === 'close-help') game.patch({ help: false, paused: false });
     else if (action === 'back') this.showMenu();
   }
 
   pick(mode, level) {
-    this.game.emit('game_mode_selected', { gameMode: mode });
-    this.game.start(mode, level);
+    this.brief(mode, level);
+  }
+
+  brief(mode, level = 0, options = {}) {
+    if (mode === 'classic' && !level) level = save.get('level', 1);
+    this.pending = { mode, level, options };
+    this.shown = '';
+    this.draw();
+  }
+
+  confirmBrief() {
+    const pending = this.pending;
+    if (!pending) return;
+    this.pending = null;
+    this.game.emit('game_mode_selected', { gameMode: pending.mode });
+    this.game.start(pending.mode, pending.level, pending.options);
+  }
+
+  cancelBrief() {
+    this.pending = null;
+    this.shown = '';
+    this.draw();
+  }
+
+  showBrief() {
+    const { mode, level } = this.pending;
+    const rule = MODE_RULES.find(item => item.id === mode);
+    const aim = mode === 'classic'
+      ? `Clear ${10 + level} pairs before the 60-second clock runs out.`
+      : rule.aim;
+    this.screen.innerHTML = `
+      <section class="menu sheet">
+        <header class="menu-bar">
+          <button type="button" class="icon-btn" data-action="brief-back" aria-label="Back">${iconHTML('arrowRight')}</button>
+          <div class="logo">${rule.name}</div>
+        </header>
+        <div class="sheet-body brief">
+          <p class="rule-aim">${aim}</p>
+          <ul class="rule-list">${rule.points.map(line => `<li>${line}</li>`).join('')}</ul>
+          <h3>How a round works</h3>
+          <ul class="rule-list">${SHARED_RULES.map(line => `<li>${line}</li>`).join('')}</ul>
+          <button type="button" class="btn-primary" data-action="start-mode">${iconHTML('playFill')}PLAY ${rule.name.toUpperCase()}</button>
+        </div>
+      </section>`;
   }
 
   again(sameSeed) {
@@ -206,6 +310,7 @@ export class GameView {
         <header class="menu-bar">
           <div class="logo">Fruit Destroy!</div>
           <div class="menu-tools">
+            <button type="button" class="icon-btn" data-action="rules" aria-label="How to play">${iconHTML('info')}</button>
             <button type="button" class="icon-btn" data-action="achievements" aria-label="Achievements">${iconHTML('starFill')}</button>
             <button type="button" class="icon-btn" data-action="records" aria-label="Records">${iconHTML('trophy')}</button>
             <p class="best-pill"><span>Best</span><strong>${best}</strong></p>
@@ -254,8 +359,8 @@ export class GameView {
 
   showSheet(kind) {
     this.stopClock();
-    const title = kind === 'records' ? 'Your records' : 'Achievements';
-    const body = kind === 'records' ? this.recordsBody() : this.achievementsBody();
+    const title = kind === 'records' ? 'Your records' : kind === 'rules' ? 'How to play' : 'Achievements';
+    const body = kind === 'records' ? this.recordsBody() : kind === 'rules' ? this.rulesHTML() : this.achievementsBody();
     this.screen.innerHTML = `
       <section class="menu sheet">
         <header class="menu-bar">
@@ -264,6 +369,13 @@ export class GameView {
         </header>
         <div class="sheet-body">${body}</div>
       </section>`;
+  }
+
+  rulesHTML(mode) {
+    const shared = `<section class="rule-block"><h3>Every mode</h3><ul class="rule-list">${SHARED_RULES.map(line => `<li>${line}</li>`).join('')}</ul></section>`;
+    const modes = MODE_RULES.filter(item => !mode || item.id === mode);
+    const blocks = modes.map(item => `<section class="rule-block"><h3>${item.name}</h3><p class="rule-aim">${item.aim}</p><ul class="rule-list">${item.points.map(line => `<li>${line}</li>`).join('')}</ul></section>`).join('');
+    return shared + blocks;
   }
 
   recordsBody() {
@@ -289,6 +401,7 @@ export class GameView {
         <aside class="hud">
           <header class="hud-top">
             <button type="button" class="icon-btn" data-action="pause" aria-label="Pause">${iconHTML('pause')}</button>
+            <button type="button" class="icon-btn" data-action="help" aria-label="How to play">${iconHTML('info')}</button>
             <div class="logo">Fruit Destroy!</div>
             <button type="button" class="icon-btn mute-btn" data-action="mute" aria-pressed="${sound.muted()}" aria-label="Mute sound">${sound.muted() ? 'Muted' : 'Sound'}</button>
           </header>
@@ -341,6 +454,13 @@ export class GameView {
             <div class="floats" data-field="floats"></div>
             <p class="callout" data-field="callout" hidden></p>
             <p class="intro" data-field="intro" hidden></p>
+          </div>
+        </div>
+        <div class="pause" data-panel="help" hidden>
+          <div class="pause-card help-card">
+            <div class="pause-head"><h2>How to play</h2></div>
+            <div data-field="help-body"></div>
+            <button type="button" class="btn-primary" data-action="close-help">GOT IT</button>
           </div>
         </div>
         <div class="pause" data-panel="pause" hidden>
@@ -426,7 +546,13 @@ export class GameView {
     field(this.screen, 'basket').classList.toggle('is-pop', state.elapsed - state.lastMatch < 0.6);
     const intro = field(this.screen, 'intro');
     intro.hidden = !(state.intro && state.elapsed < 4.5);
-    this.screen.querySelector('[data-panel="pause"]').hidden = !state.paused;
+    this.screen.querySelector('[data-panel="pause"]').hidden = !state.paused || !!state.help;
+    const help = this.screen.querySelector('[data-panel="help"]');
+    help.hidden = !state.help;
+    if (state.help && help.dataset.mode !== state.mode) {
+      help.dataset.mode = state.mode;
+      help.querySelector('[data-field="help-body"]').innerHTML = this.rulesHTML(state.mode);
+    }
     field(this.screen, 'pause-meta').textContent = `${field(this.screen, 'mode').textContent} · ${field(this.screen, 'time').textContent}`;
     this.paintBoard(state, live);
     this.syncFruits(state);

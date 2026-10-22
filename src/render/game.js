@@ -1,4 +1,4 @@
-import { esc, googleTag, hreflangLinks, adSlot } from './util.js';
+import { ADS_ON, esc, favicon, googleTag, hreflangLinks, adSlot } from './util.js';
 
 export function renderGame({ SITE_URL, ADSENSE_CLIENT, LANGS, lang, s }) {
   const locale = LANGS.find(l => l.code === lang);
@@ -8,8 +8,9 @@ export function renderGame({ SITE_URL, ADSENSE_CLIENT, LANGS, lang, s }) {
 <html lang="${locale.hreflang}">
 <head>
 ${googleTag()}
+${favicon()}
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>${esc(s.playTitle)}</title>
 <meta name="description" content="${esc(s.metaDescription)}">
 <meta name="theme-color" content="#0e0c22">
@@ -28,7 +29,7 @@ ${ADSENSE_CLIENT ? `<script async src="https://pagead2.googlesyndication.com/pag
 <body>
 <div class="stage">
   <div class="stage-scale" id="scale">
-    <div class="layout">
+    <div class="layout${ADS_ON ? '' : ' is-ads-off'}">
       ${ad('play-left', 160, 600, 'vertical', 'ad-rail')}
       <main id="screen" class="cabinet"></main>
       ${ad('play-right', 160, 600, 'vertical', 'ad-rail')}
