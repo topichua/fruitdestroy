@@ -23,6 +23,7 @@ export function renderLanding({ SITE_URL, ADSENSE_CLIENT, LANGS, lang, s }) {
 <html lang="${L.hreflang}">
 <head>
 ${googleTag()}
+${adsenseTag(ADSENSE_CLIENT)}
 ${favicon()}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -51,7 +52,6 @@ ${LANGS.filter(l => l.code !== lang).map(l => `<meta property="og:locale:alterna
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Chakra+Petch:wght@500;600;700&display=swap">
 <link rel="stylesheet" href="/static/site.css">
-${adsenseTag(ADSENSE_CLIENT)}
 </head>
 <body>
 <header class="top">
