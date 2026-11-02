@@ -1,0 +1,15 @@
+/* Adsterra banner slots. Space is reserved up front (fixed box per unit) so a late ad never shifts the page. */
+.ad-slot { display: none; flex: none; align-items: center; justify-content: center; max-width: 100%; margin: 0 auto; }
+.ad-slot__box { width: var(--ad-w); height: var(--ad-h); max-width: 100%; overflow: hidden; }
+.ad-slot__box iframe { display: block; border: 0; max-width: 100%; }
+.ad-slot--h468 { --ad-w: 468px; --ad-h: 60px; }
+.ad-slot--v160 { --ad-w: 160px; --ad-h: 300px; }
+.ad-slot--m320 { --ad-w: 320px; --ad-h: 50px; }
+.ad-slot[data-ad-state="failed"], .ad-slot[data-ad-state="empty"] { display: none !important; }
+.ad-row { display: flex; justify-content: center; padding: 8px 12px; }
+.ad-row:not(:has(.ad-slot:not([data-ad-state="failed"]):not([data-ad-state="empty"]))) { padding: 0; }
+@media (min-width: 768px) { .ad-slot--h468 { display: flex; } .ad-slot--m320 { display: none; } }
+@media (max-width: 767px) { .ad-slot--h468, .ad-slot--v160 { display: none; } .ad-slot--m320 { display: flex; } }
+/* Side units need room on both sides so the game stays centred without shrinking much. */
+@media (min-width: 1360px) { .ad-rail .ad-slot--v160 { display: flex; } }
+.ad-rail:has(.ad-slot[data-ad-state="failed"], .ad-slot[data-ad-state="empty"]) { display: none !important; }

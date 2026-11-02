@@ -23,9 +23,10 @@ export function mount(screen, options) {
   if (embed) stage.classList.add('is-embed');
   const fit = () => {
     const viewport = window.visualViewport;
-    const width = viewport?.width || window.innerWidth;
-    const height = viewport?.height || window.innerHeight;
-    if (viewport) {
+    const inFlow = document.body.classList.contains('has-ads');
+    const width = inFlow ? stage.clientWidth : viewport?.width || window.innerWidth;
+    const height = inFlow ? stage.clientHeight : viewport?.height || window.innerHeight;
+    if (viewport && !inFlow) {
       stage.style.top = `${viewport.offsetTop}px`;
       stage.style.left = `${viewport.offsetLeft}px`;
       stage.style.width = `${width}px`;

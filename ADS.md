@@ -1,3 +1,19 @@
+# Fruit Destroy — Adsterra banners (live)
+
+Loader: `public/static/adsterra.js` (+ `adsterra.css`), markup via `adsterraSlot()` in `src/render/util.js`. Not loaded in `/embed/`.
+
+| unit | key | shows |
+|---|---|---|
+| 468×60 `h468` | f687a0f4… | ≥768px, above the game (`/play/`) / below the header (landing) |
+| 160×300 `v160` | 21784cdb… | ≥1360px, left **and** right of the game (same key, loaded twice) |
+| 320×50 `m320` | 389eb1a5… | <768px, in flow below the game / above the landing footer |
+
+- Scripts load one at a time after `load` (they all read the global `atOptions`), only for slots visible at the current breakpoint, never refreshed.
+- Blocked/failed/empty slots collapse (`data-ad-state="failed|empty"`) and the game refits.
+- Opt-out: `window.fdAdsConsent = false` (set by a future CMP) or GPC/DNT skips loading. No CMP exists yet; one is needed for EU/UK traffic.
+
+---
+
 # Fruit Destroy — ad slots (Google AdSense)
 
 Every placeholder has `data-ad-slot="<name>"`. Replace the placeholder box with the AdSense unit and keep the outer wrapper (it reserves space, which prevents layout shift / CLS).

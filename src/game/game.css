@@ -74,26 +74,24 @@ button { font: inherit; color: inherit; }
   grid-template-columns: 1280px;
   grid-template-rows: 800px;
 }
-.ad { width: 100%; margin: 0 auto; }
-.ad-rail { align-self: center; }
-.ad-leader { grid-column: 2; justify-self: center; }
-.ad-ph {
-  border-radius: 16px;
-  border: 2px dashed var(--color-neutral-400);
-  background: repeating-linear-gradient(45deg, var(--color-neutral-100) 0 12px, var(--color-bg) 12px 24px);
+
+/* Ads sit in normal flow around the stage (top row, side rails, bottom row), never over the board. */
+body.has-ads {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  color: var(--color-neutral-600);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .12em;
-  text-align: center;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background-color: #07061a;
+  background-image:
+    linear-gradient(rgba(255, 46, 136, .07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(25, 227, 255, .06) 1px, transparent 1px);
+  background-size: 48px 48px;
 }
-.ad-ph b { font-family: var(--font-heading); font-weight: 400; font-size: 15px; color: var(--color-neutral-700); }
-.ad-ph small { font-size: 10px; opacity: .8; }
+.stage-row { flex: 1 1 0; min-height: 0; display: flex; }
+.ad-rail { display: none; flex: none; width: 160px; align-items: center; justify-content: center; }
+@media (min-width: 1360px) { .ad-rail { display: flex; } }
+.has-ads .stage { position: relative; inset: auto; flex: 1 1 0; min-width: 0; background: none; }
 
 .cabinet {
   position: relative;

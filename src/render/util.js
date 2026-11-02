@@ -32,3 +32,8 @@ export const hreflangLinks = (SITE_URL, LANGS, suffix = '/') =>
 export const adSlot = (name, w, h, { client, format = 'auto', className = '' } = {}) => !ADS_ON ? '' : client
   ? `<div class="ad ${className}" style="max-width:${w}px;height:${h}px"><ins class="adsbygoogle" style="display:block;width:100%;height:100%" data-ad-client="${client}" data-ad-slot="${process.env['AD_SLOT_' + name.toUpperCase().replace(/-/g, '_')] || ''}" data-ad-format="${format}" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>`
   : `<div class="ad ad-ph ${className}" data-ad-slot="${name}" style="max-width:${w}px;height:${h}px"><b>AD</b><span>${w} × ${h}</span><small>${name}</small></div>`;
+
+// Adsterra banner slot: fixed-size reserved box, filled client-side by /static/adsterra.js.
+export const adsterraSlot = unit => `<div class="ad-slot ad-slot--${unit}" data-ad-unit="${unit}"><div class="ad-slot__box"></div></div>`;
+export const adsterraHead = () => '<link rel="stylesheet" href="/static/adsterra.css">';
+export const adsterraScript = () => '<script defer src="/static/adsterra.js"></script>';

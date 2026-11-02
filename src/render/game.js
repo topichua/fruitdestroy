@@ -1,9 +1,8 @@
-import { ADS_ON, esc, favicon, googleTag, hreflangLinks, adSlot, i18nScript, adsenseTag } from './util.js';
+import { esc, favicon, googleTag, hreflangLinks, i18nScript, adsenseTag, adsterraSlot, adsterraHead, adsterraScript } from './util.js';
 
 export function renderGame({ SITE_URL, ADSENSE_CLIENT, LANGS, lang, s, embed = false, portal = '' }) {
   const locale = LANGS.find(l => l.code === lang);
   const url = `${SITE_URL}/${lang}/${embed ? 'embed' : 'play'}/`;
-  const ad = (name, w, h, format, className) => adSlot(name, w, h, { client: ADSENSE_CLIENT, format, className });
   return `<!doctype html>
 <html lang="${locale.hreflang}">
 <head>
@@ -24,23 +23,28 @@ ${embed ? `<meta name="robots" content="noindex, nofollow">\n<link rel="canonica
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Chakra+Petch:wght@500;600;700&display=swap">
 <link rel="stylesheet" href="/game/game.css">
+${embed ? '' : adsterraHead()}
 </head>
-<body>
+<body${embed ? '' : ' class="has-ads"'}>
+${embed ? '' : `<div class="ad-row ad-row--top">${adsterraSlot('h468')}</div>
+<div class="stage-row">
+<aside class="ad-rail ad-rail--l">${adsterraSlot('v160')}</aside>`}
 <div class="stage">
   <div class="stage-scale" id="scale">
-    <div class="layout${ADS_ON ? '' : ' is-ads-off'}">
-      ${ad('play-left', 160, 600, 'vertical', 'ad-rail')}
+    <div class="layout is-ads-off">
       <main id="screen" class="cabinet"></main>
-      ${ad('play-right', 160, 600, 'vertical', 'ad-rail')}
-      ${ad('play-bottom', 728, 90, 'horizontal', 'ad-leader')}
     </div>
   </div>
 </div>
+${embed ? '' : `<aside class="ad-rail ad-rail--r">${adsterraSlot('v160')}</aside>
+</div>
+<div class="ad-row ad-row--bottom">${adsterraSlot('m320')}</div>`}
 ${i18nScript(s)}
 <script type="module">
   import { mount } from '/game/main.js';
   mount(document.getElementById('screen'), { siteUrl: ${JSON.stringify(SITE_URL)}, lang: ${JSON.stringify(lang)}, embed: ${embed ? 'true' : 'false'} });
 </script>
+${embed ? '' : adsterraScript()}
 </body>
 </html>`;
 }

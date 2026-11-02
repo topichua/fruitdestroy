@@ -1,4 +1,4 @@
-import { esc, favicon, googleTag, hreflangLinks, adSlot, i18nScript, adsenseTag } from './util.js';
+import { esc, favicon, googleTag, hreflangLinks, adSlot, i18nScript, adsenseTag, adsterraSlot, adsterraHead, adsterraScript } from './util.js';
 
 const CRITTERS = [['🐒', '🍌', 3], ['🐭', '🍓', 4], ['🦛', '🍉', 5], ['🦎', '🍅', 6], ['🐰', '🥕', 7]];
 const STEP_ICONS = ['👆', '🔥', '🐒'];
@@ -52,6 +52,7 @@ ${LANGS.filter(l => l.code !== lang).map(l => `<meta property="og:locale:alterna
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Chakra+Petch:wght@500;600;700&display=swap">
 <link rel="stylesheet" href="/static/site.css">
+${adsterraHead()}
 </head>
 <body>
 <header class="top">
@@ -64,7 +65,7 @@ ${LANGS.filter(l => l.code !== lang).map(l => `<meta property="og:locale:alterna
   </nav>
 </header>
 
-<div class="wrap center pad-t">${ad('top-leaderboard', 728, 90, { format: 'horizontal' })}</div>
+<div class="ad-row">${adsterraSlot('h468')}</div>
 <div class="rail rail-l">${ad('rail-left', 160, 600, { format: 'vertical' })}</div>
 <div class="rail rail-r">${ad('rail-right', 160, 600, { format: 'vertical' })}</div>
 
@@ -136,8 +137,7 @@ ${LANGS.filter(l => l.code !== lang).map(l => `<meta property="og:locale:alterna
 </section>
 </main>
 
-<div class="wrap center pad-b">${ad('bottom-leaderboard', 970, 90, { format: 'horizontal' })}</div>
-<div class="anchor">${ad('mobile-anchor', 320, 50, { format: 'horizontal' })}</div>
+<div class="ad-row">${adsterraSlot('m320')}</div>
 
 <footer class="foot">
   <div class="wrap foot-row">
@@ -150,6 +150,7 @@ ${LANGS.filter(l => l.code !== lang).map(l => `<meta property="og:locale:alterna
 </footer>
 ${i18nScript(s)}
 <script type="module" src="/game/progress.js"></script>
+${adsterraScript()}
 </body>
 </html>`;
 }
