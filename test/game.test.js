@@ -1,15 +1,15 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { earnedIds } from '../src/game/achievements.js';
-import { multFor, walkerCap } from '../src/game/config.js';
-import { Game } from '../src/game/engine.js';
-import { GLOBAL_LEADERBOARD } from '../src/game/leaderboard.js';
-import { portalFrom } from '../src/game/portal.js';
-import { save } from '../src/game/storage.js';
-import { t } from '../src/i18n/index.js';
+import { earnedIds } from '../_old/src/game/achievements.js';
+import { multFor, walkerCap } from '../_old/src/game/config.js';
+import { Game } from '../_old/src/game/engine.js';
+import { GLOBAL_LEADERBOARD } from '../_old/src/game/leaderboard.js';
+import { portalFrom } from '../_old/src/game/portal.js';
+import { save } from '../_old/src/game/storage.js';
+import { t } from '../_old/src/i18n/index.js';
 import {
   challengeUrl, comboCallout, daySeed, msUntilNextUtcDay, nextStreak, readChallenge, shareText
-} from '../src/game/session.js';
+} from '../_old/src/game/session.js';
 
 function reset() {
   save.set('best', 0);
