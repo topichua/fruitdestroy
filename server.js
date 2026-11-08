@@ -1,10 +1,11 @@
-import fs from 'node:fs';
 import express from 'express';
 import compression from 'compression';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { ADSENSE_CLIENT_ID, adsenseTag, favicon, googleTag } from './src/render/util.js';
 import { sitemap, robots, adsTxt } from './src/render/seo-files.js';
+import { portalCatalog, isKnownLang, isKnownPage, isIndexedPage, pagePath, indexedPaths } from './src/render/portal-catalog.js';
+import { renderPortalDocument } from './src/render/portal-document.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
@@ -13,10 +14,7 @@ const ADSENSE_CLIENT = process.env.ADSENSE_CLIENT || ADSENSE_CLIENT_ID;
 const dev = process.env.NODE_ENV !== 'production';
 const PORTAL = path.join(__dirname, 'public/task/index.html');
 
-const LANGS = ['en', 'uk', 'pl', 'de', 'es', 'fr', 'pt-br', 'tr'];
-
-// Old game paths have no page of their own in the portal. dist/seo/redirects.txt
-// was not in the drop, so this map is the live site's public URLs.
+// Old game paths have no page of their own. They permanently move to Fruit Destroy.
 const LEGACY = {
   play: 'fruit-destroy',
   daily: 'fruit-destroy',
@@ -24,77 +22,99 @@ const LEGACY = {
   embed: 'fruit-destroy'
 };
 
-const PORTAL_PAGES = new Set([
-  'activities', 'activities-energy', 'activities-play', 'activities-calm', 'activities-create',
-  'fruit-destroy', 'fruit-destroy-zen', 'fruit-destroy-quick',
-  'bubble-pop', 'breathe', 'sand-art',
-  'fruit-slice', 'fruit-splash', 'tower-topple', 'coconut-bowling', 'juice-press',
-  'fruit-merge', 'fruit-sort', 'catch-the-fruit', 'fruit-memory', 'fruit-maze',
-  'fruit-puzzle', 'fruit-flip', 'fruit-beats', 'fruit-garden', 'fruit-pond',
-  'orchard-sounds', 'tea-time', 'sunset-peel', 'fruit-mosaic', 'smoothie-studio',
-  'pattern-maker', 'kaleido-draw', 'sticker-scene', 'citrus-stamps'
-]);
-
-const app = express();
-app.disable('x-powered-by');
-app.use(compression());
-app.use('/static', express.static(path.join(__dirname, 'public/static'), { maxAge: '7d' }));
-
 const searchOf = req => {
   const q = req.originalUrl.indexOf('?');
   return q === -1 ? '' : req.originalUrl.slice(q);
 };
 
-function portalHtml() {
-  const raw = fs.readFileSync(PORTAL, 'utf8').replaceAll('https://fruitdestroy.gg', SITE_URL);
+function portalHtml(route) {
+  const doc = renderPortalDocument(PORTAL, route, { SITE_URL });
   const head = `${googleTag()}${adsenseTag(ADSENSE_CLIENT)}${favicon()}`;
-  const at = raw.indexOf('<head>');
-  if (at === -1) return raw;
-  return raw.slice(0, at + 6) + head + raw.slice(at + 6);
+  const at = doc.indexOf('<head>');
+  if (at === -1) return doc;
+  return doc.slice(0, at + 6) + head + doc.slice(at + 6);
 }
 
-const sendPortal = (res) => {
+const sendHtml = (res, html) => {
   res.set('Content-Security-Policy', 'frame-ancestors *');
   res.set('Content-Type', 'text/html; charset=utf-8');
   res.set('Cache-Control', dev ? 'no-store' : 'public, max-age=300');
-  res.send(portalHtml());
+  res.send(html);
 };
 
-function portalHash(lang, page) {
-  return page && page !== 'home' ? `#${lang}-${page}` : `#${lang}`;
+function pageRoute(lang, page, { root = false } = {}) {
+  const cat = portalCatalog(PORTAL);
+  return { lang, page, root, indexed: !root && isIndexedPage(cat, lang, page) };
 }
 
-function redirectPortal(res, lang, page, search = '') {
-  res.redirect(302, `/${search}${portalHash(lang, page)}`);
+const permanent = (res, pathname, search) => res.redirect(301, pathname + search);
+
+function readyRequestLang(req) {
+  const codes = portalCatalog(PORTAL).langs.filter(l => l.ready).map(l => l.code);
+  return req.acceptsLanguages(...codes) || 'en';
 }
 
-app.get('/', (req, res) => sendPortal(res));
+export function createApp() {
+  const app = express();
+  app.disable('x-powered-by');
+  app.set('strict routing', true);
+  app.use(compression());
+  app.use('/static', express.static(path.join(__dirname, 'public/static'), { maxAge: '7d' }));
+  app.use('/i18n', express.static(path.join(__dirname, 'public/i18n'), { maxAge: '1h' }));
 
-app.get(['/embed', '/embed/'], (req, res) => {
-  const lang = req.acceptsLanguages(...LANGS) || 'en';
-  redirectPortal(res, lang, 'fruit-destroy', searchOf(req));
-});
+  // `/` stays 200 so a browser can still read an old hash (#en-fruit-maze) before
+  // the client replaces it. The document itself is not indexed.
+  app.get('/', (req, res) => sendHtml(res, portalHtml(pageRoute('en', 'home', { root: true }))));
 
-app.get(['/:lang/:section', '/:lang/:section/'], (req, res, next) => {
-  const { lang, section } = req.params;
-  if (!LANGS.includes(lang)) return next();
-  const page = LEGACY[section] || (PORTAL_PAGES.has(section) ? section : null);
-  if (!page) return next();
-  redirectPortal(res, lang, page, searchOf(req));
-});
+  app.get(['/embed', '/embed/'], (req, res) => {
+    permanent(res, pagePath(readyRequestLang(req), 'fruit-destroy'), searchOf(req));
+  });
 
-app.get(['/:lang', '/:lang/'], (req, res, next) => {
-  const { lang } = req.params;
-  if (!LANGS.includes(lang)) return next();
-  redirectPortal(res, lang, 'home', searchOf(req));
-});
+  app.get('/sitemap.xml', (req, res) => {
+    const urls = indexedPaths(portalCatalog(PORTAL)).map(p => `${SITE_URL}${p}`);
+    res.type('application/xml').send(sitemap({ urls }));
+  });
+  app.get('/robots.txt', (req, res) => res.type('text/plain').send(robots({ SITE_URL })));
+  app.get('/ads.txt', (req, res) => res.type('text/plain').send(adsTxt({ ADSENSE_CLIENT })));
+  app.get('/healthz', (req, res) => res.send('ok'));
+  app.get('/favicon.ico', (req, res) => res.type('image/png').sendFile(path.join(__dirname, 'public/static/favicon.png')));
 
-app.get('/sitemap.xml', (req, res) => res.type('application/xml').send(sitemap({ SITE_URL })));
-app.get('/robots.txt', (req, res) => res.type('text/plain').send(robots({ SITE_URL })));
-app.get('/ads.txt', (req, res) => res.type('text/plain').send(adsTxt({ ADSENSE_CLIENT })));
-app.get('/healthz', (req, res) => res.send('ok'));
-app.get('/favicon.ico', (req, res) => res.type('image/png').sendFile(path.join(__dirname, 'public/static/favicon.png')));
+  app.get('/:lang', (req, res, next) => {
+    const { lang } = req.params;
+    if (!isKnownLang(portalCatalog(PORTAL), lang)) return next();
+    permanent(res, pagePath(lang, 'home'), searchOf(req));
+  });
 
-app.use((req, res) => res.status(404).type('html').send(`<!doctype html><head>${googleTag()}${adsenseTag(ADSENSE_CLIENT)}${favicon()}<meta charset="utf-8"><title>404 — Fruit Destroy</title></head><body style="background:#170d1c;color:#f2f6ea;font-family:system-ui;display:grid;place-items:center;height:100vh;margin:0"><div style="text-align:center"><div style="font-size:64px">🍌💨</div><h1>Page not found</h1><a style="color:#ff4f7a" href="/">Back to Fruit Destroy</a></div>`));
+  app.get('/:lang/', (req, res, next) => {
+    const { lang } = req.params;
+    if (!isKnownLang(portalCatalog(PORTAL), lang)) return next();
+    sendHtml(res, portalHtml(pageRoute(lang, 'home')));
+  });
 
-app.listen(PORT, () => console.log(`Fruit Destroy on http://localhost:${PORT}`));
+  app.get('/:lang/:section', (req, res, next) => {
+    const { lang, section } = req.params;
+    const cat = portalCatalog(PORTAL);
+    if (!isKnownLang(cat, lang)) return next();
+    const page = LEGACY[section] || (isKnownPage(cat, section) ? section : null);
+    if (!page) return next();
+    permanent(res, pagePath(lang, page), searchOf(req));
+  });
+
+  app.get('/:lang/:section/', (req, res, next) => {
+    const { lang, section } = req.params;
+    const cat = portalCatalog(PORTAL);
+    if (!isKnownLang(cat, lang)) return next();
+    const page = LEGACY[section] || (isKnownPage(cat, section) ? section : null);
+    if (!page) return next();
+    if (LEGACY[section]) return permanent(res, pagePath(lang, page), searchOf(req));
+    sendHtml(res, portalHtml(pageRoute(lang, page)));
+  });
+
+  app.use((req, res) => res.status(404).type('html').send(`<!doctype html><head>${googleTag()}${adsenseTag(ADSENSE_CLIENT)}${favicon()}<meta charset="utf-8"><title>404 — Fruit Destroy</title></head><body style="background:#170d1c;color:#f2f6ea;font-family:system-ui;display:grid;place-items:center;height:100vh;margin:0"><div style="text-align:center"><div style="font-size:64px">🍌💨</div><h1>Page not found</h1><a style="color:#ff4f7a" href="/en/">Back to Fruit Destroy</a></div>`));
+  return app;
+}
+
+const invokedDirectly = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+if (invokedDirectly) {
+  createApp().listen(PORT, () => console.log(`Fruit Destroy on http://localhost:${PORT}`));
+}
