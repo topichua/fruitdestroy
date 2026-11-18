@@ -5,7 +5,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { ADSENSE_CLIENT_ID, adsenseTag, favicon, googleTag } from './src/render/util.js';
 import { sitemap, sitemapIndex, robots, adsTxt } from './src/render/seo-files.js';
 import { portalCatalog, isKnownLang, isKnownPage, isIndexedPage, pagePath, indexedPaths, readyLangs } from './src/render/portal-catalog.js';
-import { renderPortalDocument } from './src/render/portal-document.js';
+import { renderPortalDocument, appScript } from './src/render/portal-document.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
@@ -61,6 +61,15 @@ export function createApp() {
   app.disable('x-powered-by');
   app.set('strict routing', true);
   app.use(compression());
+  // The portal's app script, lifted out of the HTML (see appScript). The hash in the name
+  // changes with the code, so a matching request can be cached for good; a stale name
+  // (HTML cached from before a deploy) still gets the current code, briefly cached.
+  app.get('/static/app.:hash.js', (req, res) => {
+    const script = appScript(PORTAL, { SITE_URL });
+    const fresh = req.params.hash === script.hash;
+    res.set('Cache-Control', dev ? 'no-store' : fresh ? 'public, max-age=31536000, immutable' : 'public, max-age=300');
+    res.type('text/javascript').send(script.code);
+  });
   app.use('/static', express.static(path.join(__dirname, 'public/static'), { maxAge: '7d' }));
   app.use('/i18n', express.static(path.join(__dirname, 'public/i18n'), { maxAge: '1h' }));
 

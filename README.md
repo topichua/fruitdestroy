@@ -51,6 +51,9 @@ Then in Google Search Console add the domain and submit `https://yourdomain/site
 - Landing markup: `src/render/landing.js` · styles: `public/static/site.css`
 - Game rules and simulation: `src/game/engine.js` · tuning (board size, timer, critters): `src/game/config.js`
 - Game screens: `src/game/view.js` · styles: `src/game/game.css` · board themes: `src/game/backgrounds.js`
+- App script: the portal keeps its code inline in `public/task/index.html`; the server lifts it out and serves it as `/static/app.{hash}.js` (cached for a year, the hash changes with the code). Nothing to build
+- Fonts: Nunito and Unbounded are served from `public/static/fonts`; the `@font-face` rules are in `src/render/fonts.css`
+- Home-screen icons and manifest: `public/static/icons`, `public/static/manifest.webmanifest`
 - Gameplay screenshots on activity pages: `public/static/shots/{page}.jpg`. Rebuild with `npm run shots` (all) or `npm run shots fruit-maze` (one); per-game moves are in `scripts/screenshots.mjs`
 - Social preview images: `public/static/og/{page}.jpg`, one per activity plus `home.jpg` and `activities.jpg`. Rebuild with `npm run og` after adding or renaming an activity (needs Chrome and ImageMagick)
 - Ads: set `ADSENSE_CLIENT` and each `AD_SLOT_*` id; until then dashed placeholders render. Rules → `ADS.md`.

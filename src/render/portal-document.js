@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { portalCatalog, readyLangs, canonicalPage, pagePath } from './portal-catalog.js';
@@ -213,6 +214,37 @@ function bodyFor(cat, lang, page) {
   return activityBody(cat, lang, page);
 }
 
+// The portal keeps its whole app in one inline <script>. Served inline it is ~375 KB in
+// every page and cannot be cached, so the server lifts it out: appScript() returns the code
+// and a content hash, the page links /static/app.{hash}.js and browsers keep it for a year.
+// The source file stays a single HTML document.
+// Fonts come from /static/fonts instead of Google Fonts: no third-party connection, and no
+// render-blocking stylesheet request. The @font-face rules go inline; the files a page is
+// sure to use (Latin for the brand and UI, Cyrillic where the language needs it) are preloaded.
+const FONT_CSS = fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), 'fonts.css'), 'utf8').replace(/\/\*[\s\S]*?\*\/\s*/g, '').replace(/\n/g, '');
+const CYRILLIC_LANGS = new Set(['uk', 'ru', 'bg', 'kk']);
+const GOOGLE_FONTS = /<link rel="preconnect" href="https:\/\/fonts\.googleapis\.com">\s*<link rel="preconnect" href="https:\/\/fonts\.gstatic\.com" crossorigin>\s*<link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com\/[^"]*">\s*/;
+function fontTags(lang) {
+  const subsets = CYRILLIC_LANGS.has(lang) ? ['latin', 'cyrillic'] : ['latin'];
+  const preload = subsets.flatMap(sub => ['unbounded', 'nunito'].map(f => `<link rel="preload" as="font" type="font/woff2" href="/static/fonts/${f}-${sub}.woff2" crossorigin>`)).join('');
+  return `${preload}<style>${FONT_CSS}</style>`;
+}
+
+let scriptCache = null;
+export function appScript(file, { SITE_URL }) {
+  const site = SITE_URL.replace(/\/$/, '');
+  const mtime = fs.statSync(file).mtimeMs;
+  if (scriptCache && scriptCache.file === file && scriptCache.mtime === mtime && scriptCache.site === site) return scriptCache;
+  const raw = fs.readFileSync(file, 'utf8').replaceAll('https://fruitdestroy.gg', site);
+  const start = raw.indexOf('<script>');
+  const end = raw.lastIndexOf('</script>');
+  if (start === -1 || end === -1) throw new Error('Portal HTML has no script');
+  const code = raw.slice(start + '<script>'.length, end);
+  const hash = crypto.createHash('sha256').update(code).digest('hex').slice(0, 12);
+  scriptCache = { file, mtime, site, code, hash, path: `/static/app.${hash}.js` };
+  return scriptCache;
+}
+
 export function renderPortalDocument(file, route, { SITE_URL }) {
   const site = SITE_URL.replace(/\/$/, '');
   const raw = fs.readFileSync(file, 'utf8').replaceAll('https://fruitdestroy.gg', site);
@@ -238,8 +270,10 @@ export function renderPortalDocument(file, route, { SITE_URL }) {
   const dir = contentInfo?.dir === 'rtl' ? 'rtl' : 'ltr';
   let html = raw.replace('<html lang="en">', `<html lang="${esc(htmlLang)}" dir="${dir}">`);
   html = html.replace(/<title>[\s\S]*?<\/title>\s*/, '');
+  if (!GOOGLE_FONTS.test(html)) throw new Error('Portal HTML no longer links Google Fonts the expected way');
+  html = html.replace(GOOGLE_FONTS, '');
   html = html.replace(/<meta name="description" content="[^"]*">\s*/, '');
-  html = html.replace('</head>', () => `${seo}</head>`);
+  html = html.replace('</head>', () => `${seo}${fontTags(cl)}</head>`);
   html = html.replace('<header id="site-header" class="site-header"></header>', `<header id="site-header" class="site-header">${ui.header}</header>`);
   html = html.replace('<main id="main" tabindex="-1"></main>', `<main id="main" tabindex="-1">${notice}${bodyFor(cat, lang, page)}</main>`);
   html = html.replace('<footer id="site-foot" class="site-foot"></footer>', `<footer id="site-foot" class="site-foot">${ui.footer}</footer>`);
@@ -254,6 +288,11 @@ export function renderPortalDocument(file, route, { SITE_URL }) {
     const pack = fs.readFileSync(gameFile, 'utf8').replace(/</g, '\\u003c');
     embedded += `<script type="application/json" id="fd-game" data-lang="${esc(cl)}">${pack}</script>`;
   }
-  if (embedded) html = html.replace('<script>', `${embedded}<script>`);
+  // Swap the inline app for the cached file. Locale packs stay inline, just before it.
+  const app = appScript(file, { SITE_URL });
+  const start = html.indexOf('<script>');
+  const end = html.lastIndexOf('</script>');
+  html = `${html.slice(0, start)}${embedded}<script src="${app.path}"></script>${html.slice(end + '</script>'.length)}`;
+  html = html.replace('</head>', () => `<link rel="preload" as="script" href="${app.path}"></head>`);
   return html;
 }

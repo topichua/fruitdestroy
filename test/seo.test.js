@@ -147,6 +147,48 @@ test('indexed URLs, redirects, 404 and sitemap', async t => {
   assert.match(filHead, /hreflang="tl" href="https:\/\/fruitdestroy\.com\/fil\/"/);
   assert.doesNotMatch(filHead, /hreflang="fil"/);
 
+  // The app script is a separate cacheable file, not ~375 KB inline in every page.
+  const enHome = await (await fetch(base + '/en/')).text();
+  const ukMaze = await (await fetch(base + '/uk/fruit-maze/')).text();
+  const appSrc = enHome.match(/<script src="(\/static\/app\.[0-9a-f]{12}\.js)"><\/script>/);
+  assert.ok(appSrc);
+  assert.ok(ukMaze.includes(`<script src="${appSrc[1]}"></script>`));
+  assert.ok(headOf(enHome).includes(`<link rel="preload" as="script" href="${appSrc[1]}">`));
+  assert.ok(enHome.length < 80000, `en home HTML is ${enHome.length} bytes`);
+  assert.doesNotMatch(enHome, /Router\.go\(\)/);
+  // Fonts are served from this site; no page reaches out to Google Fonts.
+  assert.doesNotMatch(enHome, /fonts\.(googleapis|gstatic)\.com/);
+  assert.doesNotMatch(ukMaze, /fonts\.(googleapis|gstatic)\.com/);
+  assert.match(headOf(enHome), /@font-face\{font-family:'Unbounded'/);
+  assert.match(headOf(enHome), /rel="preload" as="font" type="font\/woff2" href="\/static\/fonts\/unbounded-latin\.woff2" crossorigin/);
+  assert.doesNotMatch(headOf(enHome), /preload[^>]+cyrillic/);
+  assert.match(headOf(ukMaze), /rel="preload" as="font" type="font\/woff2" href="\/static\/fonts\/nunito-cyrillic\.woff2" crossorigin/);
+  const fontFiles = [...new Set([...enHome.matchAll(/url\((\/static\/fonts\/[a-z-]+\.woff2)\)/g)].map(m => m[1]))];
+  assert.equal(fontFiles.length, 10);
+  for (const font of fontFiles) {
+    const res = await fetch(base + font);
+    assert.equal(res.status, 200, font);
+    assert.equal(res.headers.get('content-type'), 'font/woff2', font);
+  }
+  // Web app manifest and icons.
+  assert.match(headOf(enHome), /<link rel="manifest" href="\/static\/manifest\.webmanifest">/);
+  const manifestRes = await fetch(base + '/static/manifest.webmanifest');
+  assert.equal(manifestRes.status, 200);
+  assert.match(manifestRes.headers.get('content-type'), /manifest\+json/);
+  const manifest = await manifestRes.json();
+  assert.equal(manifest.start_url, '/');
+  assert.ok(manifest.icons.some(i => i.sizes === '512x512' && i.purpose === 'maskable'));
+  for (const icon of [...manifest.icons.map(i => i.src), '/static/icons/apple-touch-icon.png']) {
+    assert.equal((await fetch(base + icon)).status, 200, icon);
+  }
+  const appRes = await fetch(base + appSrc[1]);
+  assert.equal(appRes.status, 200);
+  assert.match(appRes.headers.get('content-type'), /javascript/);
+  const appCode = await appRes.text();
+  assert.match(appCode, /Router\.go\(\)/);
+  assert.doesNotMatch(appCode, /fruitdestroy\.gg/);
+  assert.equal((await fetch(base + '/static/app.000000000000.js')).status, 200);
+
   const maze = visible(await (await fetch(base + '/en/fruit-maze/')).text());
   const mazeUk = visible(await (await fetch(base + '/uk/fruit-maze/')).text());
   const breathe = visible(await (await fetch(base + '/en/breathe/')).text());
