@@ -8,8 +8,14 @@ export const ADSENSE_CLIENT_ID = 'ca-pub-7568002828900289';
 // Flip to true to show AdSense units and the dashed placeholders.
 export const ADS_ON = false;
 
+// Icons and the web app manifest (lets the site be added to a phone's home screen).
+// theme-color matches the page background in each colour scheme.
 export const favicon = () => `<link rel="icon" href="/static/favicon.png" type="image/png" sizes="48x48">
-<link rel="apple-touch-icon" href="/static/favicon.png">`;
+<link rel="icon" href="/static/icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png">
+<link rel="manifest" href="/static/manifest.webmanifest">
+<meta name="theme-color" content="#f1f6ea" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#170d1c" media="(prefers-color-scheme: dark)">`;
 
 export const googleTag = (portal = '') => `<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>

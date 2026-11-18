@@ -228,6 +228,8 @@ button { font: inherit; color: inherit; }
 @media (max-width: 860px) { .about { grid-template-columns: 1fr; } }
 .about h2 { font-size: 24px; margin-bottom: 10px; }
 .about p + p { margin-top: 10px; }
+.shot { margin: 16px 0 0; }
+.shot img { display: block; width: 100%; height: auto; aspect-ratio: 1200 / 711; object-fit: cover; border-radius: var(--r-md); box-shadow: 0 0 0 1px var(--line); background: var(--surface-2); }
 .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; counter-reset: s; }
 .steps li { counter-increment: s; display: grid; grid-template-columns: 36px 1fr; gap: 12px; align-items: start; background: var(--surface); border-radius: var(--r-sm); padding: 12px 14px; }
 .steps li::before { content: counter(s); width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-family: var(--font-display); font-weight: 700; background: var(--surface-2); }
@@ -1247,7 +1249,7 @@ const LANGS = [
   { code: 'th', label: 'ไทย', ready: true, og: 'th_TH' },
   { code: 'nl', label: 'Nederlands', ready: true, og: 'nl_NL' },
   { code: 'ms', label: 'Bahasa Melayu', ready: true, og: 'ms_MY' },
-  { code: 'fil', label: 'Filipino', ready: true, hreflang: 'fil' },
+  { code: 'fil', label: 'Filipino', ready: true, og: 'tl_PH', hreflang: 'tl' },
   { code: 'hu', label: 'Magyar', ready: true, og: 'hu_HU' },
   { code: 'sk', label: 'Slovenčina', ready: true, og: 'sk_SK' }
 ];
@@ -1425,7 +1427,28 @@ function migrateHash() {
 }
 
 /* ---------- SEO: per-route title/description/canonical/hreflang/JSON-LD ---------- */
+// Search results cut a description at about 160 characters. Keep whole sentences that fit;
+// when the first sentence alone is too long, cut it at a comma or a space and end with "…".
+// The server renders with this same function (see portal-catalog.js), so both agree.
+const DESC_MAX = 160;
+function fitDescription(text, max = DESC_MAX) {
+  const chars = [...String(text || '').trim()];
+  if (chars.length <= max) return chars.join('');
+  const sentences = chars.join('').match(/[^.!?。！？।۔]+[.!?。！？।۔]+["”»)]*\s*|[^.!?。！？।۔]+$/g) || [chars.join('')];
+  let out = '';
+  for (const s of sentences) {
+    if ([...(out + s).trimEnd()].length > max) break;
+    out += s;
+  }
+  if (out.trim()) return out.trim();
+  const head = chars.slice(0, max - 1).join('');
+  const comma = Math.max(head.lastIndexOf(','), head.lastIndexOf('،'), head.lastIndexOf('、'), head.lastIndexOf('，'));
+  const space = head.lastIndexOf(' ');
+  const cut = comma > max * 0.5 ? comma : space > max * 0.5 ? space : head.length;
+  return head.slice(0, cut).replace(/[\s,،、，:;—–-]+$/, '') + '…';
+}
 function setMeta({ title, description, page, jsonld }) {
+  description = fitDescription(description);
   const info = langInfo(LANG), ready = !!info.ready;
   const canonPage = page.replace(/^fruit-destroy-(zen|quick)$/, 'fruit-destroy');
   const indexed = ready && canonPage === page;
@@ -1457,8 +1480,25 @@ function setMeta({ title, description, page, jsonld }) {
   add('meta', { property: 'og:description', content: description });
   add('meta', { property: 'og:url', content: canonical });
   add('meta', { property: 'og:locale', content: langInfo(canonLang).og || 'en_US' });
+  // Each activity has its own social preview in /static/og/; the rest share the catalog or home one.
+  const ogImage = `${SITE}/static/og/${ACTIVITIES.some(a => a.id === canonPage) ? canonPage : canonPage.startsWith('activities') ? 'activities' : 'home'}.jpg`;
+  add('meta', { property: 'og:image', content: ogImage });
+  add('meta', { property: 'og:image:width', content: '1200' });
+  add('meta', { property: 'og:image:height', content: '630' });
+  add('meta', { property: 'og:image:alt', content: title });
   add('meta', { name: 'twitter:card', content: 'summary_large_image' });
-  if (jsonld) { const s = add('script', { type: 'application/ld+json' }); s.textContent = JSON.stringify(jsonld); }
+  add('meta', { name: 'twitter:title', content: title });
+  add('meta', { name: 'twitter:description', content: description });
+  add('meta', { name: 'twitter:image', content: ogImage });
+  if (jsonld) {
+    // Same image fields the server puts in its JSON-LD (portal-document.js).
+    const node = jsonld['@graph'] ? jsonld['@graph'][0] : jsonld;
+    if (node['@type'] !== 'ItemList') {
+      node.image = ogImage;
+      if (ACTIVITIES.some(a => a.id === canonPage)) node.screenshot = `${SITE}/static/shots/${canonPage}.jpg`;
+    }
+    const s = add('script', { type: 'application/ld+json' }); s.textContent = JSON.stringify(jsonld);
+  }
 }
 
 /* ---------- shared UI pieces ---------- */
@@ -1727,6 +1767,11 @@ function relatedActs(a, variant) {
   const ids = RELATED[key] || RELATED[a.id] || [];
   return ids.map(actById).filter(x => x && x.id !== a.id).slice(0, 6);
 }
+// Gameplay screenshot in the About section (public/static/shots, built by `npm run shots`).
+// The server renders the same markup in portal-document.js.
+function shotFigure(id) {
+  return `<figure class="shot"><img src="/static/shots/${id}.jpg" alt="${esc(T(id + '.name') + ' — ' + T(id + '.card'))}" width="1200" height="711" loading="lazy" decoding="async"></figure>`;
+}
 function renderActivity(main, a, variant) {
   const others = relatedActs(a, variant);
   const steps = TA(a.id + '.steps') || [];
@@ -1738,7 +1783,7 @@ function renderActivity(main, a, variant) {
     <div id="act-root"></div>
   </div>
   <div class="wrap"><section class="about" aria-label="${esc(T('aboutLabel'))}">
-    <div><h2>${esc(T('aboutTitle'))}</h2>${(TA(a.id + '.about') || []).map(p => `<p>${esc(p)}</p>`).join('')}${a.id === 'fruit-destroy' ? fdExtra() : ''}</div>
+    <div><h2>${esc(T('aboutTitle'))}</h2>${(TA(a.id + '.about') || []).map(p => `<p>${esc(p)}</p>`).join('')}${shotFigure(a.id)}${a.id === 'fruit-destroy' ? fdExtra() : ''}</div>
     <div><h2>${esc(T('howTitle'))}</h2><ol class="steps">${steps.map(s => `<li><span>${esc(s)}</span></li>`).join('')}</ol>${TA(a.id + '.note') ? `<p class="note" style="margin-top:12px">${esc(T(a.id + '.note'))}</p>` : ''}</div>
   </section></div>
   ${kind === 'calm' ? '' : adSlot('activity-below-about')}
@@ -4953,6 +4998,88 @@ function mountMazePreview(el) {
   for (const l of ['en', 'uk']) for (const m of MOODS) STR[l]['meta.mood.' + m + '.desc'] = `${L[l][m]}: ${names(m).join(', ')}.`.slice(0, 300);
   STR.en['meta.home.desc'] = `Take a little break with ${ACTIVITIES.length} free browser games and calm activities: fruit matching, a maze, slicing, a tiny garden, breathing, sand art and more. No sign-up, on your phone or computer.`;
   STR.uk['meta.home.desc'] = `Зробіть маленьку перерву: ${ACTIVITIES.length} безкоштовних ігор і спокійних активностей у браузері — пари фруктів, лабіринт, нарізка, маленький сад, дихання, малювання піском і не тільки. Без реєстрації, на телефоні й комп’ютері.`;
+})();
+
+/* Search copy for English and Ukrainian: [title, h1, description] per page, written around
+   what people type ("free sliding puzzle online", "гра на пам’ять онлайн"). null keeps the
+   text set above. Titles stay near 60 characters, descriptions within 160. {n} is the number
+   of activities. Other languages come from /i18n/{lang}.json; src/i18n/{en,uk}.json mirror this. */
+(function seoCopy() {
+  const COPY = { en: {
+    "home": ["Fruit Destroy: Free Relaxing Browser Games, No Download", null, "{n} free browser games and calm activities for a short break: fruit matching, a maze, merging, breathing, sand art and more. No download, no sign-up."],
+    "catalog": ["All {n} Free Games and Calm Activities · Fruit Destroy", null, "Browse every free Fruit Destroy game and calm activity by mood: release energy, just play, slow down or create. Plays in your browser, no download."],
+    "mood.energy": ["Quick Stress Relief Games to Blow Off Steam · Fruit Destroy", null, null],
+    "mood.play": ["Easy Casual Games to Play in Your Browser · Fruit Destroy", null, null],
+    "mood.calm": ["Calm Relaxing Games to Slow Down · Fruit Destroy", null, null],
+    "mood.create": ["Creative Games: Draw, Mix and Make · Fruit Destroy", null, null],
+    "breathe": ["Breathe with Fruit: Free Guided Breathing Exercise Online", null, null],
+    "sand-art": ["Fruit Sand Art: Free Falling Sand Drawing Game Online", null, null],
+    "fruit-slice": ["Fruit Slice: Free Fruit Slicing Game Online · Fruit Destroy", "Fruit Slice — slice flying fruit", "Swipe to slice flying fruit into juicy halves in quick rounds. A free fruit slicing game in your browser, on phone or computer. No download."],
+    "fruit-splash": ["Fruit Splash: Smash Fruit, Stress Relief Toy · Fruit Destroy", "Fruit Splash — smash and splat", "Tap a fruit and it bursts against the wall, leaving a bright splash with drips. A free stress relief toy in your browser, on phone or computer."],
+    "tower-topple": ["Tower Topple: Free Stacking Game Online · Fruit Destroy", "Tower Topple — stacking game", "Drop swinging crates to stack a wobbly fruit tower, then knock it down. A free tower stacking game in your browser, on phone or computer."],
+    "coconut-bowling": ["Coconut Bowling: Free Bowling Game Online · Fruit Destroy", "Coconut Bowling — ten pear pins", "Roll a coconut down the lane into ten pear pins. A short free bowling game in your browser: two rolls per frame, no download."],
+    "juice-press": ["Juice Press: Squeeze Fruit, Satisfying Toy · Fruit Destroy", "Juice Press — squeeze the fruit", "Hold to squash a fruit under the press, release for a burst of juice. A free, satisfying stress relief toy in your browser, no sign-up."],
+    "fruit-merge": ["Fruit Merge: Free Merge Puzzle Game Online · Fruit Destroy", "Fruit Merge — merge puzzle", "Swipe to slide all the fruit at once; two of a kind merge into a bigger one. A free fruit merge puzzle in your browser, no download."],
+    "fruit-sort": ["Fruit Sort: Free Sort Puzzle Game Online · Fruit Destroy", "Fruit Sort — sorting puzzle", "Pour fruit between jars until every jar holds one kind. A free fruit sorting puzzle in your browser, on phone or computer. No download."],
+    "catch-the-fruit": ["Catch the Fruit: Free Catching Game Online · Fruit Destroy", "Catch the Fruit — basket game", "Move the basket and catch the fruit falling from the trees. Long streaks give extra points. A free catching game in your browser, no download."],
+    "fruit-memory": ["Fruit Memory: Free Memory Card Matching Game Online", "Fruit Memory — matching pairs", "Flip cards and find the matching fruit pairs. A classic memory game, free in your browser on phone or computer. No download, no sign-up."],
+    "fruit-maze": ["Fruit Maze: Free Maze Game Online, 20 Levels · Fruit Destroy", "Fruit Maze — orchard maze game", null],
+    "fruit-puzzle": ["Fruit Puzzle: Free Sliding Puzzle Game Online · Fruit Destroy", "Fruit Puzzle — sliding puzzle", "Slide tiles into the gap until the fruit picture is whole again. A free sliding tile puzzle in your browser, on phone or computer."],
+    "fruit-flip": ["Fruit Flip: Free Lights Out Style Puzzle · Fruit Destroy", "Fruit Flip — flip puzzle", "Each tap flips a tile and the four around it. Turn the whole board into green apples. A free logic puzzle in the style of Lights Out."],
+    "fruit-beats": ["Fruit Beats: Free Online Beat Maker and Drum Machine", "Fruit Beats — tiny beat maker", "Tap a grid of fruit to build a looping beat. A tiny free drum machine in your browser: each row is a sound, each column a step in the loop."],
+    "fruit-garden": ["Fruit Garden: Relaxing Idle Garden Game · Fruit Destroy", "Fruit Garden — idle garden", "Plant, water and harvest nine beds in a tiny garden that keeps growing while you are away. A free, relaxing garden game in your browser."],
+    "fruit-pond": ["Fruit Pond: Relaxing Water Ripple Toy · Fruit Destroy", "Fruit Pond — make ripples", "Touch the water, make ripples and watch fruit float by. A quiet, free relaxing toy in your browser for a calm minute, on phone or computer."],
+    "orchard-sounds": ["Orchard Sounds: Free Rain and Nature Sound Mixer Online", "Orchard Sounds — nature mixer", "Mix rain, wind and birdsong into your own background sound. A free nature sound mixer in your browser for focus, rest or a quiet pause."],
+    "tea-time": ["Fruit Tea Time: Relaxing Tea Making Game · Fruit Destroy", "Fruit Tea Time — brew a calm cup", "Brew a fruit tea step by step and watch the colour change. A free, slow tea making activity in your browser for a quiet few minutes."],
+    "sunset-peel": ["Sunset Peel: Satisfying Orange Peeling Toy · Fruit Destroy", "Sunset Peel — one long spiral", "Peel an orange in one long, slow spiral by following the dot towards the middle. A free, satisfying calm toy in your browser."],
+    "fruit-mosaic": ["Fruit Mosaic: Free Mosaic and Pixel Art Maker Online", "Fruit Mosaic — mosaic maker", "Place fruit tiles on a 16×16 grid to make a picture: a heart, a face, your initials or a pattern. A free mosaic maker in your browser."],
+    "smoothie-studio": ["Smoothie Studio: Free Smoothie Maker Game · Fruit Destroy", "Smoothie Studio — smoothie maker", "Drop up to four fruits into the blender, see what colour you get and pour a layered smoothie. A free smoothie maker game in your browser."],
+    "pattern-maker": ["Pattern Maker: Free Repeating Pattern Maker Online", "Pattern Maker — tile patterns", "Design one small 3×3 tile with fruit and watch it repeat into wallpaper. A free seamless pattern maker in your browser, no sign-up."],
+    "kaleido-draw": ["Kaleido Draw: Free Kaleidoscope Drawing Tool Online", "Kaleido Draw — kaleidoscope", "Draw one line and see it mirrored 4, 6, 8 or 12 times around the centre. A free kaleidoscope drawing tool in your browser, by finger or mouse."],
+    "sticker-scene": ["Sticker Scene: Free Sticker Scene Maker · Fruit Destroy", "Sticker Scene — scene maker", "Pick a background and drag fruit stickers into your own scene: a beach party, a picnic or a starry night. A free sticker maker in your browser."],
+    "citrus-stamps": ["Citrus Stamps: Fruit Stamp Art Online · Fruit Destroy", "Citrus Stamps — fruit stamp art", "Print patterns with cut fruit halves, like a real lemon half and a pot of paint. Each print comes out a little different. Free in your browser."]
+  }, uk: {
+    "home": ["Fruit Destroy: безкоштовні ігри-антистрес онлайн у браузері", null, "{n} безкоштовних ігор і спокійних активностей для короткої перерви: пари фруктів, лабіринт, злиття, дихання, малювання піском. Без завантаження й реєстрації."],
+    "catalog": ["Усі безкоштовні ігри й активності ({n}) · Fruit Destroy", null, "Усі безкоштовні ігри й спокійні активності Fruit Destroy за настроєм: випустити енергію, просто пограти, сповільнитися чи творити. У браузері, без завантаження."],
+    "mood.energy": ["Швидкі ігри-антистрес, щоб випустити пару · Fruit Destroy", null, null],
+    "mood.play": ["Легкі казуальні ігри в браузері · Fruit Destroy", null, null],
+    "mood.calm": ["Спокійні ігри, щоб розслабитися · Fruit Destroy", null, null],
+    "mood.create": ["Творчі ігри: малюйте, змішуйте, створюйте · Fruit Destroy", null, null],
+    "fruit-destroy": [null, null, "Шукайте пари фруктів, збирайте комбо й проганяйте голодних звірят. Безкоштовно в браузері: класичний, швидкий, нескінченний, щоденний режими та дзен."],
+    "breathe": ["Дихай з фруктом: дихальна вправа онлайн · Fruit Destroy", null, null],
+    "sand-art": ["Fruit Sand Art: малювання піском онлайн · Fruit Destroy", null, null],
+    "fruit-slice": ["Fruit Slice: гра «ріж фрукти» онлайн · Fruit Destroy", "Fruit Slice — ріжте фрукти", "Розрізайте свайпом фрукти, що злітають угору: соковиті половинки, швидкі раунди. Безкоштовна гра в браузері на телефоні й комп’ютері."],
+    "fruit-splash": ["Fruit Splash: іграшка-антистрес із фруктами · Fruit Destroy", "Fruit Splash — розбивайте фрукти", "Торкніться фрукта — і він розбивається об стіну, лишаючи яскраві бризки з патьоками. Безкоштовна іграшка-антистрес у браузері, без реєстрації."],
+    "tower-topple": ["Tower Topple: гра «збудуй вежу» онлайн · Fruit Destroy", "Tower Topple — збудуйте вежу", "Скидайте ящики, що гойдаються, будуйте хитку вежу з фруктів, а потім розваліть її. Безкоштовна гра в браузері на телефоні й комп’ютері."],
+    "coconut-bowling": ["Coconut Bowling: боулінг онлайн безкоштовно · Fruit Destroy", "Coconut Bowling — боулінг", "Котіть кокос доріжкою в десять кеглів-груш. Короткий безкоштовний боулінг у браузері: два кидки на фрейм, без завантаження."],
+    "juice-press": ["Juice Press: чавіть фрукти, іграшка-антистрес онлайн", "Juice Press — вичавіть сік", "Утримуйте, щоб сплющити фрукт під пресом, відпустіть — і бризне сік. Безкоштовна іграшка-антистрес у браузері, без реєстрації."],
+    "fruit-merge": ["Fruit Merge: головоломка на злиття фруктів онлайн", "Fruit Merge — злиття фруктів", "Зсувайте всі фрукти одночасно: два однакові зливаються в більший. Безкоштовна головоломка на злиття в браузері, без завантаження."],
+    "fruit-sort": ["Fruit Sort: головоломка-сортування онлайн · Fruit Destroy", "Fruit Sort — сортуйте фрукти", "Пересипайте фрукти між банками, доки в кожній не буде одного виду. Безкоштовна головоломка на сортування в браузері, на телефоні й комп’ютері."],
+    "catch-the-fruit": ["Catch the Fruit: гра «лови фрукти» онлайн · Fruit Destroy", "Catch the Fruit — ловіть фрукти", "Рухайте кошик і ловіть фрукти, що падають з дерев. Довга серія дає додаткові очки. Безкоштовна гра в браузері, без завантаження."],
+    "fruit-memory": ["Fruit Memory: гра на пам’ять онлайн, знайди пару", "Fruit Memory — гра на пам’ять", "Перевертайте картки й шукайте пари однакових фруктів. Класична гра на пам’ять, безкоштовно в браузері на телефоні й комп’ютері."],
+    "fruit-maze": ["Fruit Maze: гра-лабіринт онлайн, 20 рівнів · Fruit Destroy", "Fruit Maze — садовий лабіринт", null],
+    "fruit-puzzle": ["Fruit Puzzle: п’ятнашки онлайн безкоштовно · Fruit Destroy", "Fruit Puzzle — п’ятнашки", "Пересувайте плитки в порожнє місце, доки фруктова картинка знову не складеться. Безкоштовні п’ятнашки в браузері, на телефоні й комп’ютері."],
+    "fruit-flip": ["Fruit Flip: логічна головоломка з плитками · Fruit Destroy", "Fruit Flip — переверніть плитки", "Кожен дотик перевертає плитку й чотири сусідні. Зробіть усе поле зеленим. Безкоштовна логічна головоломка в стилі Lights Out."],
+    "fruit-beats": ["Fruit Beats: драм-машина онлайн, створіть свій біт", "Fruit Beats — драм-машина", "Торкайтеся фруктів на сітці й складайте ритм, що повторюється. Безкоштовна драм-машина в браузері: рядок — звук, колонка — крок."],
+    "fruit-garden": ["Fruit Garden: спокійна гра про маленький сад онлайн", "Fruit Garden — маленький сад", "Садіть, поливайте й збирайте врожай на дев’яти грядках у саду, що росте, поки вас немає. Безкоштовна спокійна гра в браузері."],
+    "fruit-pond": ["Fruit Pond: спокійна іграшка з водою · Fruit Destroy", "Fruit Pond — пускайте хвилі", "Торкайтеся води, пускайте хвилі й дивіться, як пливуть фрукти. Тиха безкоштовна іграшка в браузері для спокійної хвилини."],
+    "orchard-sounds": ["Orchard Sounds: звуки дощу й природи онлайн · Fruit Destroy", "Orchard Sounds — звуки природи", "Змішайте дощ, вітер і спів птахів у власний фон. Безкоштовний мікшер звуків природи в браузері: для роботи, відпочинку чи тихої паузи."],
+    "tea-time": ["Fruit Tea Time: спокійна гра про чай · Fruit Destroy", "Fruit Tea Time — заваріть чай", "Заваріть фруктовий чай крок за кроком і стежте, як змінюється колір. Безкоштовна повільна активність у браузері на кілька тихих хвилин."],
+    "sunset-peel": ["Sunset Peel: почистьте апельсин, іграшка-антистрес", "Sunset Peel — одна довга спіраль", "Почистьте апельсин однією довгою повільною спіраллю, ведучи за крапкою до середини. Безкоштовна спокійна іграшка в браузері."],
+    "fruit-mosaic": ["Fruit Mosaic: мозаїка онлайн, складіть картинку", "Fruit Mosaic — мозаїка з фруктів", "Розкладайте фруктові плитки на сітці 16×16 і складайте картинку: серце, обличчя, ініціали чи візерунок. Безкоштовна мозаїка в браузері."],
+    "smoothie-studio": ["Smoothie Studio: гра «зроби смузі» онлайн · Fruit Destroy", "Smoothie Studio — змішайте смузі", "Киньте до чотирьох фруктів у блендер, подивіться, який вийде колір, і налийте смузі шарами. Безкоштовна гра в браузері."],
+    "pattern-maker": ["Pattern Maker: створіть візерунок онлайн · Fruit Destroy", "Pattern Maker — візерунки", "Створіть одну маленьку плитку 3×3 з фруктів і дивіться, як вона повторюється у шпалери. Безкоштовний конструктор візерунків у браузері."],
+    "kaleido-draw": ["Kaleido Draw: малювання-калейдоскоп онлайн · Fruit Destroy", "Kaleido Draw — калейдоскоп", "Намалюйте одну лінію — і вона з’явиться 4, 6, 8 або 12 разів навколо центру. Безкоштовне малювання-калейдоскоп у браузері, пальцем або мишею."],
+    "sticker-scene": ["Sticker Scene: складіть сцену з наліпок · Fruit Destroy", "Sticker Scene — сцена з наліпок", "Оберіть тло й перетягуйте фруктові наліпки у власну сцену: вечірка на пляжі, пікнік чи зоряна ніч. Безкоштовно в браузері."],
+    "citrus-stamps": ["Citrus Stamps: штампи з фруктів онлайн · Fruit Destroy", "Citrus Stamps — штампи", "Друкуйте візерунки половинками фруктів, як справжньою половинкою лимона з фарбою. Кожен відбиток трохи інший. Безкоштовно в браузері."]
+  } };
+  const fill = v => v.replace('{n}', ACTIVITIES.length);
+  for (const l in COPY) for (const page in COPY[l]) {
+    const [title, h1, desc] = COPY[l][page];
+    if (title) STR[l]['meta.' + page + '.title'] = fill(title);
+    if (h1) STR[l][page + '.h1'] = h1;
+    if (desc) STR[l]['meta.' + page + '.desc'] = fill(desc);
+  }
 })();
 
 (function applyEmbeddedLocale() {

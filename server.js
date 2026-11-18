@@ -3,9 +3,9 @@ import compression from 'compression';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { ADSENSE_CLIENT_ID, adsenseTag, favicon, googleTag } from './src/render/util.js';
-import { sitemap, robots, adsTxt } from './src/render/seo-files.js';
-import { portalCatalog, isKnownLang, isKnownPage, isIndexedPage, pagePath, indexedPaths } from './src/render/portal-catalog.js';
-import { renderPortalDocument } from './src/render/portal-document.js';
+import { sitemap, sitemapIndex, robots, adsTxt } from './src/render/seo-files.js';
+import { portalCatalog, isKnownLang, isKnownPage, isIndexedPage, pagePath, indexedPaths, readyLangs } from './src/render/portal-catalog.js';
+import { renderPortalDocument, appScript } from './src/render/portal-document.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
@@ -50,8 +50,10 @@ function pageRoute(lang, page, { root = false } = {}) {
 const permanent = (res, pathname, search) => res.redirect(301, pathname + search);
 
 function readyRequestLang(req) {
-  const codes = portalCatalog(PORTAL).langs.filter(l => l.ready).map(l => l.code);
-  return req.acceptsLanguages(...codes) || 'en';
+  // English goes first: with no Accept-Language header (crawlers) or `*`, Express returns
+  // the first code offered, and that has to be the x-default language, not LANGS[0].
+  const codes = portalCatalog(PORTAL).langs.filter(l => l.ready && l.code !== 'en').map(l => l.code);
+  return req.acceptsLanguages('en', ...codes) || 'en';
 }
 
 export function createApp() {
@@ -59,19 +61,42 @@ export function createApp() {
   app.disable('x-powered-by');
   app.set('strict routing', true);
   app.use(compression());
+  // The portal's app script, lifted out of the HTML (see appScript). The hash in the name
+  // changes with the code, so a matching request can be cached for good; a stale name
+  // (HTML cached from before a deploy) still gets the current code, briefly cached.
+  app.get('/static/app.:hash.js', (req, res) => {
+    const script = appScript(PORTAL, { SITE_URL });
+    const fresh = req.params.hash === script.hash;
+    res.set('Cache-Control', dev ? 'no-store' : fresh ? 'public, max-age=31536000, immutable' : 'public, max-age=300');
+    res.type('text/javascript').send(script.code);
+  });
   app.use('/static', express.static(path.join(__dirname, 'public/static'), { maxAge: '7d' }));
   app.use('/i18n', express.static(path.join(__dirname, 'public/i18n'), { maxAge: '1h' }));
 
-  // `/` stays 200 so a browser can still read an old hash (#en-fruit-maze) before
-  // the client replaces it. The document itself is not indexed.
-  app.get('/', (req, res) => sendHtml(res, portalHtml(pageRoute('en', 'home', { root: true }))));
+  // `/` has no page of its own: it sends the visitor to their language, English when
+  // none matches (crawlers send no Accept-Language, so they land on x-default /en/).
+  // 302 because the target depends on the visitor; never cached for the same reason.
+  // Browsers carry an old hash (#en-fruit-maze) across the redirect and the client
+  // still migrates it on the language page.
+  app.get('/', (req, res) => {
+    res.set('Cache-Control', 'no-store');
+    res.vary('Accept-Language');
+    res.redirect(302, pagePath(readyRequestLang(req), 'home') + searchOf(req));
+  });
 
   app.get(['/embed', '/embed/'], (req, res) => {
     permanent(res, pagePath(readyRequestLang(req), 'fruit-destroy'), searchOf(req));
   });
 
   app.get('/sitemap.xml', (req, res) => {
-    const urls = indexedPaths(portalCatalog(PORTAL)).map(p => `${SITE_URL}${p}`);
+    const urls = readyLangs(portalCatalog(PORTAL)).map(l => `${SITE_URL}/sitemaps/${l.code}.xml`);
+    res.type('application/xml').send(sitemapIndex({ urls }));
+  });
+  app.get('/sitemaps/:file', (req, res, next) => {
+    const cat = portalCatalog(PORTAL);
+    const lang = readyLangs(cat).find(l => `${l.code}.xml` === req.params.file);
+    if (!lang) return next();
+    const urls = indexedPaths(cat).filter(p => p.startsWith(`/${lang.code}/`)).map(p => `${SITE_URL}${p}`);
     res.type('application/xml').send(sitemap({ urls }));
   });
   app.get('/robots.txt', (req, res) => res.type('text/plain').send(robots({ SITE_URL })));

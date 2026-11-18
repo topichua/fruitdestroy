@@ -31,9 +31,28 @@ test('indexed URLs, redirects, 404 and sitemap', async t => {
   assert.doesNotMatch(robotsText, /Disallow:\s*\/en/);
   assert.doesNotMatch(robotsText, /Disallow:\s*\/uk/);
 
+  // The root sitemap is an index: one child sitemap per language, each with that language's pages.
   const sm = await fetch(base + '/sitemap.xml');
   assert.equal(sm.status, 200);
-  const xml = await sm.text();
+  const index = await sm.text();
+  assert.match(index, /<sitemapindex /);
+  const children = [...index.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);
+  assert.equal(children.length, 42);
+  assert.ok(children.includes(`${SITE}/sitemaps/en.xml`));
+  assert.ok(children.includes(`${SITE}/sitemaps/ar-sy.xml`));
+  let xml = '';
+  for (const child of children) {
+    const res = await fetch(base + new URL(child).pathname);
+    assert.equal(res.status, 200, child);
+    assert.match(res.headers.get('content-type'), /xml/, child);
+    const part = await res.text();
+    const lang = child.match(/\/sitemaps\/([a-z-]+)\.xml$/)[1];
+    const partLocs = [...part.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);
+    assert.equal(partLocs.length, 34, child);
+    assert.ok(partLocs.every(u => u.startsWith(`${SITE}/${lang}/`)), child);
+    xml += part;
+  }
+  assert.equal((await fetch(base + '/sitemaps/xx.xml')).status, 404);
   assert.doesNotMatch(xml, /<lastmod>/);
   assert.doesNotMatch(xml, /#/);
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);
@@ -49,6 +68,7 @@ test('indexed URLs, redirects, 404 and sitemap', async t => {
   assert.ok(!locs.some(u => u.includes('/fruit-destroy-zen/') || u.includes('#')));
   assert.ok(locs.every(u => u.startsWith(`${SITE}/`) && u.endsWith('/')));
 
+  const ogImages = new Set();
   for (const loc of locs) {
     const path = new URL(loc).pathname;
     const res = await fetch(base + path, { redirect: 'manual' });
@@ -59,6 +79,8 @@ test('indexed URLs, redirects, 404 and sitemap', async t => {
     assert.equal((head.match(/<title>/g) || []).length, 1, path);
     assert.equal((html.match(/<title>/g) || []).length, 1, path);
     assert.equal((head.match(/name="description"/g) || []).length, 1, path);
+    const desc = head.match(/name="description" content="([^"]*)"/)[1].replace(/&[a-z#0-9]+;/g, '_');
+    assert.ok([...desc].length >= 40 && [...desc].length <= 160, `${path} description is ${[...desc].length} chars`);
     assert.equal((dom.match(/<h1\b/g) || []).length, 1, path);
     const robotsMeta = head.match(/name="robots" content="([^"]+)"/);
     assert.ok(robotsMeta, path);
@@ -76,8 +98,96 @@ test('indexed URLs, redirects, 404 and sitemap', async t => {
     assert.equal(alts.length, 43, path);
     assert.ok(alts.some(m => new URL(m[2]).pathname === path), path);
     assert.match(dom, new RegExp(`href="/${lang}/`), path);
+    // Social and structured data must be in the HTML: link previews do not run JavaScript.
+    const og = Object.fromEntries([...head.matchAll(/<meta (?:property|name)="((?:og|twitter):[^"]+)" content="([^"]*)" data-seo="">/g)].map(m => [m[1], m[2]]));
+    assert.equal(og['og:url'], loc, path);
+    assert.ok(og['og:title'] && og['og:title'] === og['twitter:title'], path);
+    assert.ok(og['og:description'], path);
+    assert.match(og['og:locale'], /^[a-z]{2,3}(_[A-Z]{2})?$/, path);
+    assert.equal(og['twitter:card'], 'summary_large_image', path);
+    assert.match(og['og:image'], new RegExp(`^${SITE}/static/og/[a-z-]+\\.jpg$`), path);
+    assert.equal(og['twitter:image'], og['og:image'], path);
+    ogImages.add(new URL(og['og:image']).pathname);
+    const ld = [...head.matchAll(/<script type="application\/ld\+json" data-seo="">([\s\S]*?)<\/script>/g)];
+    assert.equal(ld.length, 1, path);
+    const data = JSON.parse(ld[0][1]);
+    assert.equal(data['@context'], 'https://schema.org', path);
+    assert.ok(JSON.stringify(data).includes(`${SITE}/${lang}/`), path);
     assert.doesNotMatch(dom, /href="#[^"]*"/, path);
   }
+
+  // 28 activities + the catalog + home, each a real 1200x630 file on disk.
+  assert.equal(ogImages.size, 30);
+  for (const image of ogImages) {
+    const res = await fetch(base + image);
+    assert.equal(res.status, 200, image);
+    assert.equal(res.headers.get('content-type'), 'image/jpeg', image);
+  }
+  // Every activity page shows a gameplay screenshot with a described, sized image.
+  const shots = new Set();
+  for (const loc of locs.filter(u => u.startsWith(`${SITE}/en/`) || u.startsWith(`${SITE}/uk/`))) {
+    const page = new URL(loc).pathname.split('/').filter(Boolean)[1];
+    const html = visible(await (await fetch(base + new URL(loc).pathname)).text());
+    const img = html.match(/<img src="(\/static\/shots\/[a-z-]+\.jpg)" alt="([^"]+)" width="1200" height="711" loading="lazy"/);
+    if (!page || page.startsWith('activities')) { assert.equal(img, null, loc); continue; }
+    assert.ok(img, loc);
+    assert.equal(img[1], `/static/shots/${page}.jpg`, loc);
+    assert.ok(img[2].length > 15, loc);
+    shots.add(img[1]);
+  }
+  assert.equal(shots.size, 28);
+  for (const shot of shots) {
+    const res = await fetch(base + shot);
+    assert.equal(res.status, 200, shot);
+    assert.equal(res.headers.get('content-type'), 'image/jpeg', shot);
+  }
+  const fdLd = JSON.parse(headOf(await (await fetch(base + '/en/fruit-destroy/')).text()).match(/ld\+json" data-seo="">([\s\S]*?)<\/script>/)[1]);
+  assert.deepEqual(fdLd['@graph'].map(n => n['@type']), ['VideoGame', 'FAQPage']);
+  const filHead = headOf(await (await fetch(base + '/fil/')).text());
+  assert.match(filHead, /hreflang="tl" href="https:\/\/fruitdestroy\.com\/fil\/"/);
+  assert.doesNotMatch(filHead, /hreflang="fil"/);
+
+  // The app script is a separate cacheable file, not ~375 KB inline in every page.
+  const enHome = await (await fetch(base + '/en/')).text();
+  const ukMaze = await (await fetch(base + '/uk/fruit-maze/')).text();
+  const appSrc = enHome.match(/<script src="(\/static\/app\.[0-9a-f]{12}\.js)"><\/script>/);
+  assert.ok(appSrc);
+  assert.ok(ukMaze.includes(`<script src="${appSrc[1]}"></script>`));
+  assert.ok(headOf(enHome).includes(`<link rel="preload" as="script" href="${appSrc[1]}">`));
+  assert.ok(enHome.length < 80000, `en home HTML is ${enHome.length} bytes`);
+  assert.doesNotMatch(enHome, /Router\.go\(\)/);
+  // Fonts are served from this site; no page reaches out to Google Fonts.
+  assert.doesNotMatch(enHome, /fonts\.(googleapis|gstatic)\.com/);
+  assert.doesNotMatch(ukMaze, /fonts\.(googleapis|gstatic)\.com/);
+  assert.match(headOf(enHome), /@font-face\{font-family:'Unbounded'/);
+  assert.match(headOf(enHome), /rel="preload" as="font" type="font\/woff2" href="\/static\/fonts\/unbounded-latin\.woff2" crossorigin/);
+  assert.doesNotMatch(headOf(enHome), /preload[^>]+cyrillic/);
+  assert.match(headOf(ukMaze), /rel="preload" as="font" type="font\/woff2" href="\/static\/fonts\/nunito-cyrillic\.woff2" crossorigin/);
+  const fontFiles = [...new Set([...enHome.matchAll(/url\((\/static\/fonts\/[a-z-]+\.woff2)\)/g)].map(m => m[1]))];
+  assert.equal(fontFiles.length, 10);
+  for (const font of fontFiles) {
+    const res = await fetch(base + font);
+    assert.equal(res.status, 200, font);
+    assert.equal(res.headers.get('content-type'), 'font/woff2', font);
+  }
+  // Web app manifest and icons.
+  assert.match(headOf(enHome), /<link rel="manifest" href="\/static\/manifest\.webmanifest">/);
+  const manifestRes = await fetch(base + '/static/manifest.webmanifest');
+  assert.equal(manifestRes.status, 200);
+  assert.match(manifestRes.headers.get('content-type'), /manifest\+json/);
+  const manifest = await manifestRes.json();
+  assert.equal(manifest.start_url, '/');
+  assert.ok(manifest.icons.some(i => i.sizes === '512x512' && i.purpose === 'maskable'));
+  for (const icon of [...manifest.icons.map(i => i.src), '/static/icons/apple-touch-icon.png']) {
+    assert.equal((await fetch(base + icon)).status, 200, icon);
+  }
+  const appRes = await fetch(base + appSrc[1]);
+  assert.equal(appRes.status, 200);
+  assert.match(appRes.headers.get('content-type'), /javascript/);
+  const appCode = await appRes.text();
+  assert.match(appCode, /Router\.go\(\)/);
+  assert.doesNotMatch(appCode, /fruitdestroy\.gg/);
+  assert.equal((await fetch(base + '/static/app.000000000000.js')).status, 200);
 
   const maze = visible(await (await fetch(base + '/en/fruit-maze/')).text());
   const mazeUk = visible(await (await fetch(base + '/uk/fruit-maze/')).text());
@@ -111,11 +221,19 @@ test('indexed URLs, redirects, 404 and sitemap', async t => {
   assert.match(plVisible, /Jak grać/);
   assert.match(plVisible, /labirynt/i);
 
-  const root = await fetch(base + '/', { redirect: 'manual' });
-  assert.equal(root.status, 200);
-  const rootHead = headOf(await root.text());
-  assert.match(rootHead, /name="robots" content="[^"]*noindex/);
-  assert.match(rootHead, new RegExp(`canonical" href="${SITE}/en/"`));
+  for (const [accept, to] of [
+    [undefined, '/en/'],
+    ['uk-UA,uk;q=0.9,en;q=0.8', '/uk/'],
+    ['de-DE,de;q=0.9', '/de/'],
+    ['xx', '/en/']
+  ]) {
+    const root = await fetch(base + '/', { redirect: 'manual', headers: accept ? { 'accept-language': accept } : {} });
+    assert.equal(root.status, 302, accept);
+    assert.equal(root.headers.get('location'), to, accept);
+    assert.equal(root.headers.get('cache-control'), 'no-store', accept);
+  }
+  const rootQuery = await fetch(base + '/?utm_source=keep', { redirect: 'manual' });
+  assert.equal(rootQuery.headers.get('location'), '/en/?utm_source=keep');
 
   for (const [from, to] of [
     ['/en', '/en/'],

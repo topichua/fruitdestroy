@@ -4,6 +4,11 @@ export function sitemap({ urls }) {
   const body = urls.map(loc => `  <url>\n    <loc>${loc}</loc>\n  </url>`).join('\n');
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`;
 }
+// The root sitemap lists one sitemap per language, so Search Console reports indexing per language.
+export function sitemapIndex({ urls }) {
+  const body = urls.map(loc => `  <sitemap>\n    <loc>${loc}</loc>\n  </sitemap>`).join('\n');
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</sitemapindex>\n`;
+}
 export const robots = ({ SITE_URL }) => `User-agent: *\nAllow: /\nDisallow: /*/c/\nDisallow: /embed\nDisallow: /*/embed\n\nSitemap: ${SITE_URL}/sitemap.xml\n`;
 export const adsTxt = ({ ADSENSE_CLIENT }) => ADSENSE_CLIENT
   ? `google.com, ${ADSENSE_CLIENT.replace('ca-', '')}, DIRECT, f08c47fec0942fa0\n`
