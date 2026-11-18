@@ -51,7 +51,7 @@ Then in Google Search Console add the domain and submit `https://yourdomain/site
 - Landing markup: `src/render/landing.js` · styles: `public/static/site.css`
 - Game rules and simulation: `src/game/engine.js` · tuning (board size, timer, critters): `src/game/config.js`
 - Game screens: `src/game/view.js` · styles: `src/game/game.css` · board themes: `src/game/backgrounds.js`
-- Social preview images: put `public/static/og/{lang}-1200x630.png` (one per language)
+- Social preview images: `public/static/og/{page}.jpg`, one per activity plus `home.jpg` and `activities.jpg`. Rebuild with `npm run og` after adding or renaming an activity (needs Chrome and ImageMagick)
 - Ads: set `ADSENSE_CLIENT` and each `AD_SLOT_*` id; until then dashed placeholders render. Rules → `ADS.md`.
 
 Scores, streaks and achievements are stored in `localStorage` on this device. There is no account server, so the site does not show a global top 10 or a rank. A score in a challenge link is only the number to beat. A future ranking API would be `POST /v1/scores` (the server checks the run) and `GET /v1/leaderboards?period=day|week|all&mode=&limit=10`.

@@ -49,6 +49,7 @@ test('indexed URLs, redirects, 404 and sitemap', async t => {
   assert.ok(!locs.some(u => u.includes('/fruit-destroy-zen/') || u.includes('#')));
   assert.ok(locs.every(u => u.startsWith(`${SITE}/`) && u.endsWith('/')));
 
+  const ogImages = new Set();
   for (const loc of locs) {
     const path = new URL(loc).pathname;
     const res = await fetch(base + path, { redirect: 'manual' });
@@ -76,8 +77,36 @@ test('indexed URLs, redirects, 404 and sitemap', async t => {
     assert.equal(alts.length, 43, path);
     assert.ok(alts.some(m => new URL(m[2]).pathname === path), path);
     assert.match(dom, new RegExp(`href="/${lang}/`), path);
+    // Social and structured data must be in the HTML: link previews do not run JavaScript.
+    const og = Object.fromEntries([...head.matchAll(/<meta (?:property|name)="((?:og|twitter):[^"]+)" content="([^"]*)" data-seo="">/g)].map(m => [m[1], m[2]]));
+    assert.equal(og['og:url'], loc, path);
+    assert.ok(og['og:title'] && og['og:title'] === og['twitter:title'], path);
+    assert.ok(og['og:description'], path);
+    assert.match(og['og:locale'], /^[a-z]{2,3}(_[A-Z]{2})?$/, path);
+    assert.equal(og['twitter:card'], 'summary_large_image', path);
+    assert.match(og['og:image'], new RegExp(`^${SITE}/static/og/[a-z-]+\\.jpg$`), path);
+    assert.equal(og['twitter:image'], og['og:image'], path);
+    ogImages.add(new URL(og['og:image']).pathname);
+    const ld = [...head.matchAll(/<script type="application\/ld\+json" data-seo="">([\s\S]*?)<\/script>/g)];
+    assert.equal(ld.length, 1, path);
+    const data = JSON.parse(ld[0][1]);
+    assert.equal(data['@context'], 'https://schema.org', path);
+    assert.ok(JSON.stringify(data).includes(`${SITE}/${lang}/`), path);
     assert.doesNotMatch(dom, /href="#[^"]*"/, path);
   }
+
+  // 28 activities + the catalog + home, each a real 1200x630 file on disk.
+  assert.equal(ogImages.size, 30);
+  for (const image of ogImages) {
+    const res = await fetch(base + image);
+    assert.equal(res.status, 200, image);
+    assert.equal(res.headers.get('content-type'), 'image/jpeg', image);
+  }
+  const fdLd = JSON.parse(headOf(await (await fetch(base + '/en/fruit-destroy/')).text()).match(/ld\+json" data-seo="">([\s\S]*?)<\/script>/)[1]);
+  assert.deepEqual(fdLd['@graph'].map(n => n['@type']), ['VideoGame', 'FAQPage']);
+  const filHead = headOf(await (await fetch(base + '/fil/')).text());
+  assert.match(filHead, /hreflang="tl" href="https:\/\/fruitdestroy\.com\/fil\/"/);
+  assert.doesNotMatch(filHead, /hreflang="fil"/);
 
   const maze = visible(await (await fetch(base + '/en/fruit-maze/')).text());
   const mazeUk = visible(await (await fetch(base + '/uk/fruit-maze/')).text());
@@ -111,11 +140,19 @@ test('indexed URLs, redirects, 404 and sitemap', async t => {
   assert.match(plVisible, /Jak grać/);
   assert.match(plVisible, /labirynt/i);
 
-  const root = await fetch(base + '/', { redirect: 'manual' });
-  assert.equal(root.status, 200);
-  const rootHead = headOf(await root.text());
-  assert.match(rootHead, /name="robots" content="[^"]*noindex/);
-  assert.match(rootHead, new RegExp(`canonical" href="${SITE}/en/"`));
+  for (const [accept, to] of [
+    [undefined, '/en/'],
+    ['uk-UA,uk;q=0.9,en;q=0.8', '/uk/'],
+    ['de-DE,de;q=0.9', '/de/'],
+    ['xx', '/en/']
+  ]) {
+    const root = await fetch(base + '/', { redirect: 'manual', headers: accept ? { 'accept-language': accept } : {} });
+    assert.equal(root.status, 302, accept);
+    assert.equal(root.headers.get('location'), to, accept);
+    assert.equal(root.headers.get('cache-control'), 'no-store', accept);
+  }
+  const rootQuery = await fetch(base + '/?utm_source=keep', { redirect: 'manual' });
+  assert.equal(rootQuery.headers.get('location'), '/en/?utm_source=keep');
 
   for (const [from, to] of [
     ['/en', '/en/'],

@@ -144,6 +144,68 @@ function metaFor(cat, lang, page) {
   return { title: pick(cat, cl, `meta.${id}.title`), description: pick(cat, cl, `meta.${id}.desc`) };
 }
 
+// Social preview: one image per activity, a shared one for the catalog pages and for home.
+export function ogImagePath(cat, page) {
+  const canon = canonicalPage(page);
+  if (cat.activities.some(a => a.id === canon)) return `/static/og/${canon}.jpg`;
+  return canon.startsWith('activities') ? '/static/og/activities.jpg' : '/static/og/home.jpg';
+}
+
+// The same structured data the client writes in setMeta(), so crawlers that do not run
+// JavaScript get it too. Keep the two in step.
+function jsonLdFor(cat, site, lang, page, image) {
+  const canon = canonicalPage(page);
+  const base = `${site}/${lang}`;
+  if (canon === 'home') {
+    return { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Fruit Destroy', url: `${base}/`, inLanguage: lang, description: pick(cat, lang, 'meta.home.desc'), image };
+  }
+  if (canon === 'activities' || canon.startsWith('activities-')) {
+    const mood = canon === 'activities' ? null : canon.slice('activities-'.length);
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      itemListElement: listFor(cat, mood).map((x, i) => ({ '@type': 'ListItem', position: i + 1, name: entryName(cat, lang, x.id, x.variant), url: `${base}/${x.id}/` }))
+    };
+  }
+  const description = pick(cat, lang, `meta.${canon}.desc`);
+  if (canon === 'fruit-destroy') {
+    const faq = pick(cat, lang, 'fruit-destroy.faq');
+    const game = { '@type': 'VideoGame', name: 'Fruit Destroy', url: `${base}/fruit-destroy/`, description, image, genre: ['Arcade', 'Puzzle', 'Casual'], gamePlatform: ['Web browser', 'Mobile', 'Desktop'], inLanguage: lang, offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } };
+    const graph = [game];
+    if (Array.isArray(faq) && faq.length) graph.push({ '@type': 'FAQPage', mainEntity: faq.map(([q, ans]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: ans } })) });
+    return { '@context': 'https://schema.org', '@graph': graph };
+  }
+  const common = { '@context': 'https://schema.org', name: pick(cat, lang, `${canon}.name`), url: `${base}/${canon}/`, description, image, inLanguage: lang, isAccessibleForFree: true };
+  return canon === 'breathe'
+    ? { ...common, '@type': 'WebApplication', applicationCategory: 'LifestyleApplication' }
+    : { ...common, '@type': 'VideoGame', genre: ['Casual'], gamePlatform: ['Web browser', 'Mobile', 'Desktop'] };
+}
+
+// Tags carry data-seo so the client's setMeta() replaces them instead of adding a second set.
+function socialTags(cat, { site, lang, page, title, description, canonical }) {
+  const image = site + ogImagePath(cat, page);
+  const info = cat.langs.find(l => l.code === lang);
+  const meta = (attr, key, content) => `<meta ${attr}="${key}" content="${esc(content)}" data-seo="">`;
+  const ld = JSON.stringify(jsonLdFor(cat, site, lang, page, image)).replace(/</g, '\\u003c');
+  return [
+    meta('property', 'og:type', 'website'),
+    meta('property', 'og:site_name', 'Fruit Destroy'),
+    meta('property', 'og:title', title),
+    meta('property', 'og:description', description),
+    meta('property', 'og:url', canonical),
+    meta('property', 'og:locale', info?.og || 'en_US'),
+    meta('property', 'og:image', image),
+    meta('property', 'og:image:width', '1200'),
+    meta('property', 'og:image:height', '630'),
+    meta('property', 'og:image:alt', title),
+    meta('name', 'twitter:card', 'summary_large_image'),
+    meta('name', 'twitter:title', title),
+    meta('name', 'twitter:description', description),
+    meta('name', 'twitter:image', image),
+    `<script type="application/ld+json" data-seo="">${ld}</script>`
+  ].join('');
+}
+
 function bodyFor(cat, lang, page) {
   if (page === 'home') return homeBody(cat, lang);
   if (page === 'activities' || page.startsWith('activities-')) return catalogBody(cat, lang, page);
@@ -167,14 +229,14 @@ export function renderPortalDocument(file, route, { SITE_URL }) {
   const robots = indexed ? 'index, follow, max-image-preview:large' : 'noindex, follow';
   const notice = cl === lang ? '' : `<p class="note">${esc(pick(cat, 'en', 'notTranslated').replace('{lang}', cat.langs.find(l => l.code === lang)?.label || lang))}</p>`;
   const ui = chrome(cat, lang, page);
-  const seo = `<title>${esc(title)}</title><meta name="description" content="${esc(description)}"><link rel="canonical" href="${esc(canonical)}">${alternates}<link rel="alternate" hreflang="x-default" href="${esc(xdefault)}"><meta name="robots" content="${robots}">`;
+  const seo = `<title>${esc(title)}</title><meta name="description" content="${esc(description)}"><link rel="canonical" href="${esc(canonical)}">${alternates}<link rel="alternate" hreflang="x-default" href="${esc(xdefault)}"><meta name="robots" content="${robots}">${socialTags(cat, { site, lang: canonLang, page, title, description, canonical })}`;
   const contentInfo = cat.langs.find(l => l.code === cl) || cat.langs.find(l => l.code === 'en');
   const htmlLang = contentInfo?.hreflang || cl;
   const dir = contentInfo?.dir === 'rtl' ? 'rtl' : 'ltr';
   let html = raw.replace('<html lang="en">', `<html lang="${esc(htmlLang)}" dir="${dir}">`);
   html = html.replace(/<title>[\s\S]*?<\/title>\s*/, '');
   html = html.replace(/<meta name="description" content="[^"]*">\s*/, '');
-  html = html.replace('</head>', `${seo}</head>`);
+  html = html.replace('</head>', () => `${seo}</head>`);
   html = html.replace('<header id="site-header" class="site-header"></header>', `<header id="site-header" class="site-header">${ui.header}</header>`);
   html = html.replace('<main id="main" tabindex="-1"></main>', `<main id="main" tabindex="-1">${notice}${bodyFor(cat, lang, page)}</main>`);
   html = html.replace('<footer id="site-foot" class="site-foot"></footer>', `<footer id="site-foot" class="site-foot">${ui.footer}</footer>`);

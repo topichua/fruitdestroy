@@ -50,8 +50,10 @@ function pageRoute(lang, page, { root = false } = {}) {
 const permanent = (res, pathname, search) => res.redirect(301, pathname + search);
 
 function readyRequestLang(req) {
-  const codes = portalCatalog(PORTAL).langs.filter(l => l.ready).map(l => l.code);
-  return req.acceptsLanguages(...codes) || 'en';
+  // English goes first: with no Accept-Language header (crawlers) or `*`, Express returns
+  // the first code offered, and that has to be the x-default language, not LANGS[0].
+  const codes = portalCatalog(PORTAL).langs.filter(l => l.ready && l.code !== 'en').map(l => l.code);
+  return req.acceptsLanguages('en', ...codes) || 'en';
 }
 
 export function createApp() {
@@ -62,9 +64,16 @@ export function createApp() {
   app.use('/static', express.static(path.join(__dirname, 'public/static'), { maxAge: '7d' }));
   app.use('/i18n', express.static(path.join(__dirname, 'public/i18n'), { maxAge: '1h' }));
 
-  // `/` stays 200 so a browser can still read an old hash (#en-fruit-maze) before
-  // the client replaces it. The document itself is not indexed.
-  app.get('/', (req, res) => sendHtml(res, portalHtml(pageRoute('en', 'home', { root: true }))));
+  // `/` has no page of its own: it sends the visitor to their language, English when
+  // none matches (crawlers send no Accept-Language, so they land on x-default /en/).
+  // 302 because the target depends on the visitor; never cached for the same reason.
+  // Browsers carry an old hash (#en-fruit-maze) across the redirect and the client
+  // still migrates it on the language page.
+  app.get('/', (req, res) => {
+    res.set('Cache-Control', 'no-store');
+    res.vary('Accept-Language');
+    res.redirect(302, pagePath(readyRequestLang(req), 'home') + searchOf(req));
+  });
 
   app.get(['/embed', '/embed/'], (req, res) => {
     permanent(res, pagePath(readyRequestLang(req), 'fruit-destroy'), searchOf(req));

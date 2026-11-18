@@ -9,6 +9,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
+    "og": "node scripts/og-images.mjs",
     "test": "node --test test/game.test.js test/i18n-packs.test.js test/seo.test.js"
   },
   "dependencies": {
