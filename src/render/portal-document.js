@@ -74,6 +74,7 @@ function activityBody(cat, lang, page) {
   <div class="wrap"><section class="about" aria-label="${esc(pick(cat, cl, 'aboutLabel'))}">
     <h2>${esc(pick(cat, cl, 'aboutTitle'))}</h2>
     ${paras.map(p => `<p>${esc(p)}</p>`).join('')}
+    <figure class="shot"><img src="/static/shots/${esc(id)}.jpg" alt="${esc(`${entryName(cat, cl, id)} — ${entryCard(cat, cl, id)}`)}" width="1200" height="711" loading="lazy" decoding="async"></figure>
     ${note ? `<p>${esc(note)}</p>` : ''}
     ${stepItems.length ? `<h2>${esc(pick(cat, cl, 'howTitle'))}</h2><ol class="steps">${stepItems.map(s => `<li>${esc(s)}</li>`).join('')}</ol>` : ''}
     ${Array.isArray(faq) && faq.length ? `<h2>${esc(pick(cat, cl, 'faqTitle'))}</h2>${faq.map(([q, a]) => `<h3>${esc(q)}</h3><p>${esc(a)}</p>`).join('')}` : ''}
@@ -170,12 +171,12 @@ function jsonLdFor(cat, site, lang, page, image) {
   const description = pick(cat, lang, `meta.${canon}.desc`);
   if (canon === 'fruit-destroy') {
     const faq = pick(cat, lang, 'fruit-destroy.faq');
-    const game = { '@type': 'VideoGame', name: 'Fruit Destroy', url: `${base}/fruit-destroy/`, description, image, genre: ['Arcade', 'Puzzle', 'Casual'], gamePlatform: ['Web browser', 'Mobile', 'Desktop'], inLanguage: lang, offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } };
+    const game = { '@type': 'VideoGame', name: 'Fruit Destroy', url: `${base}/fruit-destroy/`, description, image, screenshot: `${site}/static/shots/fruit-destroy.jpg`, genre: ['Arcade', 'Puzzle', 'Casual'], gamePlatform: ['Web browser', 'Mobile', 'Desktop'], inLanguage: lang, offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } };
     const graph = [game];
     if (Array.isArray(faq) && faq.length) graph.push({ '@type': 'FAQPage', mainEntity: faq.map(([q, ans]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: ans } })) });
     return { '@context': 'https://schema.org', '@graph': graph };
   }
-  const common = { '@context': 'https://schema.org', name: pick(cat, lang, `${canon}.name`), url: `${base}/${canon}/`, description, image, inLanguage: lang, isAccessibleForFree: true };
+  const common = { '@context': 'https://schema.org', name: pick(cat, lang, `${canon}.name`), url: `${base}/${canon}/`, description, image, screenshot: `${site}/static/shots/${canon}.jpg`, inLanguage: lang, isAccessibleForFree: true };
   return canon === 'breathe'
     ? { ...common, '@type': 'WebApplication', applicationCategory: 'LifestyleApplication' }
     : { ...common, '@type': 'VideoGame', genre: ['Casual'], gamePlatform: ['Web browser', 'Mobile', 'Desktop'] };
@@ -223,7 +224,9 @@ export function renderPortalDocument(file, route, { SITE_URL }) {
   const canonPage = canonicalPage(page);
   const canonLang = readyLangs(cat).some(l => l.code === lang) && !route.root ? lang : 'en';
   const canonical = `${site}${pagePath(canonLang, canonPage)}`;
-  const { title, description } = metaFor(cat, lang, page);
+  const meta = metaFor(cat, lang, page);
+  const title = meta.title;
+  const description = cat.fitDescription(meta.description);
   const alternates = readyLangs(cat).map(l => `<link rel="alternate" hreflang="${esc(l.hreflang)}" href="${esc(site + pagePath(l.code, canonPage))}">`).join('');
   const xdefault = `${site}${pagePath('en', canonPage)}`;
   const robots = indexed ? 'index, follow, max-image-preview:large' : 'noindex, follow';

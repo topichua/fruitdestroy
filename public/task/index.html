@@ -228,6 +228,8 @@ button { font: inherit; color: inherit; }
 @media (max-width: 860px) { .about { grid-template-columns: 1fr; } }
 .about h2 { font-size: 24px; margin-bottom: 10px; }
 .about p + p { margin-top: 10px; }
+.shot { margin: 16px 0 0; }
+.shot img { display: block; width: 100%; height: auto; aspect-ratio: 1200 / 711; object-fit: cover; border-radius: var(--r-md); box-shadow: 0 0 0 1px var(--line); background: var(--surface-2); }
 .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; counter-reset: s; }
 .steps li { counter-increment: s; display: grid; grid-template-columns: 36px 1fr; gap: 12px; align-items: start; background: var(--surface); border-radius: var(--r-sm); padding: 12px 14px; }
 .steps li::before { content: counter(s); width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-family: var(--font-display); font-weight: 700; background: var(--surface-2); }
@@ -1425,7 +1427,28 @@ function migrateHash() {
 }
 
 /* ---------- SEO: per-route title/description/canonical/hreflang/JSON-LD ---------- */
+// Search results cut a description at about 160 characters. Keep whole sentences that fit;
+// when the first sentence alone is too long, cut it at a comma or a space and end with "…".
+// The server renders with this same function (see portal-catalog.js), so both agree.
+const DESC_MAX = 160;
+function fitDescription(text, max = DESC_MAX) {
+  const chars = [...String(text || '').trim()];
+  if (chars.length <= max) return chars.join('');
+  const sentences = chars.join('').match(/[^.!?。！？।۔]+[.!?。！？।۔]+["”»)]*\s*|[^.!?。！？।۔]+$/g) || [chars.join('')];
+  let out = '';
+  for (const s of sentences) {
+    if ([...(out + s).trimEnd()].length > max) break;
+    out += s;
+  }
+  if (out.trim()) return out.trim();
+  const head = chars.slice(0, max - 1).join('');
+  const comma = Math.max(head.lastIndexOf(','), head.lastIndexOf('،'), head.lastIndexOf('、'), head.lastIndexOf('，'));
+  const space = head.lastIndexOf(' ');
+  const cut = comma > max * 0.5 ? comma : space > max * 0.5 ? space : head.length;
+  return head.slice(0, cut).replace(/[\s,،、，:;—–-]+$/, '') + '…';
+}
 function setMeta({ title, description, page, jsonld }) {
+  description = fitDescription(description);
   const info = langInfo(LANG), ready = !!info.ready;
   const canonPage = page.replace(/^fruit-destroy-(zen|quick)$/, 'fruit-destroy');
   const indexed = ready && canonPage === page;
@@ -1467,7 +1490,15 @@ function setMeta({ title, description, page, jsonld }) {
   add('meta', { name: 'twitter:title', content: title });
   add('meta', { name: 'twitter:description', content: description });
   add('meta', { name: 'twitter:image', content: ogImage });
-  if (jsonld) { const s = add('script', { type: 'application/ld+json' }); s.textContent = JSON.stringify(jsonld); }
+  if (jsonld) {
+    // Same image fields the server puts in its JSON-LD (portal-document.js).
+    const node = jsonld['@graph'] ? jsonld['@graph'][0] : jsonld;
+    if (node['@type'] !== 'ItemList') {
+      node.image = ogImage;
+      if (ACTIVITIES.some(a => a.id === canonPage)) node.screenshot = `${SITE}/static/shots/${canonPage}.jpg`;
+    }
+    const s = add('script', { type: 'application/ld+json' }); s.textContent = JSON.stringify(jsonld);
+  }
 }
 
 /* ---------- shared UI pieces ---------- */
@@ -1736,6 +1767,11 @@ function relatedActs(a, variant) {
   const ids = RELATED[key] || RELATED[a.id] || [];
   return ids.map(actById).filter(x => x && x.id !== a.id).slice(0, 6);
 }
+// Gameplay screenshot in the About section (public/static/shots, built by `npm run shots`).
+// The server renders the same markup in portal-document.js.
+function shotFigure(id) {
+  return `<figure class="shot"><img src="/static/shots/${id}.jpg" alt="${esc(T(id + '.name') + ' — ' + T(id + '.card'))}" width="1200" height="711" loading="lazy" decoding="async"></figure>`;
+}
 function renderActivity(main, a, variant) {
   const others = relatedActs(a, variant);
   const steps = TA(a.id + '.steps') || [];
@@ -1747,7 +1783,7 @@ function renderActivity(main, a, variant) {
     <div id="act-root"></div>
   </div>
   <div class="wrap"><section class="about" aria-label="${esc(T('aboutLabel'))}">
-    <div><h2>${esc(T('aboutTitle'))}</h2>${(TA(a.id + '.about') || []).map(p => `<p>${esc(p)}</p>`).join('')}${a.id === 'fruit-destroy' ? fdExtra() : ''}</div>
+    <div><h2>${esc(T('aboutTitle'))}</h2>${(TA(a.id + '.about') || []).map(p => `<p>${esc(p)}</p>`).join('')}${shotFigure(a.id)}${a.id === 'fruit-destroy' ? fdExtra() : ''}</div>
     <div><h2>${esc(T('howTitle'))}</h2><ol class="steps">${steps.map(s => `<li><span>${esc(s)}</span></li>`).join('')}</ol>${TA(a.id + '.note') ? `<p class="note" style="margin-top:12px">${esc(T(a.id + '.note'))}</p>` : ''}</div>
   </section></div>
   ${kind === 'calm' ? '' : adSlot('activity-below-about')}

@@ -15,7 +15,7 @@ function portalScript(html) {
   if (!code.includes(EXPORT_MARK)) throw new Error('Portal script has no Router.go() bootstrap');
   return code.replace(
     EXPORT_MARK,
-    'globalThis.__FD_EXPORT = { STR, LANGS, PAGES: PAGES.slice(), MOODS: MOODS.slice(), RELATED, activities: ACTIVITIES.map(a => ({ id: a.id, moods: a.moods.slice(), type: a.type, emoji: (a.e || [a.emoji]).slice() })) };'
+    'globalThis.__FD_EXPORT = { fitDescription, STR, LANGS, PAGES: PAGES.slice(), MOODS: MOODS.slice(), RELATED, activities: ACTIVITIES.map(a => ({ id: a.id, moods: a.moods.slice(), type: a.type, emoji: (a.e || [a.emoji]).slice() })) };'
   );
 }
 
@@ -63,7 +63,9 @@ export function loadPortalCatalog(html) {
     pages: data.PAGES,
     moods: data.MOODS,
     related: data.RELATED,
-    activities: data.activities
+    activities: data.activities,
+    // The client's own trimming rule, so server HTML and the client agree on descriptions.
+    fitDescription: text => String(data.fitDescription(text))
   };
 }
 

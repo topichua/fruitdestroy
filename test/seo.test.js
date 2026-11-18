@@ -31,9 +31,28 @@ test('indexed URLs, redirects, 404 and sitemap', async t => {
   assert.doesNotMatch(robotsText, /Disallow:\s*\/en/);
   assert.doesNotMatch(robotsText, /Disallow:\s*\/uk/);
 
+  // The root sitemap is an index: one child sitemap per language, each with that language's pages.
   const sm = await fetch(base + '/sitemap.xml');
   assert.equal(sm.status, 200);
-  const xml = await sm.text();
+  const index = await sm.text();
+  assert.match(index, /<sitemapindex /);
+  const children = [...index.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);
+  assert.equal(children.length, 42);
+  assert.ok(children.includes(`${SITE}/sitemaps/en.xml`));
+  assert.ok(children.includes(`${SITE}/sitemaps/ar-sy.xml`));
+  let xml = '';
+  for (const child of children) {
+    const res = await fetch(base + new URL(child).pathname);
+    assert.equal(res.status, 200, child);
+    assert.match(res.headers.get('content-type'), /xml/, child);
+    const part = await res.text();
+    const lang = child.match(/\/sitemaps\/([a-z-]+)\.xml$/)[1];
+    const partLocs = [...part.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);
+    assert.equal(partLocs.length, 34, child);
+    assert.ok(partLocs.every(u => u.startsWith(`${SITE}/${lang}/`)), child);
+    xml += part;
+  }
+  assert.equal((await fetch(base + '/sitemaps/xx.xml')).status, 404);
   assert.doesNotMatch(xml, /<lastmod>/);
   assert.doesNotMatch(xml, /#/);
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);
@@ -60,6 +79,8 @@ test('indexed URLs, redirects, 404 and sitemap', async t => {
     assert.equal((head.match(/<title>/g) || []).length, 1, path);
     assert.equal((html.match(/<title>/g) || []).length, 1, path);
     assert.equal((head.match(/name="description"/g) || []).length, 1, path);
+    const desc = head.match(/name="description" content="([^"]*)"/)[1].replace(/&[a-z#0-9]+;/g, '_');
+    assert.ok([...desc].length >= 40 && [...desc].length <= 160, `${path} description is ${[...desc].length} chars`);
     assert.equal((dom.match(/<h1\b/g) || []).length, 1, path);
     const robotsMeta = head.match(/name="robots" content="([^"]+)"/);
     assert.ok(robotsMeta, path);
@@ -101,6 +122,24 @@ test('indexed URLs, redirects, 404 and sitemap', async t => {
     const res = await fetch(base + image);
     assert.equal(res.status, 200, image);
     assert.equal(res.headers.get('content-type'), 'image/jpeg', image);
+  }
+  // Every activity page shows a gameplay screenshot with a described, sized image.
+  const shots = new Set();
+  for (const loc of locs.filter(u => u.startsWith(`${SITE}/en/`) || u.startsWith(`${SITE}/uk/`))) {
+    const page = new URL(loc).pathname.split('/').filter(Boolean)[1];
+    const html = visible(await (await fetch(base + new URL(loc).pathname)).text());
+    const img = html.match(/<img src="(\/static\/shots\/[a-z-]+\.jpg)" alt="([^"]+)" width="1200" height="711" loading="lazy"/);
+    if (!page || page.startsWith('activities')) { assert.equal(img, null, loc); continue; }
+    assert.ok(img, loc);
+    assert.equal(img[1], `/static/shots/${page}.jpg`, loc);
+    assert.ok(img[2].length > 15, loc);
+    shots.add(img[1]);
+  }
+  assert.equal(shots.size, 28);
+  for (const shot of shots) {
+    const res = await fetch(base + shot);
+    assert.equal(res.status, 200, shot);
+    assert.equal(res.headers.get('content-type'), 'image/jpeg', shot);
   }
   const fdLd = JSON.parse(headOf(await (await fetch(base + '/en/fruit-destroy/')).text()).match(/ld\+json" data-seo="">([\s\S]*?)<\/script>/)[1]);
   assert.deepEqual(fdLd['@graph'].map(n => n['@type']), ['VideoGame', 'FAQPage']);

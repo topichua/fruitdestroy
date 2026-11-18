@@ -3,8 +3,8 @@ import compression from 'compression';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { ADSENSE_CLIENT_ID, adsenseTag, favicon, googleTag } from './src/render/util.js';
-import { sitemap, robots, adsTxt } from './src/render/seo-files.js';
-import { portalCatalog, isKnownLang, isKnownPage, isIndexedPage, pagePath, indexedPaths } from './src/render/portal-catalog.js';
+import { sitemap, sitemapIndex, robots, adsTxt } from './src/render/seo-files.js';
+import { portalCatalog, isKnownLang, isKnownPage, isIndexedPage, pagePath, indexedPaths, readyLangs } from './src/render/portal-catalog.js';
 import { renderPortalDocument } from './src/render/portal-document.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -80,7 +80,14 @@ export function createApp() {
   });
 
   app.get('/sitemap.xml', (req, res) => {
-    const urls = indexedPaths(portalCatalog(PORTAL)).map(p => `${SITE_URL}${p}`);
+    const urls = readyLangs(portalCatalog(PORTAL)).map(l => `${SITE_URL}/sitemaps/${l.code}.xml`);
+    res.type('application/xml').send(sitemapIndex({ urls }));
+  });
+  app.get('/sitemaps/:file', (req, res, next) => {
+    const cat = portalCatalog(PORTAL);
+    const lang = readyLangs(cat).find(l => `${l.code}.xml` === req.params.file);
+    if (!lang) return next();
+    const urls = indexedPaths(cat).filter(p => p.startsWith(`/${lang.code}/`)).map(p => `${SITE_URL}${p}`);
     res.type('application/xml').send(sitemap({ urls }));
   });
   app.get('/robots.txt', (req, res) => res.type('text/plain').send(robots({ SITE_URL })));
