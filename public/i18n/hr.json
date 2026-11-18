@@ -361,7 +361,6 @@
   "bubble-pop.opt.slow": "Polako plove",
   "bubble-pop.opt.lively": "Živahno",
   "newTag": "Novo",
-  "heroMaze": "Fruit Maze: 10 razina voća i društvenih životinjica",
   "fruit-slice.name": "Fruit Slice",
   "fruit-slice.h1": "Fruit Slice",
   "fruit-slice.card": "Povuci da razrežeš voće u letu. Sočne polovice, brze runde.",
@@ -490,19 +489,20 @@
   "meta.fruit-memory.desc": "Okreći kartice i traži isto voće. Klasična igra pamćenja s voćnim karticama. Otvori dvije: ako su iste, ostanu otvorene.",
   "fruit-maze.name": "Fruit Maze",
   "fruit-maze.h1": "Fruit Maze",
-  "fruit-maze.card": "Provedi dječaka kroz voćnjak-labirint, pokupi svo voće i zaobiđi životinje. 10 razina.",
+  "fruit-maze.card": "Vodi dječaka kroz voćnjački labirint, skupi svo voće i izbjegavaj životinje. 20 razina, a od 11. bacaš sjemenke.",
   "fruit-maze.about": [
     "Fruit Maze je arkadni labirint gledan odozgo. Vodiš dječaka vrtnim stazama, kupiš svo voće na karti i držiš se podalje od životinja.",
-    "Jabuka nosi 10 bodova, banana 15, naranča 20, jagoda 25, plus 100 za prođenu razinu. Imaš tri života. Sudar sa životinjom uzima jedan život i vraća te do vrtnih vrata, kamo životinje ne ulaze, uz dvije sekunde zaklona. Razina je 10. Svaka je malo veća i donosi još jednu životinju: od malog vrta 11×11 s jednom kornjačom do voćnjaka 19×19 s deset kornjača, lisica i majmunčića.",
-    "Kornjača hoda amo-tamo jednom stazom. Lisica patrolira i uvijek skrene desno kad može. Majmunčić je brži i na svakom raskrižju uzme sljedeći zavoj istim redom, pa im rute možeš naučiti."
+    "Jabuka nosi 10 bodova, banana 15, naranča 20, jagoda 25, plus 100 za prođenu razinu. Imaš tri života. Sudar sa životinjom uzima jedan život i vraća te do vrtnih vrata, kamo životinje ne ulaze, uz dvije sekunde zaklona. Razina je 20. Prvih deset raste od malog vrta 11×11 s jednom kornjačom do voćnjaka 19×19 s deset životinja. Od 11. razine dječak može bacati sjemenke: pritisni razmaknicu (ili gumb 🌰) i omami životinju na nekoliko sekundi. Nakon toga svaka je razina teža: veći labirinti do 23×23, više i bržih životinja, manje sjemenki i kraće omamljivanje.",
+    "Kornjača hoda amo-tamo jednom stazom. Lisica patrolira i uvijek skrene desno kad može. Majmunčić je brži i na svakom raskrižju uzme sljedeći zavoj istim redom, pa im rute možeš naučiti. Jež, od 13. razine, ide za tobom kad mu se približiš na nekoliko koraka."
   ],
   "fruit-maze.steps": [
     "Kreći se strelicama ili s W A S D. Na mobitelu drži gumbe sa strelicama ili povlači po ploči.",
     "Prijeđi preko voća da ga pokupiš. Brojač gore pokazuje koliko je ostalo.",
+    "Od 11. razine pritisni razmaknicu, gumb 🌰 ili dodirni ploču i baci sjemenku onamo kamo dječak gleda.",
     "Pokupi svo voće da prođeš razinu. Esc ili gumb pauze daje predah."
   ],
   "meta.fruit-maze.title": "Fruit Maze: besplatna igra na mreži · Fruit Destroy",
-  "meta.fruit-maze.desc": "Provedi dječaka kroz voćnjak-labirint, pokupi svo voće i zaobiđi životinje. 10 razina. Fruit Maze je arkadni labirint gledan odozgo. Vodiš dječaka vrtnim stazama, kupiš svo voće na karti i držiš se podalje od životinja.",
+  "meta.fruit-maze.desc": "Vodi dječaka kroz voćnjački labirint, skupi svo voće i izbjegavaj životinje. 20 razina, a od 11. bacaš sjemenke. Fruit Maze je arkadni labirint gledan odozgo. Vodiš dječaka vrtnim stazama, kupiš svo voće na karti i držiš se podalje od životinja.",
   "fruit-puzzle.name": "Fruit Puzzle",
   "fruit-puzzle.h1": "Fruit Puzzle",
   "fruit-puzzle.card": "Pomiči pločice dok se voćna slika ne složi.",
@@ -698,5 +698,12 @@
     "Spremi otisak ili očisti papir."
   ],
   "meta.citrus-stamps.title": "Citrus Stamps: kreativna aktivnost · Fruit Destroy",
-  "meta.citrus-stamps.desc": "Tiskaj uzorke narezanim polovicama voća, kao pravim pečatima. Tiskaj prerezanim voćem, kao pravom polovicom limuna i bočicom boje. Svaki otisak izađe malo drukčije."
+  "meta.citrus-stamps.desc": "Tiskaj uzorke narezanim polovicama voća, kao pravim pečatima. Tiskaj prerezanim voćem, kao pravom polovicom limuna i bočicom boje. Svaki otisak izađe malo drukčije.",
+  "playMaze": "Igraj Fruit Maze",
+  "mainGame": "Glavna igra",
+  "mazeLevels": "Razina: {n}",
+  "mhF1": "Skupi svo voće",
+  "mhF2": "Izbjegavaj životinje",
+  "mhF3": "Sjemenke od 11. razine",
+  "exploreAllN": "Sve aktivnosti ({n})"
 }

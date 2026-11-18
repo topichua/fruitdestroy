@@ -361,7 +361,6 @@
   "bubble-pop.opt.slow": "Langzaam drijvend",
   "bubble-pop.opt.lively": "Levendig",
   "newTag": "Nieuw",
-  "heroMaze": "Fruit Maze: 10 levels vol fruit en vriendelijke beestjes",
   "fruit-slice.name": "Fruit Slice",
   "fruit-slice.h1": "Fruit Slice",
   "fruit-slice.card": "Veeg om vliegend fruit te snijden. Sappige helften, korte rondes.",
@@ -490,19 +489,20 @@
   "meta.fruit-memory.desc": "Draai kaarten om en vind hetzelfde fruit. Een klassiek memoryspel met fruitkaarten. Draai twee kaarten om; als ze hetzelfde zijn, blijven ze open.",
   "fruit-maze.name": "Fruit Maze",
   "fruit-maze.h1": "Fruit Maze",
-  "fruit-maze.card": "Leid de jongen door een boomgaarddoolhof, pak elk stuk fruit en ontwijk de dieren. 10 levels.",
+  "fruit-maze.card": "Leid de jongen door een boomgaarddoolhof, verzamel al het fruit en ontwijk de dieren. 20 levels, met pitten om te gooien vanaf level 11.",
   "fruit-maze.about": [
     "Fruit Maze is een arcadedoolhof van bovenaf. Je leidt een jongen over de tuinpaden, pakt elk stuk fruit op de kaart en blijft bij de dieren uit de buurt.",
-    "Appels zijn 10 punten, bananen 15, sinaasappels 20 en aardbeien 25, plus 100 voor het halen van het level. Je hebt drie levens. Bots je tegen een dier, dan kost dat een leven en ga je terug naar het tuinhek, waar dieren nooit komen, met twee seconden bescherming. Er zijn 10 levels. Elk is iets groter en brengt één dier meer: van een kleine tuin van 11×11 met één schildpad tot een boomgaard van 19×19 met tien schildpadden, vossen en apen.",
-    "De schildpad loopt heen en weer over één pad. De vos patrouilleert en slaat altijd rechtsaf als het kan. De aap is sneller en neemt op elk kruispunt de volgende afslag in een vaste volgorde, dus je kunt hun routes leren."
+    "Appels zijn 10 punten, bananen 15, sinaasappels 20 en aardbeien 25, plus 100 voor het halen van het level. Je hebt drie levens. Bots je tegen een dier, dan kost dat een leven en ga je terug naar het tuinhek, waar dieren nooit komen, met twee seconden bescherming. Er zijn 20 levels. De eerste tien groeien van een kleine tuin van 11×11 met één schildpad naar een boomgaard van 19×19 met tien dieren. Vanaf level 11 kan de jongen pitten gooien: druk op spatie (of de 🌰-knop) om een dier een paar seconden te verdoven. Daarna wordt elk level moeilijker: grotere doolhoven tot 23×23, meer en snellere dieren, minder pitten en kortere verdoving.",
+    "De schildpad loopt heen en weer over één pad. De vos patrouilleert en slaat altijd rechtsaf als het kan. De aap is sneller en neemt op elk kruispunt de volgende afslag in een vaste volgorde, dus je kunt hun routes leren. De egel, vanaf level 13, volgt je zodra je op een paar stappen afstand komt."
   ],
   "fruit-maze.steps": [
     "Beweeg met de pijltjes of W A S D. Op een telefoon de pijlknoppen ingedrukt houden of over het bord vegen.",
     "Loop over fruit om het te pakken. De teller bovenaan laat zien hoeveel er nog ligt.",
+    "Druk vanaf level 11 op spatie, de 🌰-knop of tik op het speelveld om een pit te gooien in de richting waarin de jongen kijkt.",
     "Pak elk stuk fruit om het level te halen. Druk op Esc of de pauzeknop voor een pauze."
   ],
   "meta.fruit-maze.title": "Fruit Maze: gratis online spel · Fruit Destroy",
-  "meta.fruit-maze.desc": "Leid de jongen door een boomgaarddoolhof, pak elk stuk fruit en ontwijk de dieren. 10 levels. Fruit Maze is een arcadedoolhof van bovenaf. Je leidt een jongen over de tuinpaden, pakt elk stuk fruit op de kaart en blijft bij de dieren uit de buurt.",
+  "meta.fruit-maze.desc": "Leid de jongen door een boomgaarddoolhof, verzamel al het fruit en ontwijk de dieren. 20 levels, met pitten om te gooien vanaf level 11. Fruit Maze is een arcadedoolhof van bovenaf. Je leidt een jongen over de tuinpaden, pakt elk stuk fruit op de kaart en blijft bij de dieren uit de buurt.",
   "fruit-puzzle.name": "Fruit Puzzle",
   "fruit-puzzle.h1": "Fruit Puzzle",
   "fruit-puzzle.card": "Schuif tegels tot de fruitfoto weer heel is.",
@@ -698,5 +698,12 @@
     "Bewaar je afdruk of wis het papier."
   ],
   "meta.citrus-stamps.title": "Citrus Stamps: creatieve activiteit · Fruit Destroy",
-  "meta.citrus-stamps.desc": "Druk patronen met doorgesneden fruithalfjes, als echte fruitstempels. Druk met doorgesneden fruit, zoals je met een echte halve citroen en een potje verf zou doen. Elke afdruk komt net iets anders uit."
+  "meta.citrus-stamps.desc": "Druk patronen met doorgesneden fruithalfjes, als echte fruitstempels. Druk met doorgesneden fruit, zoals je met een echte halve citroen en een potje verf zou doen. Elke afdruk komt net iets anders uit.",
+  "playMaze": "Speel Fruit Maze",
+  "mainGame": "Hoofdspel",
+  "mazeLevels": "{n} levels",
+  "mhF1": "Verzamel al het fruit",
+  "mhF2": "Ontwijk de dieren",
+  "mhF3": "Pitten gooien vanaf level 11",
+  "exploreAllN": "Alle {n} activiteiten"
 }

@@ -361,7 +361,6 @@
   "bubble-pop.opt.slow": "Mabagal na alon",
   "bubble-pop.opt.lively": "Masigla",
   "newTag": "Bago",
-  "heroMaze": "Fruit Maze: 10 level ng prutas at mababait na hayop",
   "fruit-slice.name": "Fruit Slice",
   "fruit-slice.h1": "Fruit Slice",
   "fruit-slice.card": "Mag-swipe para hiwain ang lumilipad na prutas. Makatas na hati, mabilis na laban.",
@@ -490,19 +489,20 @@
   "meta.fruit-memory.desc": "Baligtarin ang mga baraha at hanapin ang magkaparehong prutas. Klasikong memory game na may barahang prutas. Baligtarin ang dalawa; kapag magkapareho, nananatili silang bukas.",
   "fruit-maze.name": "Fruit Maze",
   "fruit-maze.h1": "Fruit Maze",
-  "fruit-maze.card": "Gabayan ang batang lalaki sa maze ng halamanan, pulutin ang bawat prutas, at iwasan ang mga hayop. 10 level.",
+  "fruit-maze.card": "Gabayan ang batang lalaki sa maze ng taniman, kunin ang lahat ng prutas at iwasan ang mga hayop. 20 level, at mula level 11 puwede kang magbato ng buto.",
   "fruit-maze.about": [
     "Arcade maze na kita mula sa itaas ang Fruit Maze. Ginagabayan mo ang batang lalaki sa mga daan ng hardin, pinupulot ang bawat prutas sa mapa, at iniiwasan ang mga hayop.",
-    "10 puntos ang mansanas, 15 ang saging, 20 ang kahel, at 25 ang strawberi, dagdag pa ang 100 kapag natapos ang level. May tatlong buhay ka. Kapag nabangga ang hayop, bawas ang isang buhay at bumabalik ka sa gate ng hardin, kung saan hindi pumapasok ang mga hayop, na may dalawang segundong ligtas. May 10 level. Lumalaki nang kaunti ang bawat isa at may dagdag na isang hayop: mula sa maliit na 11×11 na hardin na may isang pagong hanggang 19×19 na halamanan na may sampung pagong, soro, at unggoy.",
-    "Pabalik-balik ang pagong sa isang daan. Nagpapatrulya ang soro at palaging kumakanan kapag kaya. Mas mabilis ang unggoy at sa bawat sangandaan ay kinukuha nito ang susunod na liko sa nakatakdang ayos, kaya matututuhan mo ang ruta nila."
+    "10 puntos ang mansanas, 15 ang saging, 20 ang kahel, at 25 ang strawberi, dagdag pa ang 100 kapag natapos ang level. May tatlong buhay ka. Kapag nabangga ang hayop, bawas ang isang buhay at bumabalik ka sa gate ng hardin, kung saan hindi pumapasok ang mga hayop, na may dalawang segundong ligtas. May 20 level. Lumalaki ang unang sampu mula sa maliit na 11×11 na hardin na may iisang pagong hanggang sa 19×19 na taniman na may sampung hayop. Mula level 11 puwedeng magbato ng buto ang bata: pindutin ang Space (o ang button na 🌰) para mahilo ang isang hayop nang ilang segundo. Pagkatapos noon, mas mahirap ang bawat level: mas malalaking maze hanggang 23×23, mas marami at mas mabibilis na hayop, mas kaunting buto at mas maikling hilo.",
+    "Pabalik-balik ang pagong sa isang daan. Nagpapatrulya ang soro at palaging kumakanan kapag kaya. Mas mabilis ang unggoy at sa bawat sangandaan ay kinukuha nito ang susunod na liko sa nakatakdang ayos, kaya matututuhan mo ang ruta nila. Ang hedgehog, mula level 13, ay sumusunod sa iyo kapag ilang hakbang ka na lang mula rito."
   ],
   "fruit-maze.steps": [
     "Gumalaw gamit ang mga arrow key o W A S D. Sa telepono, pindutin nang matagal ang mga arrow o mag-swipe sa board.",
     "Lakarin ang prutas para pulutin. Ipinapakita ng bilang sa itaas kung ilan ang natitira.",
+    "Mula level 11, pindutin ang Space, ang button na 🌰 o i-tap ang board para magbato ng buto kung saan nakaharap ang bata.",
     "Pulutin ang bawat prutas para matapos ang level. Pindutin ang Esc o ang button na pahinga para magpahinga."
   ],
   "meta.fruit-maze.title": "Fruit Maze: libreng larong online · Fruit Destroy",
-  "meta.fruit-maze.desc": "Gabayan ang batang lalaki sa maze ng halamanan, pulutin ang bawat prutas, at iwasan ang mga hayop. 10 level. Arcade maze na kita mula sa itaas ang Fruit Maze. Ginagabayan mo ang batang lalaki sa mga daan ng hardin, pinupulot ang bawat prutas sa mapa, at iniiwasan ang mga hayop.",
+  "meta.fruit-maze.desc": "Gabayan ang batang lalaki sa maze ng taniman, kunin ang lahat ng prutas at iwasan ang mga hayop. 20 level, at mula level 11 puwede kang magbato ng buto. Arcade maze na kita mula sa itaas ang Fruit Maze. Ginagabayan mo ang batang lalaki sa mga daan ng hardin, pinupulot ang bawat prutas sa mapa, at iniiwasan ang mga hayop.",
   "fruit-puzzle.name": "Fruit Puzzle",
   "fruit-puzzle.h1": "Fruit Puzzle",
   "fruit-puzzle.card": "I-slide ang mga tile para buuin ulit ang larawan ng prutas.",
@@ -698,5 +698,12 @@
     "I-save ang print o linisin ang papel."
   ],
   "meta.citrus-stamps.title": "Citrus Stamps: malikhaing aktibidad · Fruit Destroy",
-  "meta.citrus-stamps.desc": "Mag-print ng pattern gamit ang hati ng prutas, parang totoong stamp. Mag-print gamit ang hiwang prutas, gaya ng totoong kalahating limon at garapon ng pintura. Bahagyang naiiba ang bawat tatak."
+  "meta.citrus-stamps.desc": "Mag-print ng pattern gamit ang hati ng prutas, parang totoong stamp. Mag-print gamit ang hiwang prutas, gaya ng totoong kalahating limon at garapon ng pintura. Bahagyang naiiba ang bawat tatak.",
+  "playMaze": "Laruin ang Fruit Maze",
+  "mainGame": "Pangunahing laro",
+  "mazeLevels": "{n} level",
+  "mhF1": "Kunin ang lahat ng prutas",
+  "mhF2": "Iwasan ang mga hayop",
+  "mhF3": "Magbato ng buto mula level 11",
+  "exploreAllN": "Tingnan ang lahat ng {n} aktibidad"
 }

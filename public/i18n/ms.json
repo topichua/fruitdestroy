@@ -361,7 +361,6 @@
   "bubble-pop.opt.slow": "Hanyut perlahan",
   "bubble-pop.opt.lively": "Rancak",
   "newTag": "Baharu",
-  "heroMaze": "Fruit Maze: 10 tahap buah dan haiwan yang mesra",
   "fruit-slice.name": "Fruit Slice",
   "fruit-slice.h1": "Fruit Slice",
   "fruit-slice.card": "Leret untuk hiris buah yang terbang. Belahan berair, pusingan pantas.",
@@ -490,19 +489,20 @@
   "meta.fruit-memory.desc": "Terbalikkan kad dan cari buah yang sama. Permainan memori klasik dengan kad buah. Buka dua kad; jika sepadan, kad itu kekal terbuka.",
   "fruit-maze.name": "Fruit Maze",
   "fruit-maze.h1": "Fruit Maze",
-  "fruit-maze.card": "Pandu budak lelaki melalui labirin dusun, kumpul setiap buah dan elak haiwan. 10 tahap.",
+  "fruit-maze.card": "Bawa budak lelaki melalui labirin dusun, kutip semua buah dan elak haiwan. 20 tahap, dengan biji untuk dibaling dari tahap 11.",
   "fruit-maze.about": [
     "Fruit Maze ialah labirin arked yang dilihat dari atas. Anda memandu budak lelaki di laluan kebun, mengambil setiap buah pada peta dan menjauhi haiwan.",
-    "Epal bernilai 10 mata, pisang 15, oren 20 dan strawberi 25, serta 100 untuk menghabiskan tahap. Anda ada tiga nyawa. Terlanggar haiwan mengurangkan satu nyawa dan menghantar anda kembali ke pintu kebun, tempat haiwan tidak pernah masuk, dengan dua saat selamat. Ada 10 tahap. Setiap satu sedikit lebih besar dan menambah satu haiwan: dari kebun kecil 11×11 dengan seekor kura-kura hingga dusun 19×19 dengan sepuluh kura-kura, musang dan monyet.",
-    "Kura-kura berjalan ulang-alik di satu laluan. Musang meronda dengan sentiasa belok kanan apabila boleh. Monyet lebih pantas dan di setiap simpang mengambil belokan seterusnya dalam susunan tetap, jadi laluan mereka boleh dipelajari."
+    "Epal bernilai 10 mata, pisang 15, oren 20 dan strawberi 25, serta 100 untuk menghabiskan tahap. Anda ada tiga nyawa. Terlanggar haiwan mengurangkan satu nyawa dan menghantar anda kembali ke pintu kebun, tempat haiwan tidak pernah masuk, dengan dua saat selamat. Ada 20 tahap. Sepuluh yang pertama membesar daripada kebun kecil 11×11 dengan seekor kura-kura hingga dusun 19×19 dengan sepuluh haiwan. Dari tahap 11 budak itu boleh membaling biji: tekan Space (atau butang 🌰) untuk membuat haiwan pening beberapa saat. Selepas itu setiap tahap makin sukar: labirin lebih besar hingga 23×23, haiwan lebih banyak dan lebih laju, biji lebih sedikit dan pening lebih singkat.",
+    "Kura-kura berjalan ulang-alik di satu laluan. Musang meronda dengan sentiasa belok kanan apabila boleh. Monyet lebih pantas dan di setiap simpang mengambil belokan seterusnya dalam susunan tetap, jadi laluan mereka boleh dipelajari. Landak, dari tahap 13, mengekori anda apabila anda berada beberapa langkah darinya."
   ],
   "fruit-maze.steps": [
     "Bergerak dengan kekunci anak panah atau W A S D. Pada telefon, tahan butang anak panah atau leret pada papan.",
     "Lalui buah untuk mengumpulnya. Pembilang di atas menunjukkan berapa yang tinggal.",
+    "Dari tahap 11, tekan Space, butang 🌰 atau ketik papan untuk membaling biji ke arah budak itu menghadap.",
     "Kumpul setiap buah untuk habiskan tahap. Tekan Esc atau butang jeda untuk berehat."
   ],
   "meta.fruit-maze.title": "Fruit Maze: permainan dalam talian percuma · Fruit Destroy",
-  "meta.fruit-maze.desc": "Pandu budak lelaki melalui labirin dusun, kumpul setiap buah dan elak haiwan. 10 tahap. Fruit Maze ialah labirin arked yang dilihat dari atas. Anda memandu budak lelaki di laluan kebun, mengambil setiap buah pada peta dan menjauhi haiwan.",
+  "meta.fruit-maze.desc": "Bawa budak lelaki melalui labirin dusun, kutip semua buah dan elak haiwan. 20 tahap, dengan biji untuk dibaling dari tahap 11. Fruit Maze ialah labirin arked yang dilihat dari atas. Anda memandu budak lelaki di laluan kebun, mengambil setiap buah pada peta dan menjauhi haiwan.",
   "fruit-puzzle.name": "Fruit Puzzle",
   "fruit-puzzle.h1": "Fruit Puzzle",
   "fruit-puzzle.card": "Luncurkan jubin untuk menyusun semula gambar buah.",
@@ -698,5 +698,12 @@
     "Simpan cetakan atau kosongkan kertas."
   ],
   "meta.citrus-stamps.title": "Citrus Stamps: aktiviti kreatif · Fruit Destroy",
-  "meta.citrus-stamps.desc": "Cetak corak dengan belahan buah, seperti cap buah yang sebenar. Cetak dengan buah yang dipotong, seperti separuh lemon sebenar dan bekas cat. Setiap cap keluar sedikit berbeza."
+  "meta.citrus-stamps.desc": "Cetak corak dengan belahan buah, seperti cap buah yang sebenar. Cetak dengan buah yang dipotong, seperti separuh lemon sebenar dan bekas cat. Setiap cap keluar sedikit berbeza.",
+  "playMaze": "Main Fruit Maze",
+  "mainGame": "Permainan utama",
+  "mazeLevels": "{n} tahap",
+  "mhF1": "Kutip semua buah",
+  "mhF2": "Elak haiwan",
+  "mhF3": "Baling biji dari tahap 11",
+  "exploreAllN": "Lihat semua {n} aktiviti"
 }

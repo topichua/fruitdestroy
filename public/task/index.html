@@ -599,7 +599,7 @@ h1[tabindex="-1"]:focus { outline: none; }
 .mz-btn.on, .mz-btn:active { background: var(--play); color: var(--play-ink); transform: translateY(2px); box-shadow: 0 2px 0 var(--line); }
 .mz-up { grid-area: 1 / 2; } .mz-left { grid-area: 2 / 1; } .mz-right { grid-area: 2 / 3; } .mz-down { grid-area: 3 / 2; }
 .mz-screen:empty { display: none; }
-.mz-ov { z-index: 8; overflow-y: auto; justify-content: center; }
+.mz-ov { z-index: 8; overflow-y: auto; justify-content: center; justify-content: safe center; }
 .mz-menu { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: center; text-align: left; width: min(860px, 100%); }
 @media (max-width: 700px) { .mz-menu { grid-template-columns: 1fr; text-align: center; } .mz-menu .row { justify-content: center; } }
 .mz-menu-copy { display: flex; flex-direction: column; gap: 12px; }
@@ -611,6 +611,13 @@ h1[tabindex="-1"]:focus { outline: none; }
 .mz-lv-btn b { font-family: var(--font-display); font-size: 18px; }
 .mz-lv-btn small { font-size: 11px; font-weight: 700; color: var(--ink-2); }
 .mz-lv-btn:hover:not([disabled]) { border-color: var(--play); }
+.mz-lv-btn { position: relative; }
+.mz-lv-seed { position: absolute; top: 3px; right: 4px; font-style: normal; font-size: 11px; line-height: 1; }
+.mz-fire { grid-area: 2 / 2; background: #f6e2c8; box-shadow: 0 4px 0 #c99a62; font-size: 24px; }
+.mz-fire.on, .mz-fire:active { background: #e9b77a; }
+.mz-fire[hidden], .mz-seeds[hidden] { display: none; }
+.mz-seeds.empty { opacity: .55; }
+.mz-seeds.shake { animation: fd-shake .35s; }
 .mz-lv-btn[disabled] { opacity: .5; cursor: not-allowed; }
 .mz-tips { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; text-align: left; max-width: 46ch; }
 .mz-tips li { display: grid; grid-template-columns: 40px 1fr; gap: 10px; align-items: center; background: var(--surface); border-radius: 14px; padding: 10px 12px; font-weight: 700; }
@@ -619,6 +626,30 @@ h1[tabindex="-1"]:focus { outline: none; }
 .mz-ico { display: none; font-size: 14px; }
 @media (max-width: 520px) { .mz-hud small { display: none; } .mz-ico { display: inline; } .mz-hud { gap: 4px; padding: 8px 6px; } .mz-hud .fd-pill { padding: 5px 8px; gap: 4px; } .mz-lives span { font-size: 13px; } }
 @media (max-width: 520px) { .mz-hud .icon-btn { width: 36px; height: 36px; } .mz-hud .icon-btn svg { width: 17px; height: 17px; } .mz-hud .fd-pill { font-size: 13px; padding: 4px 7px; } }
+
+/* ---------- v6: Fruit Maze as the main game in the hero ---------- */
+.hero-all { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; font-weight: 800; color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--play); padding-bottom: 2px; }
+.hero-all:hover { color: var(--play-lip); }
+.maze-hero { display: flex; flex-direction: column; gap: 12px; padding: 14px; border-radius: var(--r-lg); background: radial-gradient(90% 60% at 100% 0%, var(--play-soft), transparent 70%), var(--surface); box-shadow: var(--shadow); text-decoration: none; color: var(--ink); min-width: 0; transition: transform .2s; }
+.maze-hero:hover { transform: translateY(-3px); }
+.maze-hero:focus-visible { outline: 3px solid var(--play); outline-offset: 4px; }
+.mh-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.mh-tag { background: var(--play); color: var(--play-ink); border-radius: 999px; padding: 4px 10px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+.mh-name { font-family: var(--font-display); font-size: 22px; font-weight: 800; }
+.mh-lv { margin-left: auto; font-weight: 800; font-size: 14px; color: var(--ink-2); }
+.mh-board { position: relative; display: block; width: 100%; aspect-ratio: 1; border-radius: 16px; overflow: hidden; background: #bfe3a0; }
+.mh-board canvas { display: block; }
+.mh-play { position: absolute; left: 50%; bottom: 14px; translate: -50% 0; display: inline-flex; align-items: center; gap: 8px; background: var(--play); color: var(--play-ink); border-radius: 999px; padding: 10px 18px; font-weight: 800; box-shadow: 0 4px 0 var(--play-lip); white-space: nowrap; }
+.mh-play svg { width: 18px; height: 18px; }
+.maze-hero:hover .mh-play { filter: brightness(1.05); }
+.mh-feats { display: flex; flex-wrap: wrap; gap: 6px 14px; font-weight: 700; font-size: 14px; color: var(--ink-2); }
+@media (min-width: 861px) { .maze-hero { max-width: 500px; justify-self: end; width: 100%; } }
+@media (max-width: 520px) { .mz-hud [data-sound-toggle] { display: none; } .mz-tips li { padding: 8px 10px; font-size: 14px; } }
+@media (max-width: 860px) { /* phones: the game card comes straight after the headline */
+  .hero .hero-copy { display: contents; }
+  .hero .kicker { order: 0; } .hero h1 { order: 1; } .hero-sub { order: 2; } .maze-hero { order: 3; } .hero-actions { order: 4; } .hero-all { order: 5; } .hero .continue-chip { order: 6; }
+  .hero > * { margin: 0; } .hero-all, .hero .continue-chip { justify-self: start; }
+}
 
 </style>
 <header id="site-header" class="site-header"></header>
@@ -930,8 +961,8 @@ Object.assign(STR.uk, {
   'bubble-pop.opt.still': 'Нерухомі', 'bubble-pop.opt.slow': 'Повільно', 'bubble-pop.opt.lively': 'Жваво'
 });
 
-Object.assign(STR.en, { newTag: 'New', heroMaze: 'Fruit Maze: 10 levels of fruit and friendly critters' });
-Object.assign(STR.uk, { newTag: 'Нове', heroMaze: 'Fruit Maze: 10 рівнів фруктів і кумедних звірят' });
+Object.assign(STR.en, { newTag: 'New', playMaze: 'Play Fruit Maze', mainGame: 'Main game', mazeLevels: '{n} levels', mhF1: 'Collect every fruit', mhF2: 'Dodge the animals', mhF3: 'Throw seeds from level 11', exploreAllN: 'Explore all {n} activities' });
+Object.assign(STR.uk, { newTag: 'Нове', playMaze: 'Грати у Fruit Maze', mainGame: 'Головна гра', mazeLevels: '{n} рівнів', mhF1: 'Зберіть усі фрукти', mhF2: 'Оминайте звірів', mhF3: 'Насінини з 11 рівня', exploreAllN: 'Усі активності ({n})' });
 
 /* ===== Planned activities: shown as "Coming soon", never as playable. Names stay in English in every locale. ===== */
 const SOON = [
@@ -971,7 +1002,7 @@ const SOON_DESC = {
     'fruit-sort': 'Pour fruit between jars until every jar holds one kind.',
     'catch-the-fruit': 'Move the basket and catch what falls from the tree.',
     'fruit-memory': 'Flip cards and find the matching fruit.',
-    'fruit-maze': 'Guide the boy through an orchard maze, collect every fruit and dodge the animals. 10 levels.',
+    'fruit-maze': 'Guide the boy through an orchard maze, collect every fruit and dodge the animals. 20 levels, with seeds to throw from level 11.',
     'fruit-puzzle': 'Slide tiles to put a fruit picture back together.',
     'fruit-flip': 'Flip fruit tiles until the whole board turns green.',
     'fruit-beats': 'Tap a grid of fruit to build a little looping beat.',
@@ -997,7 +1028,7 @@ const SOON_DESC = {
     'fruit-sort': 'Пересипайте фрукти між банками, доки в кожній не буде одного виду.',
     'catch-the-fruit': 'Рухайте кошик і ловіть те, що падає з дерева.',
     'fruit-memory': 'Перевертайте картки й шукайте однакові фрукти.',
-    'fruit-maze': 'Проведіть хлопчика садовим лабіринтом, зберіть усі фрукти й оминайте звірів. 10 рівнів.',
+    'fruit-maze': 'Проведіть хлопчика садовим лабіринтом, зберіть усі фрукти й оминайте звірів. 20 рівнів, а з 11-го можна кидати насінини.',
     'fruit-puzzle': 'Пересувайте плитки, щоб скласти фруктову картинку.',
     'fruit-flip': 'Перевертайте плитки, доки все поле не стане зеленим.',
     'fruit-beats': 'Торкайтеся фруктів на сітці й складайте маленький ритм.',
@@ -1040,16 +1071,18 @@ Object.assign(GT.en, {
   'fruit-memory': { hint: 'Flip two cards at a time and find all the pairs.', size: 'Cards', card: 'Card {n}', moves: 'Moves', pairs: 'Pairs', done: 'All found!', inMoves: '{n} moves', time: 'time', bestMoves: 'best moves',
     about: ['A classic memory game with fruit cards. Turn two cards over; if they match, they stay open.', 'Choose 12, 16 or 24 cards. There is no timer pressure, only your move count.'], steps: ['Choose how many cards to play with.', 'Tap two cards to turn them over.', 'Remember where each fruit is and find every pair.'] },
   'fruit-maze': {
-    about: ['Fruit Maze is an arcade maze seen from above. You guide a boy along the garden paths, pick up every fruit on the map and keep away from the animals.', 'Apples are worth 10 points, bananas 15, oranges 20 and strawberries 25, plus 100 for clearing the level. You have three lives. Bumping into an animal costs one life and sends you back to the garden gate, where animals never go, with two seconds of safety. There are 10 levels. Each one is a little bigger and brings one more animal: from a small 11×11 garden with a single turtle to a 19×19 orchard with ten turtles, foxes and monkeys.', 'The turtle walks back and forth along one path. The fox patrols by always turning right when it can. The monkey is quicker and takes the next turn in a fixed order at every crossing, so you can learn their routes.'],
-    steps: ['Move with the arrow keys or W A S D. On a phone, hold the arrow buttons or swipe on the board.', 'Walk over fruit to collect it. The counter at the top shows how many are left.', 'Collect every fruit to finish the level. Press Esc or the pause button to take a break.'],
-    kicker: 'Arcade · 10 levels', menuDesc: 'Guide the boy through the orchard, collect every fruit and keep clear of the turtle, the fox and the monkey.', play: 'Play', playFrom: 'Play level {n}', rules: 'How to play', chooseLevel: 'Choose a level', locked: 'locked', bestIs: 'Best: {b}', noStorage: 'This browser is not saving data, so progress will reset when you leave.',
+    about: ['Fruit Maze is an arcade maze seen from above. You guide a boy along the garden paths, pick up every fruit on the map and keep away from the animals.', 'Apples are worth 10 points, bananas 15, oranges 20 and strawberries 25, plus 100 for clearing the level. You have three lives. Bumping into an animal costs one life and sends you back to the garden gate, where animals never go, with two seconds of safety. There are 20 levels. The first ten grow from a small 11×11 garden with a single turtle to a 19×19 orchard with ten animals. From level 11 the boy can throw seeds: press Space (or the 🌰 button) to stun an animal for a few seconds. After that every level turns the difficulty up: bigger mazes up to 23×23, more and faster animals, fewer seeds and shorter stuns.', 'The turtle walks back and forth along one path. The fox patrols by always turning right when it can. The monkey is quicker and takes the next turn in a fixed order at every crossing, so you can learn their routes. The hedgehog, from level 13, follows you when you come within a few steps.'],
+    steps: ['Move with the arrow keys or W A S D. On a phone, hold the arrow buttons or swipe on the board.', 'Walk over fruit to collect it. The counter at the top shows how many are left.', 'From level 11, press Space, the 🌰 button or tap the board to throw a seed the way the boy is facing.', 'Collect every fruit to finish the level. Press Esc or the pause button to take a break.'],
+    kicker: 'Arcade · 20 levels', menuDesc: 'Guide the boy through the orchard, collect every fruit and keep clear of the animals. From level 11, throw seeds to stun them.', play: 'Play', playFrom: 'Play level {n}', rules: 'How to play', chooseLevel: 'Choose a level', locked: 'locked', bestIs: 'Best: {b}', noStorage: 'This browser is not saving data, so progress will reset when you leave.',
     hudLevel: 'Level', hudScore: 'Score', hudFruit: 'Fruit', livesLabel: '{n} lives left', boardLabel: 'Maze board', padLabel: 'Direction buttons', 'dir.up': 'Up', 'dir.down': 'Down', 'dir.left': 'Left', 'dir.right': 'Right',
-    kbd: 'Arrows or WASD to move · Esc to pause', pause: 'Pause', paused: 'Paused', resume: 'Resume', restartLevel: 'Restart level', exit: 'Exit to menu', restartNote: 'Restarting this level puts your score back to {s} and your lives back to {l}, as they were when the level began.',
-    tutTitle: 'How to play', tut1: 'Use the arrows, WASD or the on-screen buttons to walk. You stop when you let go.', tut2: 'Walk over fruit to collect it: apple 10, banana 15, orange 20, strawberry 25.', tut3: 'Animals cost a life if they touch you. You restart at the gate and stay safe for 2 seconds.', tut4: 'Collect all the fruit on the map to finish the level.', gotIt: 'Got it, let’s play',
+    kbd: 'Arrows or WASD to move · Space throws a seed (level 11+) · Esc to pause', pause: 'Pause', paused: 'Paused', resume: 'Resume', restartLevel: 'Restart level', exit: 'Exit to menu', restartNote: 'Restarting this level puts your score back to {s} and your lives back to {l}, as they were when the level began.',
+    tutTitle: 'How to play', tut1: 'Use the arrows, WASD or the on-screen buttons to walk. You stop when you let go.', tut2: 'Walk over fruit to collect it: apple 10, banana 15, orange 20, strawberry 25.', tut3: 'Animals cost a life if they touch you. You restart at the gate and stay safe for 2 seconds.', tut4: 'Collect all the fruit on the map to finish the level.', tut5: 'From level 11 you can throw seeds with Space or the 🌰 button to stun animals.', gotIt: 'Got it, let’s play',
+    hudSeeds: 'Seeds', fire: 'Throw a seed', seedsLabel: '{n} seeds', stunned: 'Animal stunned', noSeeds: 'Out of seeds', seedBonus: 'seed bonus', nextSeeds: 'Next level: you get seeds to throw!',
+    shootKicker: 'New skill', shootTitle: 'Seeds!', shoot1: 'Press Space, the 🌰 button or tap the board to throw a seed the way the boy is facing (see the little arrow).', shoot2: 'A hit stuns an animal for a few seconds and gives 30 points. Stunned animals cannot hurt you.', shoot3: 'Seeds are limited. Every seed left at the end of the level is worth 20 points.', shoot4: 'Levels get harder from here, and from level 13 the hedgehog follows you when you are close.',
     levelN: 'Level {n}', levelStarted: 'Level {n}: {name}', winTitle: 'Level cleared!', levelScore: 'this level', total: 'total score', time: 'time', livesLeft: 'lives left', next: 'Next level', again: 'Play again',
-    completeKicker: 'All 10 levels', completeTitle: 'Orchard complete!', completeSub: 'You finished every level with {l} lives to spare.', bestTotal: 'best total', playFromStart: 'Play again from level 1',
+    completeKicker: 'All 20 levels', completeTitle: 'Orchard complete!', completeSub: 'You finished every level with {l} lives to spare.', bestTotal: 'best total', playFromStart: 'Play again from level 1',
     overTitle: 'Out of lives', overSub: 'The animals win this round. Have another go!', reached: 'level reached', tryAgain: 'Try again', retryNote: 'Try again starts level {n} with 3 lives and a fresh score.',
-    'lvl.0': 'Orchard Gate', 'lvl.1': 'Apple Rows', 'lvl.2': 'Banana Bend', 'lvl.3': 'Fox Hedge', 'lvl.4': 'Orange Grove', 'lvl.5': 'Monkey Business', 'lvl.6': 'Strawberry Patch', 'lvl.7': 'Twin Hedges', 'lvl.8': 'Busy Orchard', 'lvl.9': 'Grand Harvest' },
+    'lvl.0': 'Orchard Gate', 'lvl.1': 'Apple Rows', 'lvl.2': 'Banana Bend', 'lvl.3': 'Fox Hedge', 'lvl.4': 'Orange Grove', 'lvl.5': 'Monkey Business', 'lvl.6': 'Strawberry Patch', 'lvl.7': 'Twin Hedges', 'lvl.8': 'Busy Orchard', 'lvl.9': 'Grand Harvest', 'lvl.10': 'Seed Shooter', 'lvl.11': 'Pip Patrol', 'lvl.12': 'Hedgehog Hollow', 'lvl.13': 'Thorny Path', 'lvl.14': 'Cherry Crossroads', 'lvl.15': 'Wild Orchard', 'lvl.16': 'Night Picking', 'lvl.17': 'Bramble Run', 'lvl.18': 'Harvest Moon', 'lvl.19': 'King of the Orchard' },
   'fruit-puzzle': { hint: 'Tap a tile next to the gap to slide it. Put the picture back together.', size: 'Size', numbers: 'Show numbers', done: 'Picture complete!', inMoves: '{n} moves', time: 'time', bestMoves: 'best moves', moves: 'Moves',
     about: ['A sliding puzzle with a fruit picture. Slide tiles into the gap until the picture is whole again.', 'Pick 3×3 for a quick one or 4×4 for more of a challenge. Turn on numbers if you want a hint.'], steps: ['Choose the size and press Start.', 'Tap a tile in the same row or column as the gap.', 'Keyboard: arrow keys slide tiles into the gap.'] },
   'fruit-flip': { hint: 'Tap a tile to flip it and its neighbours. Turn every lemon into a green apple.', done: 'All ripe!', levelN: 'Level {n}', moves: 'Moves', next: 'Next level', shuffle: 'New board', unripe: 'Lemon', ripe: 'Green apple', left: '{n} lemons left',
@@ -1108,16 +1141,18 @@ Object.assign(GT.uk, {
   'fruit-memory': { hint: 'Відкривайте по дві картки й знайдіть усі пари.', size: 'Картки', card: 'Картка {n}', moves: 'Ходи', pairs: 'Пари', done: 'Усе знайдено!', inMoves: 'Ходів: {n}', time: 'час', bestMoves: 'найменше ходів',
     about: ['Класична гра на пам’ять із фруктовими картками. Відкрийте дві: якщо вони однакові, то лишаються відкритими.', 'Оберіть 12, 16 або 24 картки. Таймер не підганяє, рахуються лише ходи.'], steps: ['Оберіть кількість карток.', 'Торкніться двох карток, щоб відкрити їх.', 'Запам’ятовуйте фрукти й знайдіть кожну пару.'] },
   'fruit-maze': {
-    about: ['Fruit Maze — аркадний лабіринт із видом зверху. Ви ведете хлопчика садовими доріжками, збираєте всі фрукти на карті й тримаєтеся подалі від звірів.', 'Яблуко дає 10 очок, банан — 15, апельсин — 20, полуниця — 25, а за пройдений рівень ще 100. У вас три життя. Зіткнення зі звіром забирає одне життя й повертає до садової хвіртки, куди звірі не заходять, і дає дві секунди безпеки. 10 рівнів, і кожен трохи більший та має на одного звіра більше: від маленького саду 11×11 з однією черепахою до саду 19×19 з десятьма черепахами, лисицями й мавпочками.', 'Черепаха ходить туди-сюди однією доріжкою. Лисиця патрулює, завжди повертаючи праворуч, коли може. Мавпочка швидша й на кожному перехресті бере наступний поворот у сталому порядку, тож їхні маршрути можна вивчити.'],
-    steps: ['Рухайтеся стрілками або W A S D. На телефоні утримуйте кнопки зі стрілками або свайпайте по полю.', 'Пройдіть по фрукту, щоб зібрати його. Лічильник угорі показує, скільки лишилося.', 'Зберіть усі фрукти, щоб пройти рівень. Esc або кнопка паузи — щоб перепочити.'],
-    kicker: 'Аркада · 10 рівнів', menuDesc: 'Проведіть хлопчика садом, зберіть усі фрукти й не потрапляйте до черепахи, лисиці та мавпочки.', play: 'Грати', playFrom: 'Грати рівень {n}', rules: 'Як грати', chooseLevel: 'Обрати рівень', locked: 'закрито', bestIs: 'Рекорд: {b}', noStorage: 'Цей браузер не зберігає дані, тож прогрес скинеться, коли ви підете.',
+    about: ['Fruit Maze — аркадний лабіринт із видом зверху. Ви ведете хлопчика садовими доріжками, збираєте всі фрукти на карті й тримаєтеся подалі від звірів.', 'Яблуко дає 10 очок, банан — 15, апельсин — 20, полуниця — 25, а за пройдений рівень ще 100. У вас три життя. Зіткнення зі звіром забирає одне життя й повертає до садової хвіртки, куди звірі не заходять, і дає дві секунди безпеки. 20 рівнів. Перші десять ростуть від маленького саду 11×11 з однією черепахою до саду 19×19 з десятьма звірами. З 11 рівня хлопчик може кидати насінини: Пробіл (або кнопка 🌰) приголомшує звіра на кілька секунд. Далі кожен рівень складніший: лабіринти до 23×23, більше й швидших звірів, менше насінин і коротше приголомшення.', 'Черепаха ходить туди-сюди однією доріжкою. Лисиця патрулює, завжди повертаючи праворуч, коли може. Мавпочка швидша й на кожному перехресті бере наступний поворот у сталому порядку, тож їхні маршрути можна вивчити. Їжачок, з 13 рівня, іде за вами, щойно ви опинитеся за кілька кроків від нього.'],
+    steps: ['Рухайтеся стрілками або W A S D. На телефоні утримуйте кнопки зі стрілками або свайпайте по полю.', 'Пройдіть по фрукту, щоб зібрати його. Лічильник угорі показує, скільки лишилося.', 'З 11 рівня натискайте Пробіл, кнопку 🌰 або торкніться поля, щоб кинути насінину туди, куди дивиться хлопчик.', 'Зберіть усі фрукти, щоб пройти рівень. Esc або кнопка паузи — щоб перепочити.'],
+    kicker: 'Аркада · 20 рівнів', menuDesc: 'Проведіть хлопчика садом, зберіть усі фрукти й не потрапляйте до звірів. З 11 рівня можна приголомшувати їх насінинами.', play: 'Грати', playFrom: 'Грати рівень {n}', rules: 'Як грати', chooseLevel: 'Обрати рівень', locked: 'закрито', bestIs: 'Рекорд: {b}', noStorage: 'Цей браузер не зберігає дані, тож прогрес скинеться, коли ви підете.',
     hudLevel: 'Рівень', hudScore: 'Рахунок', hudFruit: 'Фрукти', livesLabel: 'Життів: {n}', boardLabel: 'Поле лабіринту', padLabel: 'Кнопки напрямку', 'dir.up': 'Угору', 'dir.down': 'Униз', 'dir.left': 'Ліворуч', 'dir.right': 'Праворуч',
-    kbd: 'Стрілки або WASD — рух · Esc — пауза', pause: 'Пауза', paused: 'Пауза', resume: 'Продовжити', restartLevel: 'Почати рівень знову', exit: 'Вийти в меню', restartNote: 'Якщо почати рівень знову, рахунок повернеться до {s}, а життя — до {l}, як було на початку рівня.',
-    tutTitle: 'Як грати', tut1: 'Ходіть стрілками, WASD або кнопками на екрані. Відпустили — хлопчик зупиняється.', tut2: 'Пройдіть по фрукту, щоб зібрати: яблуко 10, банан 15, апельсин 20, полуниця 25.', tut3: 'Звір, що торкнувся вас, забирає життя. Ви повертаєтеся до хвіртки й 2 секунди в безпеці.', tut4: 'Зберіть усі фрукти на карті, щоб пройти рівень.', gotIt: 'Зрозуміло, граємо',
+    kbd: 'Стрілки або WASD — рух · Пробіл — насінина (з 11 рівня) · Esc — пауза', pause: 'Пауза', paused: 'Пауза', resume: 'Продовжити', restartLevel: 'Почати рівень знову', exit: 'Вийти в меню', restartNote: 'Якщо почати рівень знову, рахунок повернеться до {s}, а життя — до {l}, як було на початку рівня.',
+    tutTitle: 'Як грати', tut1: 'Ходіть стрілками, WASD або кнопками на екрані. Відпустили — хлопчик зупиняється.', tut2: 'Пройдіть по фрукту, щоб зібрати: яблуко 10, банан 15, апельсин 20, полуниця 25.', tut3: 'Звір, що торкнувся вас, забирає життя. Ви повертаєтеся до хвіртки й 2 секунди в безпеці.', tut4: 'Зберіть усі фрукти на карті, щоб пройти рівень.', tut5: 'З 11 рівня можна кидати насінини Пробілом або кнопкою 🌰, щоб приголомшити звіра.', gotIt: 'Зрозуміло, граємо',
+    hudSeeds: 'Насінини', fire: 'Кинути насінину', seedsLabel: 'Насінин: {n}', stunned: 'Звіра приголомшено', noSeeds: 'Насінини скінчилися', seedBonus: 'бонус за насінини', nextSeeds: 'На наступному рівні у вас будуть насінини!',
+    shootKicker: 'Нове вміння', shootTitle: 'Насінини!', shoot1: 'Натисніть Пробіл, кнопку 🌰 або торкніться поля, щоб кинути насінину туди, куди дивиться хлопчик (показує маленька стрілка).', shoot2: 'Влучання приголомшує звіра на кілька секунд і дає 30 очок. Приголомшений звір не шкодить.', shoot3: 'Насінин обмаль. Кожна, що лишилася наприкінці рівня, дає 20 очок.', shoot4: 'Далі рівні складніші, а з 13 рівня їжачок іде за вами, коли ви поруч.',
     levelN: 'Рівень {n}', levelStarted: 'Рівень {n}: {name}', winTitle: 'Рівень пройдено!', levelScore: 'за рівень', total: 'загальний рахунок', time: 'час', livesLeft: 'життів лишилося', next: 'Наступний рівень', again: 'Грати ще',
-    completeKicker: 'Усі 10 рівнів', completeTitle: 'Сад пройдено!', completeSub: 'Ви пройшли всі рівні, і у вас ще лишилося життів: {l}.', bestTotal: 'найкращий результат', playFromStart: 'Грати знову з 1 рівня',
+    completeKicker: 'Усі 20 рівнів', completeTitle: 'Сад пройдено!', completeSub: 'Ви пройшли всі рівні, і у вас ще лишилося життів: {l}.', bestTotal: 'найкращий результат', playFromStart: 'Грати знову з 1 рівня',
     overTitle: 'Життя закінчилися', overSub: 'Цього разу перемогли звірі. Спробуйте ще!', reached: 'досягнутий рівень', tryAgain: 'Спробувати ще', retryNote: '«Спробувати ще» починає рівень {n} з 3 життями й нульовим рахунком.',
-    'lvl.0': 'Садова хвіртка', 'lvl.1': 'Яблуневі ряди', 'lvl.2': 'Банановий поворот', 'lvl.3': 'Лисяча огорожа', 'lvl.4': 'Апельсиновий гай', 'lvl.5': 'Мавпячі витівки', 'lvl.6': 'Полунична грядка', 'lvl.7': 'Подвійна огорожа', 'lvl.8': 'Галасливий сад', 'lvl.9': 'Великий урожай' },
+    'lvl.0': 'Садова хвіртка', 'lvl.1': 'Яблуневі ряди', 'lvl.2': 'Банановий поворот', 'lvl.3': 'Лисяча огорожа', 'lvl.4': 'Апельсиновий гай', 'lvl.5': 'Мавпячі витівки', 'lvl.6': 'Полунична грядка', 'lvl.7': 'Подвійна огорожа', 'lvl.8': 'Галасливий сад', 'lvl.9': 'Великий урожай', 'lvl.10': 'Насіннєвий стрілець', 'lvl.11': 'Кісточковий патруль', 'lvl.12': 'Їжакова балка', 'lvl.13': 'Колюча стежка', 'lvl.14': 'Вишневе перехрестя', 'lvl.15': 'Дикий сад', 'lvl.16': 'Нічний збір', 'lvl.17': 'Ожинові хащі', 'lvl.18': 'Місяць урожаю', 'lvl.19': 'Король саду' },
   'fruit-puzzle': { hint: 'Торкайтеся плитки поруч із порожнім місцем, щоб зсунути її. Складіть картинку.', size: 'Розмір', numbers: 'Показати номери', done: 'Картинку складено!', inMoves: 'Ходів: {n}', time: 'час', bestMoves: 'найменше ходів', moves: 'Ходи',
     about: ['Пазл-пʼятнашки з фруктовою картинкою. Пересувайте плитки в порожнє місце, доки картинка знову не стане цілою.', 'Оберіть 3×3 для швидкої гри або 4×4 для складнішої. Номери плиток можна ввімкнути як підказку.'], steps: ['Оберіть розмір і натисніть «Почати».', 'Торкніться плитки в тому ж рядку чи стовпці, що й порожнє місце.', 'Клавіатура: стрілки зсувають плитки.'] },
   'fruit-flip': { hint: 'Торкніться плитки, щоб перевернути її й сусідні. Перетворіть усі лимони на зелені яблука.', done: 'Усе достигло!', levelN: 'Рівень {n}', moves: 'Ходи', next: 'Наступний рівень', shuffle: 'Нове поле', unripe: 'Лимон', ripe: 'Зелене яблуко', left: 'Лимонів: {n}',
@@ -1535,13 +1570,17 @@ function renderHome(main) {
       <h1 id="h1">${T('heroTitle')}</h1>
       <p class="hero-sub">${esc(T('heroSub'))}</p>
       <div class="hero-actions">
-        <a class="btn btn-big btn-energy" href="${href('fruit-destroy')}">${ICON.play}${esc(T('playFD'))}</a>
-        <a class="btn btn-big btn-ghost" href="${href('activities')}">${esc(T('exploreAll'))}</a>
+        <a class="btn btn-big btn-play" href="${href('fruit-maze')}">${ICON.play}${esc(T('playMaze'))}</a>
+        <a class="btn btn-big btn-ghost" href="${href('fruit-destroy')}">${esc(T('playFD'))}</a>
       </div>
-      <a class="hero-new" href="${href('fruit-maze')}"><span class="hero-new-tag">${esc(T('newTag'))}</span><span aria-hidden="true">👦🍓🦊</span><span>${esc(T('heroMaze'))}</span>${ICON.arrow.replace('<svg', '<svg width="16" height="16"')}</a>
+      <a class="hero-all" href="${href('activities')}">${esc(T('exploreAllN', { n: ACTIVITIES.length }))}${ICON.arrow.replace('<svg', '<svg width="16" height="16"')}</a>
       ${la ? `<a class="continue-chip" href="${href(last.variant ? la.id + '-' + last.variant : la.id)}"><span class="dot" aria-hidden="true">${la.emoji}</span><span>${esc(T('continueLast', { name: lastName }))}</span>${ICON.arrow.replace('<svg', '<svg width="18" height="18"')}</a>` : ''}
     </div>
-    <div class="bowl" id="bowl" role="group" aria-label="${esc(T('bowlLabel'))}"><span class="bowl-hint">${esc(T('bowlHint'))}</span></div>
+    <a class="maze-hero" id="maze-hero" href="${href('fruit-maze')}" aria-label="${esc(T('playMaze'))}">
+      <span class="mh-top"><span class="mh-tag">${esc(T('mainGame'))}</span><b class="mh-name">Fruit Maze</b><span class="mh-lv">${esc(T('mazeLevels', { n: typeof MAZE_LEVELS !== 'undefined' ? MAZE_LEVELS.length : 20 }))}</span></span>
+      <span class="mh-board"><canvas aria-hidden="true"></canvas><span class="mh-play">${ICON.play}${esc(T('playNow'))}</span></span>
+      <span class="mh-feats"><span>🍓 ${esc(T('mhF1'))}</span><span>🦊 ${esc(T('mhF2'))}</span><span>🌰 ${esc(T('mhF3'))}</span></span>
+    </a>
   </section></div>
 
   <div class="wrap"><section class="section" aria-labelledby="moods-h">
@@ -1584,11 +1623,11 @@ function renderHome(main) {
     </div>
   </section></div>`;
   renderFavRow();
-  const stopBowl = mountBowl(main.querySelector('#bowl'));
+  const stopPreview = typeof mountMazePreview === 'function' ? mountMazePreview(main.querySelector('#maze-hero')) : () => {};
   setMeta({ title: T('meta.home.title'), description: T('meta.home.desc'), page: 'home', jsonld: { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Fruit Destroy', url: `${SITE}/${LANG}/`, inLanguage: LANG, description: T('meta.home.desc') } });
-  return stopBowl;
+  return stopPreview;
 }
-const FEATURED = ['fruit-destroy', 'fruit-maze', 'fruit-slice', 'fruit-garden', 'fruit-merge', 'bubble-pop', 'smoothie-studio', 'sand-art'];
+const FEATURED = ['fruit-maze', 'fruit-destroy', 'fruit-slice', 'fruit-garden', 'fruit-merge', 'bubble-pop', 'smoothie-studio', 'sand-art'];
 const MOOD_ICON = { energy: '⚡', play: '🎲', calm: '🌙', create: '🖌️' };
 function renderFavRow() {
   const row = document.getElementById('fav-row'); if (!row) return;
@@ -1601,29 +1640,6 @@ function renderFavRow() {
       <div><h3 class="mini-h">${esc(T('favTitle'))}</h3>${f.length ? `<div class="rail">${f.map(pill).join('')}</div>` : `<p class="note">${esc(T('favEmpty'))}</p>`}</div>
     </div></section>` : '';
 }
-function mountBowl(el) {
-  const fr = ['🍓', '🍋', '🍉', '🍇', '🍑', '🫐', '🍊', '🍒', '🥝'], tints = ['var(--t1)', 'var(--t2)', 'var(--t3)', 'var(--t4)', 'var(--t5)'];
-  const spots = [[8, 12], [30, 6], [54, 14], [76, 8], [18, 40], [42, 36], [66, 40], [6, 66], [30, 64], [56, 66], [78, 64]];
-  const timers = new Set();
-  let count = 0;
-  spots.forEach(([l, t], i) => {
-    const b = document.createElement('button');
-    b.type = 'button'; b.className = 'bowl-fruit';
-    const e = fr[i % fr.length];
-    b.textContent = e; b.style.left = l + '%'; b.style.top = t + '%'; b.style.background = tints[i % tints.length];
-    b.style.animationDelay = (-i * 0.7) + 's';
-    b.setAttribute('aria-label', T('popFruit'));
-    b.onclick = () => {
-      Sound.pop(0.3 + (i % 4) * 0.12); b.classList.add('popped'); count++;
-      if (count === 3) track('home_bowl_play', {});
-      const id = setTimeout(() => { timers.delete(id); b.textContent = fr[(i + count) % fr.length]; b.classList.remove('popped'); }, 1600);
-      timers.add(id);
-    };
-    el.appendChild(b);
-  });
-  return () => timers.forEach(clearTimeout);
-}
-
 const CatalogState = { q: '', type: '', soon: true };
 function renderCatalog(main, mood) {
   main.innerHTML = `<div class="wrap"><section class="section" aria-labelledby="h1">
@@ -3995,10 +4011,12 @@ GAMES['citrus-stamps'] = host => {
 };
 
 /* ===== Fruit Maze levels. Generated by tools/gen-maze-levels.js (seeded, then checked by MazeEngine.validate and the test bot).
-   Each level is at least as big as the last and adds one animal: 11×11 with 1 animal up to 19×19 with 10.
+   Levels 1–10 add one animal each (11×11 with 1 animal up to 19×19 with 10). Levels 11–20 add seeds
+   (ammo, stun seconds, animal speed multiplier) and grow to 23×23 with 17 animals, hedgehogs included.
    # hedge · . path · P start (garden gate, animals never enter it)
    a apple 10 · b banana 15 · o orange 20 · s strawberry 25
    T turtle (back and forth) · F fox (right-hand patrol) · M monkey (fast, cycles left/up/right/down at junctions)
+   H hedgehog (chases the boy when he is within 7 steps, otherwise patrols like the fox)
    dirs: starting direction of each animal in reading order. ===== */
 const MAZE_LEVELS = [
   { name: "Orchard Gate", dirs: ["left"], map: [
@@ -4160,7 +4178,233 @@ const MAZE_LEVELS = [
     '#.#a#.#...#s...b#.#',
     '#.#.#.#####.#.#.#.#',
     '#b..T..o....#b...a#',
-    '###################'] }
+    '###################'] },
+  { name: "Seed Shooter", ammo: 8, stun: 6, speed: 1, dirs: ["right","up","down","up","up","up","up","down","right","up","left"], map: [
+    '###################',
+    '#P..#....s#..o.M.s#',
+    '#.#.#s#.#.#.#####.#',
+    '#.#...#.#F..#..b..#',
+    '#.#.#.###.###T###.#',
+    '#..b#...#..b#.#.#a#',
+    '#b#####.###.#.#M#.#',
+    '#.#...#o....#.#b#.#',
+    '#.#T#.#.#####b#.#s#',
+    '#s#.#...#.s..T#..T#',
+    '#.#.#####.#########',
+    '#.#..o..#...#.o...#',
+    '#.#####.#.#.#.#.#.#',
+    '#a....#.#.#o....#o#',
+    '#.###.#s#.#######.#',
+    '#.#b..#F#...F..s..#',
+    '#.#.#.#.#.#######.#',
+    '#s..#o..aF...bM..a#',
+    '###################'] },
+  { name: "Pip Patrol", ammo: 8, stun: 5.5, speed: 1.03, dirs: ["up","down","down","right","right","down","left","up","right","right","right","right"], map: [
+    '###################',
+    '#P...o#....b.....b#',
+    '#.###.#.#######T#.#',
+    '#..o#.#s#...#.#b#.#',
+    '#.#.#.#.#T#.#M#.#.#',
+    '#b#.#o..#s#..o#.Fs#',
+    '#.#.#####.#######.#',
+    '#..s#..b..Ts...s..#',
+    '###.#.###########.#',
+    '#...#...#b....#..s#',
+    '#s#####.#.###F#.###',
+    '#...#.F.#.#..o#...#',
+    '###.#b###.#.###s#.#',
+    '#...#...s.#.#..T#a#',
+    '#.#b#.#####.#.###.#',
+    '#.#F..#...#a#..a..#',
+    '#o#####.#.#.###.#.#',
+    '#M...Mo.#M...o..#a#',
+    '###################'] },
+  { name: "Hedgehog Hollow", ammo: 8, stun: 5.5, speed: 1.05, dirs: ["left","left","up","left","right","left","right","up","left","right","left","up"], map: [
+    '#####################',
+    '#P..#o....T..s....M.#',
+    '#.#s#.#.###.#####.#b#',
+    '#...#.#.s...#..o#.#.#',
+    '#.#.#.#######.#.#.###',
+    '#.#b......s..F#.#a..#',
+    '#.#############s#.#.#',
+    '#.....s..T...o.T..#s#',
+    '#.#########.#######.#',
+    '#a#......a#.....b.#.#',
+    '#.#.#b###.#######.#.#',
+    '#.o.#...#..s#.T...#s#',
+    '#.#####b#####.#####.#',
+    '#...#...#...#.b.#.M.#',
+    '###o#.#.#F#.###.#.#s#',
+    '#....F#.#o#......b#.#',
+    '#.#####.#.#.#######.#',
+    '#.#..b....#s....#...#',
+    '#.#.###########s#.#.#',
+    '#o.....o.H....F...aM#',
+    '#####################'] },
+  { name: "Thorny Path", ammo: 7, stun: 5, speed: 1.07, dirs: ["left","down","up","down","down","left","down","left","right","up","right","left","left"], map: [
+    '#####################',
+    '#P....b.....o.#..T.b#',
+    '#.#.#########.#.###.#',
+    '#.#.s...s.#.....a.#.#',
+    '#.#######.#M#####.#.#',
+    '#.b.....#.#...#.....#',
+    '#####.#.#M#s#.#.###b#',
+    '#T..#.#s#.#..T#o#.F.#',
+    '#.#s#.#.#.###.#.#.###',
+    '#.....#.a..F#.#.#o..#',
+    '#.#########.#s#.###.#',
+    '#.M.o..F.b#...#...#b#',
+    '#########.#######.#.#',
+    '#o.....o..#s....s.#.#',
+    '#T#########.#######.#',
+    '#....b...s#.#Ms...#s#',
+    '#.#####.#.#.#.###.#.#',
+    '#..a...s#..H#...#o#.#',
+    '#.###########.#.#.#.#',
+    '#o...F...a..b.#b...a#',
+    '#####################'] },
+  { name: "Cherry Crossroads", ammo: 7, stun: 5, speed: 1.09, dirs: ["down","up","up","up","up","up","right","down","left","right","right","right","left","left"], map: [
+    '#####################',
+    '#P....s.#.....a.#..s#',
+    '#.###.#.#s#####.#.#M#',
+    '#.#o..#.#...#...#b#.#',
+    '#.#.#.#.###o#.###.#.#',
+    '#...#b#....H#.s.....#',
+    '#####.#######.#####F#',
+    '#.....b...#.sF#.o...#',
+    '#a###.###s#.###.###o#',
+    '#F..#...#.#...#T..#.#',
+    '###s###o#####.#.#b#.#',
+    '#...#...#H.b..#.#...#',
+    '#.###s###.#####o#F###',
+    '#s....#...#T.o..#..o#',
+    '#####.#a###.#.#####.#',
+    '#...b.#...#.s.#..sT.#',
+    '#.#######.###.#.###.#',
+    '#.#...M..s#...#b..#.#',
+    '#.#.#######a#.#.#b#.#',
+    '#b.M..b...T.#oM.#..a#',
+    '#####################'] },
+  { name: "Wild Orchard", ammo: 7, stun: 4.5, speed: 1.11, dirs: ["down","down","down","up","up","left","up","left","right","down","down","left","down","down"], map: [
+    '#######################',
+    '#P.....o...s..#s..#..o#',
+    '#.#.#########.#.#.#.#.#',
+    '#....o#...#...#.#s#...#',
+    '#.###.#H#.#.###.#.###.#',
+    '#s....#.#s..#s..#.....#',
+    '#####.#.#####.#.#####s#',
+    '#..s..#.#M..#.#b..#...#',
+    '#.###.#a#.#s#.###T#b###',
+    '#.#...#...#.#...#.#...#',
+    '#.#.#######.#b#H#b###M#',
+    '#s#..M#.a.#.#.#...#..s#',
+    '#T#####.#.#.#.#o###.###',
+    '#.#.o...#..o#.#...#...#',
+    '#.#.#########.#.#b#.#.#',
+    '#...#...a..T#s..#M..#.#',
+    '#o#.#.###.#.###.###.#s#',
+    '#.#..b....#s.F#...#F#.#',
+    '#.#######.###.###b#.#.#',
+    '#..s..Ta....#.s.#.#...#',
+    '#.#########.###.#F###F#',
+    '#b...b...o...........a#',
+    '#######################'] },
+  { name: "Night Picking", ammo: 6, stun: 4.5, speed: 1.13, dirs: ["down","up","right","up","left","up","down","right","up","right","left","down","down","left","up"], map: [
+    '#######################',
+    '#P....o.#.....b...#..o#',
+    '#.#.###.#.###.###F#.#.#',
+    '#.#a..#..s#..b#...#b..#',
+    '#.#.#.###.#.###s#.###.#',
+    '#...#s..#..b#...#...#.#',
+    '#b###.#o#####.#F###.#o#',
+    '#.....#.Hs#...#..s#...#',
+    '###.#.###.#.###.#.###.#',
+    '#..s#.#s..#..o#.#.#s..#',
+    '#.###.#.###.#.#.#.#.#.#',
+    '#........o#T#.#..s#.#s#',
+    '#.#####.#.#.#.###.#.#.#',
+    '#....a#.#.#.#.b.#.#sM.#',
+    '#b###T#.#F#s###.#.###.#',
+    '#.#...#b.....T...a..#.#',
+    '#.#.#.#.#######.###.#b#',
+    '#F#a#....bT...#s#.M.#.#',
+    '#.#.#######.#.#.#.#s#.#',
+    '#.#.#.o.....#s#...#.#.#',
+    '#.#.#.#######.#.#H#.#M#',
+    '#o......oM...H..s.#..a#',
+    '#######################'] },
+  { name: "Bramble Run", ammo: 6, stun: 4, speed: 1.15, dirs: ["left","left","left","up","left","left","left","left","down","up","right","down","up","left","left","right"], map: [
+    '#######################',
+    '#P.....a..#Ts...Ts...o#',
+    '#.#.#.#.#.#.###.#.###.#',
+    '#.#.b.#.#.#.#...#.#bM.#',
+    '#.#.###.#s###s#####.#.#',
+    '#.#s#.b.#...#.#..b#.#o#',
+    '#o#.#.#####s#.#.#.#.#.#',
+    '#.#..o..#...#..F#..F#.#',
+    '#.#.###.#o###.#######b#',
+    '#.#a..#.#.M..b#..b...M#',
+    '#.###.#.#.###.#.#####.#',
+    '#...#.#sM.....#s#.....#',
+    '#a#.#.#####b###.#.###.#',
+    '#.#.#.....#...#T#.#s..#',
+    '#F#.#s###.###a#.#.#.###',
+    '#.#.#F..#s..#.#.#.#...#',
+    '#.#b###.#.#.#T#o#.#.#o#',
+    '#o#...s..H#s#...#.#o..#',
+    '#.#########.#####.###.#',
+    '#..b#.H.#s..#....s#...#',
+    '#.#.#.#.#.#.#s#####.#.#',
+    '#s....#o..#..T...H...a#',
+    '#######################'] },
+  { name: "Harvest Moon", ammo: 6, stun: 4, speed: 1.17, dirs: ["left","right","left","down","down","right","left","right","down","down","up","down","up","down","right","down","down"], map: [
+    '#######################',
+    '#P....s...#.T.o......o#',
+    '#.#####.#.#######b#.#.#',
+    '#...#...#s......#.#.F.#',
+    '###o#.###.#####s###s#.#',
+    '#...#.sM..#.b.#.....#.#',
+    '#.###.#####.#.###.###s#',
+    '#.b.#a....#T#...#s#M..#',
+    '#.#.#####s#.###.#.#.#.#',
+    '#s#H...F#...#.o.#..s#.#',
+    '#.#####.#####.#######.#',
+    '#....a#.o..b#...b.#F..#',
+    '#b#.#.#####.#####.#.#s#',
+    '#.#o#..s..s.#...#.s.#.#',
+    '#.###T#######.#b#####.#',
+    '#F#...#...#Ts.#...#.o.#',
+    '#b#.###.#b#.#.###.#.#.#',
+    '#.#H..#M#.#.#...#.s.#.#',
+    '#.#.#a#.#.#o###H#####.#',
+    '#.#.#...#H..#s..#s..#.#',
+    '#.#.#########M#.#.#.#T#',
+    '#b..a..o...o..#.s.#..a#',
+    '#######################'] },
+  { name: "King of the Orchard", ammo: 5, stun: 3.5, speed: 1.2, dirs: ["left","down","left","left","left","up","down","left","up","up","right","up","right","down","up","up","left"], map: [
+    '#######################',
+    '#P....s....s#.F...s..o#',
+    '#.#.#####.#.#.#s###.#.#',
+    '#.#.s...b.#.#.#...#b..#',
+    '#.#########.#s###.###T#',
+    '#.s...b.#oM...#.H.#...#',
+    '#.###.#.#.#####.#.#.#.#',
+    '#a...o#.o.#..M..#b#.#.#',
+    '###.###.#T#.#s###.#.#b#',
+    '#..b#.o.#.a.#...#.#.#.#',
+    '#.#.#.#########.#.#.#.#',
+    '#b#...#H......#a#.#.Fs#',
+    '#F###b#.#.###.#.#.###.#',
+    '#.....#.#b#..a#.#..s#.#',
+    '#.#######.#.###.#s#F#.#',
+    '#.oT...b..#.#.s.#.#.#.#',
+    '###########s#.#M#.#.#s#',
+    '#M..#a...H#.#.#.#o....#',
+    '#s#.#.###o#.#.#s###.###',
+    '#.#T#.#.#.#..s#...#s..#',
+    '#.#.#.#.#.###.###.#.#F#',
+    '#o.....s#..o.H..s.#..a#',
+    '#######################'] }
 ];
 
 /* ===== Fruit Maze engine: pure game rules, no DOM. Runs in the browser and in node tests. =====
@@ -4168,8 +4412,10 @@ const MAZE_LEVELS = [
    Logic advances in fixed 1/60 s steps (MazeEngine.update), so it does not depend on frame rate. */
 const MazeEngine = (() => {
   const FRUITS = { a: { e: '🍎', pts: 10 }, b: { e: '🍌', pts: 15 }, o: { e: '🍊', pts: 20 }, s: { e: '🍓', pts: 25 } };
-  const ANIMALS = { T: { kind: 'turtle', e: '🐢', speed: 1.5 }, F: { kind: 'fox', e: '🦊', speed: 2.3 }, M: { kind: 'monkey', e: '🐒', speed: 3.0 } };
+  const ANIMALS = { T: { kind: 'turtle', e: '🐢', speed: 1.5 }, F: { kind: 'fox', e: '🦊', speed: 2.3 }, M: { kind: 'monkey', e: '🐒', speed: 3.0 }, H: { kind: 'hedgehog', e: '🦔', speed: 1.7 } };
   const PLAYER_SPEED = 4.2, LIVES = 3, INVULN = 2, HIT_DIST = 0.62, LEVEL_BONUS = 100, STEP = 1 / 60;
+  /* Seeds (levels with def.ammo > 0): Space throws one along the facing direction; a hit stuns the animal for def.stun seconds. */
+  const SEED_SPEED = 12, SEED_COOL = 0.25, STUN_PTS = 30, AMMO_BONUS = 20, CHASE_R = 7;
   const DIRS = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
   const RIGHT = { up: 'right', right: 'down', down: 'left', left: 'up' }, LEFT = { up: 'left', left: 'down', down: 'right', right: 'up' }, BACK = { up: 'down', down: 'up', left: 'right', right: 'left' };
 
@@ -4181,9 +4427,9 @@ const MazeEngine = (() => {
       if (ch === '#') walls[y * w + x] = 1;
       else if (ch === 'P') start = { x, y };
       else if (FRUITS[ch]) fruits.push({ x, y, t: ch });
-      else if (ANIMALS[ch]) animals.push({ ...ANIMALS[ch], x, y, dir: (def.dirs || [])[ai++] || 'right' });
+      else if (ANIMALS[ch]) animals.push({ ...ANIMALS[ch], speed: ANIMALS[ch].speed * (def.speed || 1), x, y, dir: (def.dirs || [])[ai++] || 'right' });
     }));
-    return { w, h, walls, start, fruits, animals, name: def.name };
+    return { w, h, walls, start, fruits, animals, name: def.name, ammo: def.ammo || 0, stun: def.stun || 5 };
   }
   const inside = (g, x, y) => x >= 0 && y >= 0 && x < g.w && y < g.h;
   const isWall = (g, x, y) => !inside(g, x, y) || g.walls[y * g.w + x] === 1;
@@ -4229,11 +4475,11 @@ const MazeEngine = (() => {
     const g = parse(levels[index]);
     return {
       levels, index, g, time: 0, acc: 0, paused: false, over: false, won: false,
-      lives: carry.lives ?? LIVES, score: carry.score ?? 0, levelScore: 0,
+      lives: carry.lives ?? LIVES, score: carry.score ?? 0, levelScore: 0, ammo: g.ammo, seed: null, cool: 0,
       startLives: carry.lives ?? LIVES, startScore: carry.score ?? 0,
       fruits: g.fruits.map(f => ({ ...f, taken: false })),
-      player: { x: g.start.x, y: g.start.y, tx: g.start.x, ty: g.start.y, dir: null, inv: 0 },
-      animals: g.animals.map(a => ({ ...a, tx: a.x, ty: a.y, sx: a.x, sy: a.y, junctions: 0 })),
+      player: { x: g.start.x, y: g.start.y, tx: g.start.x, ty: g.start.y, dir: null, face: 'right', inv: 0 },
+      animals: g.animals.map(a => ({ ...a, tx: a.x, ty: a.y, sx: a.x, sy: a.y, junctions: 0, stun: 0 })),
       events: []
     };
   }
@@ -4262,7 +4508,19 @@ const MazeEngine = (() => {
     if (a.kind === 'turtle') { // straight back and forth along its corridor
       if (open(a.dir)) return a.dir; if (open(BACK[a.dir])) return BACK[a.dir]; return null;
     }
-    if (a.kind === 'fox') { // patrol with a fixed rule: right turn first, then straight, then left, then back
+    if (a.kind === 'hedgehog') { // sniffs the boy out: within CHASE_R steps it takes the shortest way to him (it may turn round), otherwise patrols like the fox.
+      const p = s.player, px = Math.round(p.x), py = Math.round(p.y);  // At the garden gate the boy is safe and the scent is lost.
+      if (inside(g, px, py) && canPlayer(g, px, py) && !(px === g.start.x && py === g.start.y)) {
+        const key = py * g.w + px; if (!s.chase || s.chase.key !== key) s.chase = { key, d: distances(g, { x: px, y: py }) };
+        const d = s.chase.d, here = d[a.y * g.w + a.x];
+        if (here >= 0 && here <= CHASE_R) {
+          let best = null, bd = 1e9;
+          for (const dir of ['up', 'left', 'down', 'right']) { if (!open(dir)) continue; const v = d[(a.y + DIRS[dir][1]) * g.w + a.x + DIRS[dir][0]]; if (v >= 0 && v < bd) { bd = v; best = dir; } }
+          if (best) return best;
+        }
+      }
+    }
+    if (a.kind === 'fox' || a.kind === 'hedgehog') { // patrol with a fixed rule: right turn first, then straight, then left, then back
       for (const d of [RIGHT[a.dir], a.dir, LEFT[a.dir], BACK[a.dir]]) if (open(d)) return d; return null;
     }
     // monkey: fast; at every junction it takes the next direction in a fixed cycle (left, up, right, down)
@@ -4274,20 +4532,49 @@ const MazeEngine = (() => {
     }
     return a.dir;
   }
-  function stepAnimals(s, dt) { for (const a of s.animals) advance(a, a.speed, dt, () => animalDecide(s, a)); }
+  function stepAnimals(s, dt) { for (const a of s.animals) { if (a.stun > 0) { a.stun = Math.max(0, a.stun - dt); continue; } advance(a, a.speed, dt, () => animalDecide(s, a)); } }
 
-  /* One fixed logic step. input: { dir: 'up'|'down'|'left'|'right'|null } */
+  /* ---------- seeds ---------- */
+  function seedHit(s) {
+    const sd = s.seed; if (!sd) return;
+    for (const a of s.animals) if (a.stun <= 0 && Math.hypot(a.x - sd.x, a.y - sd.y) < 0.6) {
+      a.stun = s.g.stun; s.seed = null; s.score += STUN_PTS; s.levelScore += STUN_PTS;
+      s.events.push({ type: 'stun', kind: a.kind, x: a.x, y: a.y, pts: STUN_PTS }); return;
+    }
+  }
+  function fire(s, want) {
+    const p = s.player;
+    if (typeof want === 'string' && DIRS[want]) p.face = want;
+    if (s.ammo <= 0) { if (s.g.ammo > 0) s.events.push({ type: 'empty' }); return; }
+    if (s.seed || s.cool > 0) return;
+    const d = DIRS[p.face]; s.ammo--; s.cool = SEED_COOL;
+    s.seed = { x: p.x, y: p.y, dir: p.face }; s.events.push({ type: 'shoot', dir: p.face, x: p.x, y: p.y });
+    if (isWall(s.g, Math.round(p.x + d[0] * 0.55), Math.round(p.y + d[1] * 0.55))) { seedHit(s); if (s.seed) { s.events.push({ type: 'splat', x: p.x, y: p.y }); s.seed = null; } return; }
+    seedHit(s);
+  }
+  function stepSeed(s, dt) {
+    const sd = s.seed; if (!sd) return;
+    const d = DIRS[sd.dir]; let left = SEED_SPEED * dt;
+    while (left > 1e-9 && s.seed) { const m = Math.min(0.2, left); left -= m; sd.x += d[0] * m; sd.y += d[1] * m; seedHit(s);
+      if (s.seed && isWall(s.g, Math.round(sd.x + d[0] * 0.45), Math.round(sd.y + d[1] * 0.45))) { s.events.push({ type: 'splat', x: sd.x, y: sd.y }); s.seed = null; } }
+  }
+
+  /* One fixed logic step. input: { dir: 'up'|'down'|'left'|'right'|null, fire?: true | direction } */
   function step(s, input) {
     if (s.paused || s.over || s.won) return;
-    const dt = STEP, p = s.player; s.time += dt;
+    const dt = STEP, p = s.player; s.time += dt; s.cool = Math.max(0, s.cool - dt);
     advance(p, PLAYER_SPEED, dt, playerDecide(s, input.dir));
+    if (p.x !== p.tx || p.y !== p.ty) p.face = p.dir; else if (input.dir) p.face = input.dir;
+    if (input.fire) fire(s, input.fire);
+    stepSeed(s, dt);
     stepAnimals(s, dt);
+    seedHit(s);
     for (const f of s.fruits) if (!f.taken && Math.abs(p.x - f.x) + Math.abs(p.y - f.y) < 0.5) {
       f.taken = true; const pts = FRUITS[f.t].pts; s.score += pts; s.levelScore += pts; s.events.push({ type: 'fruit', x: f.x, y: f.y, t: f.t, pts });
-      if (!fruitsLeft(s)) { s.score += LEVEL_BONUS; s.levelScore += LEVEL_BONUS; s.won = true; s.events.push({ type: 'win', bonus: LEVEL_BONUS }); return; }
+      if (!fruitsLeft(s)) { const seeds = s.ammo * AMMO_BONUS, bonus = LEVEL_BONUS + seeds; s.score += bonus; s.levelScore += bonus; s.won = true; s.seed = null; s.events.push({ type: 'win', bonus, seeds }); return; }
     }
     if (p.inv > 0) { p.inv = Math.max(0, p.inv - dt); return; }
-    for (const a of s.animals) if (Math.hypot(a.x - p.x, a.y - p.y) < HIT_DIST) {
+    for (const a of s.animals) if (a.stun <= 0 && Math.hypot(a.x - p.x, a.y - p.y) < HIT_DIST) {
       s.lives--; s.events.push({ type: 'hit', kind: a.kind, x: p.x, y: p.y });
       if (s.lives <= 0) { s.over = true; s.events.push({ type: 'gameover' }); return; }
       p.x = p.tx = s.g.start.x; p.y = p.ty = s.g.start.y; p.dir = null; p.inv = INVULN; return; // one life per contact
@@ -4296,7 +4583,9 @@ const MazeEngine = (() => {
   /* Advance by real elapsed time in fixed steps. Large gaps (a hidden tab) are capped, never fast-forwarded. */
   function update(s, elapsed, input) {
     s.acc += Math.min(elapsed, 0.1);
-    while (s.acc >= STEP) { step(s, input); s.acc -= STEP; }
+    let inp = input, n = 0; // a shot is a single press: only the first fixed step sees it
+    while (s.acc >= STEP) { step(s, inp); s.acc -= STEP; n++; if (inp.fire) inp = { dir: input.dir }; }
+    return n; // steps run; 0 means a queued shot has not been used yet
   }
   /* Progress: never replaces a best score with a worse one. */
   function mergeProgress(prev, r) {
@@ -4304,9 +4593,61 @@ const MazeEngine = (() => {
     if (r.level && r.levelScore != null) out.levelBest[r.level] = Math.max(out.levelBest[r.level] || 0, r.levelScore);
     return out;
   }
-  return { mergeProgress, FRUITS, ANIMALS, DIRS, LIVES, INVULN, LEVEL_BONUS, STEP, PLAYER_SPEED, parse, validate, distances, createState, step, update, stepAnimals, fruitsLeft, canPlayer, canAnimal, isWall };
+  return { mergeProgress, FRUITS, ANIMALS, DIRS, LIVES, INVULN, LEVEL_BONUS, STEP, PLAYER_SPEED, SEED_SPEED, STUN_PTS, AMMO_BONUS, CHASE_R, parse, validate, distances, createState, step, update, stepAnimals, fruitsLeft, canPlayer, canAnimal, isWall };
 })();
 if (typeof module !== 'undefined') module.exports = MazeEngine;
+
+/* ===== Fruit Maze artwork, shared by the game and the live preview on the home page. ===== */
+const MazeArt = (() => {
+  const E = MazeEngine;
+  const COL = { grass: '#bfe3a0', path: '#fbf3dd', hedge: '#3f8a4a', hedgeTop: '#56a85d', gate: '#ffd9a8' };
+  const ANBG = { turtle: '#b7e3a1', fox: '#ffc9a3', monkey: '#e6cfb3', hedgehog: '#e9d3f0' };
+  function board(gr, side) {
+    const ts = side / gr.w, c = document.createElement('canvas'), d = Math.min(2, window.devicePixelRatio || 1);
+    c.width = c.height = Math.round(side * d); const x = c.getContext('2d'); x.scale(d, d);
+    x.fillStyle = COL.grass; x.fillRect(0, 0, side, side);
+    for (let y = 0; y < gr.h; y++) for (let xx = 0; xx < gr.w; xx++) {
+      const px = xx * ts, py = y * ts;
+      if (E.isWall(gr, xx, y)) {
+        x.fillStyle = COL.hedge; x.beginPath(); x.roundRect(px + 1, py + 1, ts - 2, ts - 2, ts * 0.28); x.fill();
+        x.fillStyle = COL.hedgeTop; x.beginPath(); x.roundRect(px + ts * 0.14, py + ts * 0.1, ts * 0.72, ts * 0.5, ts * 0.22); x.fill();
+        if ((xx * 7 + y * 13) % 5 === 0) { x.fillStyle = ['#ff8fb1', '#fff2a8', '#ffffff'][(xx + y) % 3]; x.beginPath(); x.arc(px + ts * 0.35, py + ts * 0.32, ts * 0.07, 0, 6.28); x.arc(px + ts * 0.66, py + ts * 0.45, ts * 0.06, 0, 6.28); x.fill(); }
+      } else { x.fillStyle = COL.path; x.beginPath(); x.roundRect(px + ts * 0.06, py + ts * 0.06, ts * 0.88, ts * 0.88, ts * 0.2); x.fill(); }
+    }
+    const st = gr.start; x.fillStyle = COL.gate; x.beginPath(); x.roundRect(st.x * ts + ts * 0.08, st.y * ts + ts * 0.08, ts * 0.84, ts * 0.84, ts * 0.22); x.fill();
+    x.strokeStyle = '#e7a35c'; x.lineWidth = Math.max(1.5, ts * 0.06); x.setLineDash([ts * 0.12, ts * 0.08]); x.strokeRect(st.x * ts + ts * 0.16, st.y * ts + ts * 0.16, ts * 0.68, ts * 0.68); x.setLineDash([]);
+    return c;
+  }
+  function entities(ctx, s, ts, t, still) {
+    for (const f of s.fruits) if (!f.taken) emo(ctx, E.FRUITS[f.t].e, (f.x + 0.5) * ts, (f.y + 0.5) * ts + (still ? 0 : Math.sin(t * 3 + f.x + f.y) * ts * 0.04), ts * 0.66);
+    for (const a of s.animals) {
+      const cx = (a.x + 0.5) * ts, cy = (a.y + 0.5) * ts, dazed = a.stun > 0;
+      ctx.fillStyle = 'rgba(42,21,50,.18)'; ctx.beginPath(); ctx.ellipse(cx, cy + ts * 0.32, ts * 0.32, ts * 0.1, 0, 0, 6.28); ctx.fill();
+      ctx.globalAlpha = dazed ? 0.5 : 1;
+      ctx.fillStyle = ANBG[a.kind]; ctx.beginPath(); ctx.arc(cx, cy, ts * 0.42, 0, 6.28); ctx.fill();
+      ctx.save(); ctx.translate(cx, cy); if (a.dir === 'right') ctx.scale(-1, 1); if (dazed && !still) ctx.rotate(Math.sin(t * 9) * 0.25); emo(ctx, a.e, 0, 0, ts * 0.7); ctx.restore();
+      ctx.globalAlpha = 1;
+      if (dazed) { // remaining stun as a shrinking arc, plus stars
+        ctx.strokeStyle = '#7b4ce0'; ctx.lineWidth = Math.max(2, ts * 0.08); ctx.beginPath(); ctx.arc(cx, cy, ts * 0.46, -1.57, -1.57 + 6.28 * (a.stun / s.g.stun)); ctx.stroke();
+        emo(ctx, '💫', cx + (still ? 0 : Math.cos(t * 5) * ts * 0.12), cy - ts * 0.48, ts * 0.42);
+      }
+    }
+    if (s.seed) { const sx = (s.seed.x + 0.5) * ts, sy = (s.seed.y + 0.5) * ts, d = E.DIRS[s.seed.dir];
+      ctx.strokeStyle = 'rgba(160,96,40,.35)'; ctx.lineWidth = ts * 0.14; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(sx - d[0] * ts * 0.7, sy - d[1] * ts * 0.7); ctx.lineTo(sx, sy); ctx.stroke(); ctx.lineCap = 'butt';
+      emo(ctx, '🌰', sx, sy, ts * 0.46); }
+    const p = s.player, px = (p.x + 0.5) * ts, py = (p.y + 0.5) * ts, blink = p.inv > 0 && !still && Math.floor(t * 8) % 2 === 0;
+    ctx.globalAlpha = blink ? 0.35 : 1;
+    ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.arc(px, py, ts * 0.44, 0, 6.28); ctx.fill();
+    ctx.strokeStyle = p.inv > 0 ? '#7b4ce0' : '#e2305b'; ctx.lineWidth = Math.max(2, ts * 0.09); if (p.inv > 0 && still) ctx.setLineDash([ts * 0.12, ts * 0.08]); ctx.stroke(); ctx.setLineDash([]);
+    emo(ctx, '👦', px, py, ts * 0.68);
+    if (s.g.ammo > 0) { // facing marker: where the next seed will fly
+      const d = E.DIRS[p.face] || [1, 0], ax = px + d[0] * ts * 0.62, ay = py + d[1] * ts * 0.62, r = ts * 0.16;
+      ctx.fillStyle = s.ammo > 0 ? '#a0602a' : 'rgba(42,21,50,.35)'; ctx.beginPath(); ctx.moveTo(ax + d[0] * r, ay + d[1] * r); ctx.lineTo(ax - d[0] * r * 0.6 - d[1] * r, ay - d[1] * r * 0.6 + d[0] * r); ctx.lineTo(ax - d[0] * r * 0.6 + d[1] * r, ay - d[1] * r * 0.6 - d[0] * r); ctx.closePath(); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+  return { board, entities };
+})();
 
 /* ===== Fruit Maze UI: rendering, controls, screens, progress. Rules live in maze-engine.js, levels in maze-levels.js. ===== */
 GAMES['fruit-maze'] = host => {
@@ -4315,7 +4656,7 @@ GAMES['fruit-maze'] = host => {
   const storageOk = (() => { try { localStorage.setItem('fd.__t', '1'); localStorage.removeItem('fd.__t'); return true; } catch (e) { return false; } })();
   let prog = Object.assign({ unlocked: 1, best: 0, levelBest: {}, completed: false }, Store.get('maze2', {}));
   const saveProg = r => { prog = E.mergeProgress(prog, r); Store.set('maze2', prog); };
-  let s = null, raf = 0, last = 0, held = [], fx = [], staticLayer = null, staticKey = '', side = 0, padOn = false, runStart = 0, mode = 'menu';
+  let s = null, raf = 0, last = 0, held = [], fx = [], fireQ = false, shots = 0, stuns = 0, winSeeds = 0, staticLayer = null, staticKey = '', side = 0, padOn = false, runStart = 0, mode = 'menu';
   const DIRKEYS = { ArrowUp: 'up', KeyW: 'up', ArrowDown: 'down', KeyS: 'down', ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right' };
   const PAD = [['up', '▲'], ['left', '◀'], ['right', '▶'], ['down', '▼']];
   const k = makeKit(host, {
@@ -4326,12 +4667,13 @@ GAMES['fruit-maze'] = host => {
         <span class="fd-pill"><small>${esc(g('hudScore'))}</small><span class="mz-ico" aria-hidden="true">⭐</span><span class="sr-only">${esc(g('hudScore'))}</span><b class="mz-sc">0</b></span>
         <span class="fd-pill mz-lives" role="img"></span>
         <span class="fd-pill"><small>${esc(g('hudFruit'))}</small><span class="mz-ico" aria-hidden="true">🧺</span><span class="sr-only">${esc(g('hudFruit'))}</span><b class="mz-fr">0 / 0</b></span>
+        <span class="fd-pill mz-seeds" hidden><small>${esc(g('hudSeeds'))}</small><span class="mz-ico" aria-hidden="true">🌰</span><span class="sr-only">${esc(g('hudSeeds'))}</span><b class="mz-am">0</b></span>
         <span class="spacer" style="flex:1"></span>
         <button class="icon-btn mz-pause" type="button" aria-label="${esc(g('pause'))}" title="${esc(g('pause'))}">${ICON.pause}</button>
         ${soundBtn()}
       </div>
       <div class="mz-main"><div class="mz-board"><canvas class="mz-cv" role="img" aria-label="${esc(g('boardLabel'))}"></canvas></div>
-        <div class="mz-pad" role="group" aria-label="${esc(g('padLabel'))}">${PAD.map(([d, a]) => `<button type="button" class="mz-btn mz-${d}" data-d="${d}" aria-label="${esc(g('dir.' + d))}">${a}</button>`).join('')}</div></div>
+        <div class="mz-pad" role="group" aria-label="${esc(g('padLabel'))}">${PAD.map(([d, a]) => `<button type="button" class="mz-btn mz-${d}" data-d="${d}" aria-label="${esc(g('dir.' + d))}">${a}</button>`).join('')}<button type="button" class="mz-btn mz-fire" aria-label="${esc(g('fire'))}" hidden>🌰</button></div></div>
       <p class="sr-only mz-live" aria-live="polite"></p>
       <div class="mz-screen"></div></div>`,
     onStart() { menu(); },
@@ -4358,42 +4700,14 @@ GAMES['fruit-maze'] = host => {
     staticKey = ''; draw();
   }
 
-  /* ---------- drawing ---------- */
-  const COL = { grass: '#bfe3a0', path: '#fbf3dd', hedge: '#3f8a4a', hedgeTop: '#56a85d', gate: '#ffd9a8' };
-  const ANBG = { turtle: '#b7e3a1', fox: '#ffc9a3', monkey: '#e6cfb3' };
-  function buildStatic() {
-    const gr = s.g, ts = side / gr.w, c = document.createElement('canvas'), d = Math.min(2, window.devicePixelRatio || 1);
-    c.width = c.height = Math.round(side * d); const x = c.getContext('2d'); x.scale(d, d);
-    x.fillStyle = COL.grass; x.fillRect(0, 0, side, side);
-    for (let y = 0; y < gr.h; y++) for (let xx = 0; xx < gr.w; xx++) {
-      const px = xx * ts, py = y * ts;
-      if (E.isWall(gr, xx, y)) {
-        x.fillStyle = COL.hedge; x.beginPath(); x.roundRect(px + 1, py + 1, ts - 2, ts - 2, ts * 0.28); x.fill();
-        x.fillStyle = COL.hedgeTop; x.beginPath(); x.roundRect(px + ts * 0.14, py + ts * 0.1, ts * 0.72, ts * 0.5, ts * 0.22); x.fill();
-        if ((xx * 7 + y * 13) % 5 === 0) { x.fillStyle = ['#ff8fb1', '#fff2a8', '#ffffff'][(xx + y) % 3]; x.beginPath(); x.arc(px + ts * 0.35, py + ts * 0.32, ts * 0.07, 0, 6.28); x.arc(px + ts * 0.66, py + ts * 0.45, ts * 0.06, 0, 6.28); x.fill(); }
-      } else { x.fillStyle = COL.path; x.beginPath(); x.roundRect(px + ts * 0.06, py + ts * 0.06, ts * 0.88, ts * 0.88, ts * 0.2); x.fill(); }
-    }
-    const st = gr.start; x.fillStyle = COL.gate; x.beginPath(); x.roundRect(st.x * ts + ts * 0.08, st.y * ts + ts * 0.08, ts * 0.84, ts * 0.84, ts * 0.22); x.fill();
-    x.strokeStyle = '#e7a35c'; x.lineWidth = Math.max(1.5, ts * 0.06); x.setLineDash([ts * 0.12, ts * 0.08]); x.strokeRect(st.x * ts + ts * 0.16, st.y * ts + ts * 0.16, ts * 0.68, ts * 0.68); x.setLineDash([]);
-    staticLayer = c; staticKey = `${s.index}:${side}`;
-  }
+  /* ---------- drawing (artwork in MazeArt) ---------- */
+  function buildStatic() { staticLayer = MazeArt.board(s.g, side); staticKey = `${s.index}:${side}`; }
   function draw(now = performance.now()) {
     if (!s || !side) { ctx.clearRect(0, 0, side, side); return; }
     if (staticKey !== `${s.index}:${side}`) buildStatic();
     ctx.drawImage(staticLayer, 0, 0, side, side);
     const ts = side / s.g.w, still = reducedMotion(), t = now / 1000;
-    for (const f of s.fruits) if (!f.taken) emo(ctx, E.FRUITS[f.t].e, (f.x + 0.5) * ts, (f.y + 0.5) * ts + (still ? 0 : Math.sin(t * 3 + f.x + f.y) * ts * 0.04), ts * 0.66);
-    for (const a of s.animals) {
-      const cx = (a.x + 0.5) * ts, cy = (a.y + 0.5) * ts;
-      ctx.fillStyle = 'rgba(42,21,50,.18)'; ctx.beginPath(); ctx.ellipse(cx, cy + ts * 0.32, ts * 0.32, ts * 0.1, 0, 0, 6.28); ctx.fill();
-      ctx.fillStyle = ANBG[a.kind]; ctx.beginPath(); ctx.arc(cx, cy, ts * 0.42, 0, 6.28); ctx.fill();
-      ctx.save(); ctx.translate(cx, cy); if (a.dir === 'right') ctx.scale(-1, 1); emo(ctx, a.e, 0, 0, ts * 0.7); ctx.restore();
-    }
-    const p = s.player, px = (p.x + 0.5) * ts, py = (p.y + 0.5) * ts, blink = p.inv > 0 && !still && Math.floor(t * 8) % 2 === 0;
-    ctx.globalAlpha = blink ? 0.35 : 1;
-    ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.arc(px, py, ts * 0.44, 0, 6.28); ctx.fill();
-    ctx.strokeStyle = p.inv > 0 ? '#7b4ce0' : '#e2305b'; ctx.lineWidth = Math.max(2, ts * 0.09); if (p.inv > 0 && still) ctx.setLineDash([ts * 0.12, ts * 0.08]); ctx.stroke(); ctx.setLineDash([]);
-    emo(ctx, '👦', px, py, ts * 0.68); ctx.globalAlpha = 1;
+    MazeArt.entities(ctx, s, ts, t, still);
     fx = fx.filter(f => now - f.t0 < f.dur);
     for (const f of fx) {
       const q = (now - f.t0) / f.dur; ctx.globalAlpha = 1 - q;
@@ -4404,16 +4718,20 @@ GAMES['fruit-maze'] = host => {
   }
   function hud() {
     if (!s) return;
-    $('.mz-lv').textContent = `${s.index + 1}/${N}`; $('.mz-sc').textContent = fmtNum(s.score);
-    const lv = $('.mz-lives'); lv.innerHTML = Array.from({ length: E.LIVES }, (_, i) => `<span class="${i < s.lives ? '' : 'lost'}" aria-hidden="true">❤️</span>`).join(''); lv.setAttribute('aria-label', gv('livesLabel', { n: s.lives }));
+    const narrow = k.W < 480; // phones: compact HUD so everything fits on one line
+    $('.mz-lv').textContent = narrow ? `${s.index + 1}` : `${s.index + 1}/${N}`; $('.mz-sc').textContent = fmtNum(s.score);
+    const lv = $('.mz-lives'), lh = narrow ? `<span aria-hidden="true">❤️</span><b>${s.lives}</b>` : Array.from({ length: E.LIVES }, (_, i) => `<span class="${i < s.lives ? '' : 'lost'}" aria-hidden="true">❤️</span>`).join('');
+    if (lv.innerHTML !== lh) lv.innerHTML = lh; lv.setAttribute('aria-label', gv('livesLabel', { n: s.lives }));
     $('.mz-fr').textContent = `${s.fruits.length - E.fruitsLeft(s)} / ${s.fruits.length}`;
+    const armed = s.g.ammo > 0, sp = $('.mz-seeds'); sp.hidden = !armed; $('.mz-fire').hidden = !armed;
+    if (armed) { $('.mz-am').textContent = `${s.ammo}`; sp.classList.toggle('empty', s.ammo === 0); }
   }
 
   /* ---------- loop ---------- */
   function frame(now) {
     raf = 0; if (k.dead || mode !== 'play') return;
     const el = last ? (now - last) / 1000 : 0; last = now;
-    E.update(s, el, { dir: held[held.length - 1] || null });
+    if (E.update(s, el, { dir: held[held.length - 1] || null, fire: fireQ || undefined })) fireQ = false;
     for (const ev of s.events.splice(0)) handle(ev, now);
     hud(); draw(now);
     if (s.won) return levelWon();
@@ -4422,17 +4740,23 @@ GAMES['fruit-maze'] = host => {
   }
   function handle(ev, now) {
     if (ev.type === 'fruit') { fx.push({ x: ev.x, y: ev.y, txt: '+' + ev.pts, c: '#e2305b', t0: now, dur: 800 }, { x: ev.x, y: ev.y, ring: true, c: '#ffa21f', t0: now, dur: 400 }); Sound.tone({ a: 660, b: 740, o: 830, s: 990 }[ev.t], 0.08, 'triangle', 0.1); Sound.tone({ a: 990, b: 1110, o: 1245, s: 1480 }[ev.t], 0.08, 'triangle', 0.06); }
+    if (ev.type === 'shoot') { shots++; Sound.tone(520, 0.06, 'square', 0.04, 1.6); }
+    if (ev.type === 'splat') { fx.push({ x: ev.x, y: ev.y, ring: true, c: '#a0602a', t0: now, dur: 300 }); Sound.tone(180, 0.05, 'triangle', 0.05); }
+    if (ev.type === 'stun') { stuns++; fx.push({ x: ev.x, y: ev.y, txt: '+' + ev.pts, c: '#7b4ce0', t0: now, dur: 800 }, { x: ev.x, y: ev.y, ring: true, c: '#7b4ce0', t0: now, dur: 450 }); Sound.tone(880, 0.07, 'triangle', 0.08, 0.5); Sound.tone(440, 0.12, 'sine', 0.06); live.textContent = g('stunned'); }
+    if (ev.type === 'empty') { const sp = $('.mz-seeds'); sp.classList.remove('shake'); void sp.offsetWidth; sp.classList.add('shake'); Sound.tone(140, 0.05, 'square', 0.03); live.textContent = g('noSeeds'); }
+    if (ev.type === 'win') winSeeds = ev.seeds || 0;
     if (ev.type === 'hit') { fx.push({ x: ev.x, y: ev.y, txt: '💫', c: '#7b4ce0', t0: now, dur: 900 }); Sound.miss(); Sound.tone(220, 0.25, 'sine', 0.08, 0.6); const lv = $('.mz-lives'); lv.classList.remove('shake'); void lv.offsetWidth; lv.classList.add('shake'); live.textContent = gv('livesLabel', { n: s.lives }); }
   }
   function startLoop() { mode = 'play'; last = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); }
 
   /* ---------- game flow ---------- */
   function startLevel(index, carry, kind) {
-    s = E.createState(LV, index, carry); fx = []; held = []; staticKey = '';
+    if (LV[index].ammo && !Store.get('mazeShootTut', false)) return shootTutorial(() => startLevel(index, carry, kind));
+    s = E.createState(LV, index, carry); fx = []; held = []; fireQ = false; shots = stuns = winSeeds = 0; staticKey = '';
     screen(''); hud(); layout(); startLoop(); k.stage.focus({ preventScroll: true });
     const r = k.stage.getBoundingClientRect(); if (r.top < 0 || r.bottom > innerHeight) k.stage.scrollIntoView({ block: r.height > innerHeight ? 'start' : 'center', behavior: reducedMotion() ? 'auto' : 'smooth' });
     setLast(id); track(kind === 'restart' ? 'level_restart' : 'level_start', { activity: id, level: index + 1 });
-    live.textContent = gv('levelStarted', { n: index + 1, name: g('lvl.' + index) });
+    live.textContent = gv('levelStarted', { n: index + 1, name: g('lvl.' + index) }) + (s.g.ammo ? '. ' + gv('seedsLabel', { n: s.ammo }) : '');
   }
   function newGame(index) {
     runStart = index; track('activity_start', { activity: id, level: index + 1 });
@@ -4452,12 +4776,13 @@ GAMES['fruit-maze'] = host => {
   function levelWon() {
     mode = 'won'; const lvl = s.index + 1, last10 = lvl === N;
     saveProg({ total: s.score, level: lvl, levelScore: s.levelScore, unlocked: Math.min(N, lvl + 1), completed: last10 });
-    track('level_complete', { activity: id, level: lvl, score: s.levelScore, total: s.score, time: Math.round(s.time) });
+    track('level_complete', { activity: id, level: lvl, score: s.levelScore, total: s.score, time: Math.round(s.time), ...(s.g.ammo ? { shots, stuns } : {}) });
     Sound.win();
     if (last10) { track('game_complete', { activity: id, score: s.score, from: runStart + 1 }); track('activity_complete', { activity: id, score: s.score }); return complete(); }
     const carry = { lives: s.lives, score: s.score }, idx = s.index, startCarry = { lives: s.startLives, score: s.startScore };
     screen(`<span class="k-kicker">${esc(gv('levelN', { n: lvl }))} · ${esc(g('lvl.' + s.index))}</span><h2>${esc(g('winTitle'))}</h2>
-      <div class="fd-stats"><div><b>+${fmtNum(s.levelScore)}</b><small>${esc(g('levelScore'))}</small></div><div><b>${fmtNum(s.score)}</b><small>${esc(g('total'))}</small></div><div><b>${fmtTime(s.time)}</b><small>${esc(g('time'))}</small></div><div><b>${'❤️'.repeat(s.lives)}</b><small>${esc(g('livesLeft'))}</small></div></div>
+      <div class="fd-stats"><div><b>+${fmtNum(s.levelScore)}</b><small>${esc(g('levelScore'))}</small></div><div><b>${fmtNum(s.score)}</b><small>${esc(g('total'))}</small></div><div><b>${fmtTime(s.time)}</b><small>${esc(g('time'))}</small></div><div><b>${'❤️'.repeat(s.lives)}</b><small>${esc(g('livesLeft'))}</small></div>${s.g.ammo ? `<div><b>+${fmtNum(winSeeds)}</b><small>${esc(g('seedBonus'))}</small></div>` : ''}</div>
+      ${LV[idx + 1] && LV[idx + 1].ammo && !s.g.ammo ? `<p class="note">🌰 ${esc(g('nextSeeds'))}</p>` : ''}
       <div class="row"><button class="btn btn-big btn-play" type="button" data-a="next">${ICON.play}${esc(g('next'))}</button><button class="btn btn-ghost" type="button" data-a="again">${ICON.restart}${esc(g('again'))}</button></div>`, {
       next: () => startLevel(idx + 1, carry), again: () => startLevel(idx, startCarry, 'restart')
     });
@@ -4483,9 +4808,15 @@ GAMES['fruit-maze'] = host => {
   }
   function tutorial(then) {
     mode = 'tut';
-    const tips = [['👦', 'tut1'], ['🍓', 'tut2'], ['🦊', 'tut3'], ['🏁', 'tut4']];
+    const tips = [['👦', 'tut1'], ['🍓', 'tut2'], ['🦊', 'tut3'], ['🌰', 'tut5'], ['🏁', 'tut4']];
     screen(`<h2>${esc(g('tutTitle'))}</h2><ul class="mz-tips">${tips.map(([e, t]) => `<li><span aria-hidden="true">${e}</span>${esc(g(t))}</li>`).join('')}</ul>
       <button class="btn btn-big btn-play" type="button" data-a="ok">${esc(g('gotIt'))}</button>`, { ok: () => { Store.set('mazeTut', true); then ? then() : menu(); } });
+  }
+  function shootTutorial(then) {
+    mode = 'tut';
+    const tips = [['⌨️', 'shoot1'], ['💫', 'shoot2'], ['🌰', 'shoot3'], ['🦔', 'shoot4']];
+    screen(`<span class="k-kicker">${esc(g('shootKicker'))}</span><h2>${esc(g('shootTitle'))}</h2><ul class="mz-tips">${tips.map(([e, t]) => `<li><span aria-hidden="true">${e}</span>${esc(g(t))}</li>`).join('')}</ul>
+      <button class="btn btn-big btn-play" type="button" data-a="ok">${esc(g('gotIt'))}</button>`, { ok: () => { Store.set('mazeShootTut', true); then(); } });
   }
   function menu() {
     mode = 'menu'; cancelAnimationFrame(raf); held = [];
@@ -4493,10 +4824,10 @@ GAMES['fruit-maze'] = host => {
     screen(`<div class="mz-menu"><div class="mz-menu-copy">
         <span class="k-kicker">${esc(g('kicker'))}</span><h2>Fruit Maze</h2><p>${esc(g('menuDesc'))}</p>
         ${prog.best ? `<p class="fd-best">🏆 ${esc(gv('bestIs', { b: fmtNum(prog.best) }))}</p>` : ''}
-        <div class="row"><button class="btn btn-big btn-play" type="button" data-a="play">${ICON.play}${esc(prog.unlocked > 1 ? gv('playFrom', { n: prog.unlocked }) : g('play'))}</button><button class="btn btn-ghost" type="button" data-a="rules">${esc(g('rules'))}</button></div>
+        <div class="row"><button class="btn btn-big btn-play" type="button" data-a="play">${ICON.play}${esc(prog.unlocked > 1 ? gv('playFrom', { n: Math.min(prog.unlocked, N) }) : g('play'))}</button><button class="btn btn-ghost" type="button" data-a="rules">${esc(g('rules'))}</button></div>
         ${storageOk ? '' : `<p class="note">${esc(g('noStorage'))}</p>`}</div>
       <div class="mz-levels" role="group" aria-label="${esc(g('chooseLevel'))}"><h3>${esc(g('chooseLevel'))}</h3><div class="mz-lv-grid">
-        ${LV.map((l, i) => { const open = i < prog.unlocked, b = prog.levelBest[i + 1]; return `<button type="button" class="mz-lv-btn" data-l="${i}" ${open ? '' : 'disabled'} aria-label="${esc(gv('levelN', { n: i + 1 }) + ', ' + g('lvl.' + i) + (open ? (b ? ', ' + gv('bestIs', { b }) : '') : ', ' + g('locked')))}"><b>${i + 1}</b><small>${open ? (b ? fmtNum(b) : '—') : '🔒'}</small></button>`; }).join('')}
+        ${LV.map((l, i) => { const open = i < prog.unlocked, b = prog.levelBest[i + 1]; return `<button type="button" class="mz-lv-btn" data-l="${i}" ${open ? '' : 'disabled'} aria-label="${esc(gv('levelN', { n: i + 1 }) + ', ' + g('lvl.' + i) + (open ? (b ? ', ' + gv('bestIs', { b }) : '') : ', ' + g('locked')))}"><b>${i + 1}</b><small>${open ? (b ? fmtNum(b) : '—') : '🔒'}</small>${l.ammo ? '<i class="mz-lv-seed" aria-hidden="true">🌰</i>' : ''}</button>`; }).join('')}
       </div></div></div>`, { play: () => newGame(Math.min(prog.unlocked, N) - 1), rules: () => tutorial(null) });
     scr.querySelectorAll('.mz-lv-btn').forEach(b => b.onclick = () => newGame(+b.dataset.l));
     hud(); draw();
@@ -4516,12 +4847,18 @@ GAMES['fruit-maze'] = host => {
     if (!inGame(e)) return; // keyboard outside the game keeps its normal behaviour
     const d = DIRKEYS[e.code] || DIRKEYS[e.key];
     if (d && mode === 'play') { e.preventDefault(); press(d); return; }
+    if ((e.code === 'Space' || e.key === ' ') && mode === 'play' && !e.target.closest('.mz-btn:not(.mz-fire)')) { e.preventDefault(); if (!e.repeat) fireQ = true; return; }
     if ((e.key === 'Escape' || e.key === 'p' || e.key === 'P') && (mode === 'play' || mode === 'pause')) { e.preventDefault(); mode === 'play' ? pause() : resume(); }
   });
   k.on(window, 'keyup', e => { const d = DIRKEYS[e.code] || DIRKEYS[e.key]; if (d) release(d); });
   k.on(window, 'blur', () => { held = []; });
   $('.mz-pause').onclick = pause;
-  k.$$('.mz-btn').forEach(b => {
+  const fb = $('.mz-fire');
+  fb.addEventListener('pointerdown', e => { e.preventDefault(); if (mode === 'play') fireQ = true; fb.classList.add('on'); });
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach(n => fb.addEventListener(n, () => fb.classList.remove('on')));
+  fb.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); if (mode === 'play') fireQ = true; } });
+  fb.addEventListener('contextmenu', e => e.preventDefault());
+  k.$$('.mz-btn[data-d]').forEach(b => {
     const d = b.dataset.d;
     b.addEventListener('pointerdown', e => { e.preventDefault(); try { b.setPointerCapture(e.pointerId); } catch (_) {} press(d); b.classList.add('on'); });
     const up = () => { release(d); b.classList.remove('on'); };
@@ -4535,12 +4872,57 @@ GAMES['fruit-maze'] = host => {
   let sw = null;
   cv.addEventListener('pointerdown', e => { if (mode !== 'play') return; sw = { x: e.clientX, y: e.clientY, d: null }; try { cv.setPointerCapture(e.pointerId); } catch (_) {} });
   cv.addEventListener('pointermove', e => { if (!sw) return; const dx = e.clientX - sw.x, dy = e.clientY - sw.y; if (Math.hypot(dx, dy) < 18) return; const d = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up'); if (d !== sw.d) { if (sw.d) release(sw.d); press(d); sw.d = d; } sw.x = e.clientX; sw.y = e.clientY; });
-  const swEnd = () => { if (sw && sw.d) release(sw.d); sw = null; }; cv.addEventListener('pointerup', swEnd); cv.addEventListener('pointercancel', swEnd);
+  const swEnd = tap => { if (sw && sw.d) release(sw.d); else if (tap && sw && mode === 'play' && s.g.ammo) fireQ = true; sw = null; }; // a tap without a swipe throws a seed
+  cv.addEventListener('pointerup', () => swEnd(true)); cv.addEventListener('pointercancel', () => swEnd(false));
 
   window.__fruitMaze = { get state() { return s; }, get mode() { return mode; }, get progress() { return prog; }, pause, resume }; // for browser tests
   k.cleanups.push(() => { delete window.__fruitMaze; });
   return k.init();
 };
+
+/* ===== Live Fruit Maze preview for the home hero: an autopilot boy collects fruit and throws seeds.
+   Purely decorative (the whole card is a link to the game); stops off-screen, in hidden tabs and with reduced motion. ===== */
+function mountMazePreview(el) {
+  if (!el || typeof MAZE_LEVELS === 'undefined') return () => {};
+  const E = MazeEngine, cv = el.querySelector('canvas'), ctx = cv.getContext('2d');
+  const li = MAZE_LEVELS.findIndex(l => l.ammo) >= 0 ? MAZE_LEVELS.findIndex(l => l.ammo) : Math.min(4, MAZE_LEVELS.length - 1);
+  let s, side = 0, layer = null, raf = 0, last = 0, want = null, visible = true, restartAt = 0, dead = false;
+  const fresh = () => { s = E.createState(MAZE_LEVELS, li); s.ammo = 99; want = null; restartAt = 0; };
+  function size() {
+    const w = Math.floor(el.querySelector('.mh-board').clientWidth); if (!w || w === side) return;
+    side = w; const d = Math.min(2, window.devicePixelRatio || 1);
+    cv.width = cv.height = Math.round(side * d); cv.style.width = cv.style.height = side + 'px'; ctx.setTransform(d, 0, 0, d, 0, 0);
+    layer = MazeArt.board(s.g, side); draw(performance.now());
+  }
+  function draw(now) { if (!side) return; ctx.drawImage(layer, 0, 0, side, side); MazeArt.entities(ctx, s, side / s.g.w, now / 1000, reducedMotion()); }
+  function think() { // at a tile centre: throw at a close animal in line, else head for the nearest fruit
+    const p = s.player, g = s.g; if (p.x !== p.tx || p.y !== p.ty) return {};
+    for (const [d, [dx, dy]] of Object.entries(E.DIRS)) for (let k = 1; k <= 3; k++) { const x = p.x + dx * k, y = p.y + dy * k; if (E.isWall(g, x, y)) break;
+      if (!s.seed && s.animals.some(a => a.stun <= 0 && Math.round(a.x) === x && Math.round(a.y) === y)) return { fire: d }; }
+    const dist = E.distances(g, p); let best = null, bd = 1e9;
+    for (const f of s.fruits) if (!f.taken) { const v = dist[f.y * g.w + f.x]; if (v > 0 && v < bd) { bd = v; best = f; } }
+    if (!best) return {};
+    let c = { x: best.x, y: best.y };
+    while (dist[c.y * g.w + c.x] > 1) { const n = Object.values(E.DIRS).map(([dx, dy]) => ({ x: c.x + dx, y: c.y + dy })).find(q => !E.isWall(g, q.x, q.y) && dist[q.y * g.w + q.x] === dist[c.y * g.w + c.x] - 1); if (!n) break; c = n; }
+    want = Object.keys(E.DIRS).find(d => p.x + E.DIRS[d][0] === c.x && p.y + E.DIRS[d][1] === c.y) || null; return {};
+  }
+  function frame(now) {
+    raf = 0; if (dead || !visible || document.hidden) return;
+    const el2 = last ? Math.min(0.1, (now - last) / 1000) : 0; last = now;
+    if (restartAt && now > restartAt) { fresh(); layer = MazeArt.board(s.g, side); }
+    if (!s.won) { const act = think(); E.update(s, el2, { dir: want, fire: act.fire }); s.lives = E.LIVES; s.events.length = 0; }
+    else if (!restartAt) restartAt = now + 1600;
+    draw(now); raf = requestAnimationFrame(frame);
+  }
+  const go = () => { if (!raf && !dead && !reducedMotion()) { last = 0; raf = requestAnimationFrame(frame); } };
+  fresh(); size();
+  if (reducedMotion()) { for (let i = 0; i < 90; i++) { think(); E.step(s, { dir: want }); } s.events.length = 0; draw(0); } // one still frame a moment into the run
+  const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => size()) : null; if (ro) ro.observe(el);
+  const io = typeof IntersectionObserver !== 'undefined' ? new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible) go(); }) : null; if (io) io.observe(el);
+  const vis = () => { if (!document.hidden) go(); }; document.addEventListener('visibilitychange', vis);
+  go();
+  return () => { dead = true; cancelAnimationFrame(raf); if (ro) ro.disconnect(); if (io) io.disconnect(); document.removeEventListener('visibilitychange', vis); };
+}
 
 /* ===== Register the 24 kit activities as live: catalog entries, routes, page texts ===== */
 (function registerGames() {

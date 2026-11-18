@@ -361,7 +361,6 @@
   "bubble-pop.opt.slow": "Slow drift",
   "bubble-pop.opt.lively": "Lively",
   "newTag": "New",
-  "heroMaze": "Fruit Maze: 10 levels of fruit and friendly critters",
   "fruit-slice.name": "Fruit Slice",
   "fruit-slice.h1": "Fruit Slice",
   "fruit-slice.card": "Swipe to slice flying fruit. Juicy halves, quick rounds.",
@@ -490,19 +489,20 @@
   "meta.fruit-memory.desc": "Flip cards and find the matching fruit. A classic memory game with fruit cards. Turn two cards over; if they match, they stay open.",
   "fruit-maze.name": "Fruit Maze",
   "fruit-maze.h1": "Fruit Maze",
-  "fruit-maze.card": "Guide the boy through an orchard maze, collect every fruit and dodge the animals. 10 levels.",
+  "fruit-maze.card": "Guide the boy through an orchard maze, collect every fruit and dodge the animals. 20 levels, with seeds to throw from level 11.",
   "fruit-maze.about": [
     "Fruit Maze is an arcade maze seen from above. You guide a boy along the garden paths, pick up every fruit on the map and keep away from the animals.",
-    "Apples are worth 10 points, bananas 15, oranges 20 and strawberries 25, plus 100 for clearing the level. You have three lives. Bumping into an animal costs one life and sends you back to the garden gate, where animals never go, with two seconds of safety. There are 10 levels. Each one is a little bigger and brings one more animal: from a small 11×11 garden with a single turtle to a 19×19 orchard with ten turtles, foxes and monkeys.",
-    "The turtle walks back and forth along one path. The fox patrols by always turning right when it can. The monkey is quicker and takes the next turn in a fixed order at every crossing, so you can learn their routes."
+    "Apples are worth 10 points, bananas 15, oranges 20 and strawberries 25, plus 100 for clearing the level. You have three lives. Bumping into an animal costs one life and sends you back to the garden gate, where animals never go, with two seconds of safety. There are 20 levels. The first ten grow from a small 11×11 garden with a single turtle to a 19×19 orchard with ten animals. From level 11 the boy can throw seeds: press Space (or the 🌰 button) to stun an animal for a few seconds. After that every level turns the difficulty up: bigger mazes up to 23×23, more and faster animals, fewer seeds and shorter stuns.",
+    "The turtle walks back and forth along one path. The fox patrols by always turning right when it can. The monkey is quicker and takes the next turn in a fixed order at every crossing, so you can learn their routes. The hedgehog, from level 13, follows you when you come within a few steps."
   ],
   "fruit-maze.steps": [
     "Move with the arrow keys or W A S D. On a phone, hold the arrow buttons or swipe on the board.",
     "Walk over fruit to collect it. The counter at the top shows how many are left.",
+    "From level 11, press Space, the 🌰 button or tap the board to throw a seed the way the boy is facing.",
     "Collect every fruit to finish the level. Press Esc or the pause button to take a break."
   ],
   "meta.fruit-maze.title": "Fruit Maze: free online game · Fruit Destroy",
-  "meta.fruit-maze.desc": "Guide the boy through an orchard maze, collect every fruit and dodge the animals. 10 levels. Fruit Maze is an arcade maze seen from above. You guide a boy along the garden paths, pick up every fruit on the map and keep away from the animals.",
+  "meta.fruit-maze.desc": "Guide the boy through an orchard maze, collect every fruit and dodge the animals. 20 levels, with seeds to throw from level 11. Fruit Maze is an arcade maze seen from above. You guide a boy along the garden paths, pick up every fruit on the map and keep away from the animals.",
   "fruit-puzzle.name": "Fruit Puzzle",
   "fruit-puzzle.h1": "Fruit Puzzle",
   "fruit-puzzle.card": "Slide tiles to put a fruit picture back together.",
@@ -698,5 +698,12 @@
     "Save your print or clear the paper."
   ],
   "meta.citrus-stamps.title": "Citrus Stamps: creative activity · Fruit Destroy",
-  "meta.citrus-stamps.desc": "Print patterns with cut fruit halves, like real fruit stamps. Print with cut fruit, the way you would with a real lemon half and a pot of paint. Each print comes out a little different."
+  "meta.citrus-stamps.desc": "Print patterns with cut fruit halves, like real fruit stamps. Print with cut fruit, the way you would with a real lemon half and a pot of paint. Each print comes out a little different.",
+  "playMaze": "Play Fruit Maze",
+  "mainGame": "Main game",
+  "mazeLevels": "{n} levels",
+  "mhF1": "Collect every fruit",
+  "mhF2": "Dodge the animals",
+  "mhF3": "Throw seeds from level 11",
+  "exploreAllN": "Explore all {n} activities"
 }

@@ -361,7 +361,6 @@
   "bubble-pop.opt.slow": "Deriva lenta",
   "bubble-pop.opt.lively": "Vivaci",
   "newTag": "Nuovo",
-  "heroMaze": "Fruit Maze: 10 livelli di frutta e bestioline simpatiche",
   "fruit-slice.name": "Fruit Slice",
   "fruit-slice.h1": "Fruit Slice",
   "fruit-slice.card": "Scorri per tagliare la frutta che vola. Metà succose, turni veloci.",
@@ -490,19 +489,20 @@
   "meta.fruit-memory.desc": "Gira le carte e trova la frutta uguale. Un gioco di memoria classico con carte di frutta. Girane due: se coincidono, restano scoperte.",
   "fruit-maze.name": "Fruit Maze",
   "fruit-maze.h1": "Fruit Maze",
-  "fruit-maze.card": "Guida il ragazzo in un labirinto del frutteto, raccogli tutta la frutta ed evita gli animali. 10 livelli.",
+  "fruit-maze.card": "Guida il ragazzo in un labirinto nel frutteto, raccogli tutta la frutta e schiva gli animali. 20 livelli, con semi da lanciare dal livello 11.",
   "fruit-maze.about": [
     "Fruit Maze è un labirinto arcade visto dall'alto. Guidi un ragazzo lungo i sentieri del frutteto, raccogli tutta la frutta della mappa e stai lontano dagli animali.",
-    "La mela vale 10 punti, la banana 15, l'arancia 20 e la fragola 25, più 100 per finire il livello. Hai tre vite. Se urti un animale, perdi una vita e torni al cancello del giardino, dove gli animali non entrano, con due secondi di tregua. Ci sono 10 livelli. Ognuno è un po' più grande e porta un animale in più: da un giardino piccolo 11×11 con una sola tartaruga a un frutteto 19×19 con dieci tartarughe, volpi e scimmie.",
-    "La tartaruga va avanti e indietro su un sentiero. La volpe pattuglia e gira sempre a destra quando può. La scimmia è più veloce e a ogni incrocio prende la svolta successiva in un ordine fisso, così puoi imparare i percorsi."
+    "La mela vale 10 punti, la banana 15, l'arancia 20 e la fragola 25, più 100 per finire il livello. Hai tre vite. Se urti un animale, perdi una vita e torni al cancello del giardino, dove gli animali non entrano, con due secondi di tregua. Ci sono 20 livelli. I primi dieci crescono da un piccolo giardino 11×11 con una sola tartaruga fino a un frutteto 19×19 con dieci animali. Dal livello 11 il ragazzo può lanciare semi: premi Spazio (o il pulsante 🌰) per stordire un animale per qualche secondo. Da lì ogni livello è più difficile: labirinti più grandi fino a 23×23, animali più numerosi e veloci, meno semi e stordimenti più brevi.",
+    "La tartaruga va avanti e indietro su un sentiero. La volpe pattuglia e gira sempre a destra quando può. La scimmia è più veloce e a ogni incrocio prende la svolta successiva in un ordine fisso, così puoi imparare i percorsi. Il riccio, dal livello 13, ti segue quando arrivi a pochi passi da lui."
   ],
   "fruit-maze.steps": [
     "Muoviti con le frecce o con W A S D. Sul telefono, tieni premuti i pulsanti freccia o scorri sulla tavola.",
     "Passa sopra un frutto per raccoglierlo. Il contatore in alto dice quanti ne restano.",
+    "Dal livello 11 premi Spazio, il pulsante 🌰 o tocca il campo per lanciare un seme dove guarda il ragazzo.",
     "Raccogli tutta la frutta per finire il livello. Esc o il pulsante pausa servono per fermarti un momento."
   ],
   "meta.fruit-maze.title": "Fruit Maze: gioco gratis online · Fruit Destroy",
-  "meta.fruit-maze.desc": "Guida il ragazzo in un labirinto del frutteto, raccogli tutta la frutta ed evita gli animali. 10 livelli. Fruit Maze è un labirinto arcade visto dall'alto. Guidi un ragazzo lungo i sentieri del frutteto, raccogli tutta la frutta della mappa e stai lontano dagli animali.",
+  "meta.fruit-maze.desc": "Guida il ragazzo in un labirinto nel frutteto, raccogli tutta la frutta e schiva gli animali. 20 livelli, con semi da lanciare dal livello 11. Fruit Maze è un labirinto arcade visto dall'alto. Guidi un ragazzo lungo i sentieri del frutteto, raccogli tutta la frutta della mappa e stai lontano dagli animali.",
   "fruit-puzzle.name": "Fruit Puzzle",
   "fruit-puzzle.h1": "Fruit Puzzle",
   "fruit-puzzle.card": "Fai scorrere le tessere per ricomporre un'immagine di frutta.",
@@ -698,5 +698,12 @@
     "Salva la stampa o pulisci la carta."
   ],
   "meta.citrus-stamps.title": "Citrus Stamps: attività creativa · Fruit Destroy",
-  "meta.citrus-stamps.desc": "Stampa motivi con metà di frutta, come timbri veri. Stampa con frutta tagliata, come faresti con mezzo limone vero e un barattolo di colore. Ogni impronta esce un po' diversa."
+  "meta.citrus-stamps.desc": "Stampa motivi con metà di frutta, come timbri veri. Stampa con frutta tagliata, come faresti con mezzo limone vero e un barattolo di colore. Ogni impronta esce un po' diversa.",
+  "playMaze": "Gioca a Fruit Maze",
+  "mainGame": "Gioco principale",
+  "mazeLevels": "{n} livelli",
+  "mhF1": "Raccogli tutta la frutta",
+  "mhF2": "Schiva gli animali",
+  "mhF3": "Lancia semi dal livello 11",
+  "exploreAllN": "Tutte le {n} attività"
 }

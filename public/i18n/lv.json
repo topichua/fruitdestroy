@@ -361,7 +361,6 @@
   "bubble-pop.opt.slow": "Lēni",
   "bubble-pop.opt.lively": "Dzīvi",
   "newTag": "Jauns",
-  "heroMaze": "Fruit Maze: 10 līmeņi ar augļiem un jautriem zvēriņiem",
   "fruit-slice.name": "Fruit Slice",
   "fruit-slice.h1": "Fruit Slice",
   "fruit-slice.card": "Grieziet ar pirksta vilcienu augļus, kas lido augšup. Sulīgas pusītes, ātras kārtas.",
@@ -490,19 +489,20 @@
   "meta.fruit-memory.desc": "Apgrieziet kārtis un meklējiet vienādus augļus. Klasiskā atmiņa ar augļu kārtīm. Atveriet divas: ja tās ir vienādas, paliek atvērtas.",
   "fruit-maze.name": "Fruit Maze",
   "fruit-maze.h1": "Fruit Maze",
-  "fruit-maze.card": "Izvediet zēnu pa dārza labirintu, savāciet visus augļus un apejiet dzīvniekus. 10 līmeņi.",
+  "fruit-maze.card": "Vadi zēnu pa augļu dārza labirintu, savāc visus augļus un izvairies no dzīvniekiem. 20 līmeņi, un no 11. var mest sēklas.",
   "fruit-maze.about": [
     "Fruit Maze ir arkādes labirints no augšas. Jūs vedat zēnu pa dārza taciņām, savācat visus augļus kartē un turaties pa gabalu no dzīvniekiem.",
-    "Ābols dod 10 punktus, banāns 15, apelsīns 20, zemene 25 un vēl 100 par izietu līmeni. Jums ir trīs dzīvības. Sadursme ar dzīvnieku atņem vienu dzīvību un atgriež pie dārza vārtiņiem, kur dzīvnieki nenāk, plus divas sekundes atelpas. Līmeņu ir 10. Katrs ir mazliet lielāks un pieliek vienu dzīvnieku: no maza 11×11 dārza ar vienu bruņurupuci līdz 19×19 dārzam ar desmit bruņurupučiem, lapsām un mērkaķīšiem.",
-    "Bruņurupucis staigā šurpu turpu pa vienu taciņu. Lapsa patrulē un vienmēr griežas pa labi, ja var. Mērkaķītis ir ātrāks un katrā krustojumā ņem nākamo pagriezienu vienā un tajā pašā secībā, tāpēc maršrutus var iemācīties."
+    "Ābols dod 10 punktus, banāns 15, apelsīns 20, zemene 25 un vēl 100 par izietu līmeni. Jums ir trīs dzīvības. Sadursme ar dzīvnieku atņem vienu dzīvību un atgriež pie dārza vārtiņiem, kur dzīvnieki nenāk, plus divas sekundes atelpas. Līmeņu ir 20. Pirmie desmit aug no maza 11×11 dārza ar vienu bruņurupuci līdz 19×19 dārzam ar desmit dzīvniekiem. No 11. līmeņa zēns var mest sēklas: nospied atstarpi (vai pogu 🌰), lai uz dažām sekundēm apdullinātu dzīvnieku. Pēc tam katrs līmenis ir grūtāks: lielāki labirinti līdz 23×23, vairāk un ātrāki dzīvnieki, mazāk sēklu un īsāka apdullināšana.",
+    "Bruņurupucis staigā šurpu turpu pa vienu taciņu. Lapsa patrulē un vienmēr griežas pa labi, ja var. Mērkaķītis ir ātrāks un katrā krustojumā ņem nākamo pagriezienu vienā un tajā pašā secībā, tāpēc maršrutus var iemācīties. Ezis, no 13. līmeņa, seko tev, kad pienāc dažu soļu attālumā."
   ],
   "fruit-maze.steps": [
     "Ejiet ar bultiņām vai W A S D. Telefonā turiet bultiņu pogas vai velciet pa laukumu.",
     "Uzkāpiet uz augļa, lai to savāktu. Skaitītājs augšā rāda, cik vēl palicis.",
+    "No 11. līmeņa nospied atstarpi, pogu 🌰 vai pieskaries laukumam, lai mestu sēklu tur, kur skatās zēns.",
     "Savāciet visus augļus, lai izietu līmeni. Esc vai pauzes poga — lai atvilktu elpu."
   ],
   "meta.fruit-maze.title": "Fruit Maze: bezmaksas spēle tiešsaistē · Fruit Destroy",
-  "meta.fruit-maze.desc": "Izvediet zēnu pa dārza labirintu, savāciet visus augļus un apejiet dzīvniekus. 10 līmeņi. Fruit Maze ir arkādes labirints no augšas. Jūs vedat zēnu pa dārza taciņām, savācat visus augļus kartē un turaties pa gabalu no dzīvniekiem.",
+  "meta.fruit-maze.desc": "Vadi zēnu pa augļu dārza labirintu, savāc visus augļus un izvairies no dzīvniekiem. 20 līmeņi, un no 11. var mest sēklas. Fruit Maze ir arkādes labirints no augšas. Jūs vedat zēnu pa dārza taciņām, savācat visus augļus kartē un turaties pa gabalu no dzīvniekiem.",
   "fruit-puzzle.name": "Fruit Puzzle",
   "fruit-puzzle.h1": "Fruit Puzzle",
   "fruit-puzzle.card": "Bīdiet flīzes, lai saliktu attēlu ar augli.",
@@ -698,5 +698,12 @@
     "Saglabājiet nospiedumu vai notīriet papīru."
   ],
   "meta.citrus-stamps.title": "Citrus Stamps: radoša nodarbe · Fruit Destroy",
-  "meta.citrus-stamps.desc": "Spiediet rakstus ar augļu pusītēm, kā ar īstiem spiedogiem. Spiediet ar pārgrieztiem augļiem, kā ar īstu citrona pusīti un krāsas trauciņu. Katrs nospiedums iznāk mazliet citāds."
+  "meta.citrus-stamps.desc": "Spiediet rakstus ar augļu pusītēm, kā ar īstiem spiedogiem. Spiediet ar pārgrieztiem augļiem, kā ar īstu citrona pusīti un krāsas trauciņu. Katrs nospiedums iznāk mazliet citāds.",
+  "playMaze": "Spēlēt Fruit Maze",
+  "mainGame": "Galvenā spēle",
+  "mazeLevels": "Līmeņi: {n}",
+  "mhF1": "Savāc visus augļus",
+  "mhF2": "Izvairies no dzīvniekiem",
+  "mhF3": "Sēklas no 11. līmeņa",
+  "exploreAllN": "Visas aktivitātes ({n})"
 }

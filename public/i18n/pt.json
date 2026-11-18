@@ -361,7 +361,6 @@
   "bubble-pop.opt.slow": "A flutuar devagar",
   "bubble-pop.opt.lively": "Animadas",
   "newTag": "Novo",
-  "heroMaze": "Fruit Maze: 10 níveis de fruta e bichinhos simpáticos",
   "fruit-slice.name": "Fruit Slice",
   "fruit-slice.h1": "Fruit Slice",
   "fruit-slice.card": "Desliza para cortar a fruta que voa. Metades sumarentas, rondas rápidas.",
@@ -490,19 +489,20 @@
   "meta.fruit-memory.desc": "Vira cartas e encontra a fruta igual. Um jogo da memória clássico com cartas de fruta. Vira duas: se forem iguais, ficam abertas.",
   "fruit-maze.name": "Fruit Maze",
   "fruit-maze.h1": "Fruit Maze",
-  "fruit-maze.card": "Guia o menino por um labirinto do pomar, apanha toda a fruta e desvia-te dos animais. 10 níveis.",
+  "fruit-maze.card": "Guia o rapaz por um labirinto de pomar, apanha toda a fruta e foge dos animais. 20 níveis, com sementes para atirar a partir do nível 11.",
   "fruit-maze.about": [
     "Fruit Maze é um labirinto arcade visto de cima. Guias um menino pelos caminhos do pomar, apanhas toda a fruta do mapa e afastas-te dos animais.",
-    "A maçã vale 10 pontos, a banana 15, a laranja 20 e o morango 25, mais 100 por passar o nível. Tens três vidas. Se chocas com um animal, perdes uma vida e voltas ao portão do jardim, onde os animais não entram, com dois segundos de folga. Há 10 níveis. Cada um é um pouco maior e traz mais um animal: de um jardim pequeno de 11×11 com uma só tartaruga a um pomar de 19×19 com dez tartarugas, raposas e macacos.",
-    "A tartaruga vai e vem por um caminho. A raposa patrulha e vira à direita sempre que pode. O macaco é mais rápido e em cada cruzamento toma a curva seguinte numa ordem fixa, por isso podes aprender os percursos."
+    "A maçã vale 10 pontos, a banana 15, a laranja 20 e o morango 25, mais 100 por passar o nível. Tens três vidas. Se chocas com um animal, perdes uma vida e voltas ao portão do jardim, onde os animais não entram, com dois segundos de folga. Há 20 níveis. Os dez primeiros crescem de um jardim pequeno de 11×11 com uma só tartaruga até um pomar de 19×19 com dez animais. A partir do nível 11 o rapaz pode atirar sementes: carrega em Espaço (ou no botão 🌰) para atordoar um animal durante uns segundos. Depois disso cada nível fica mais difícil: labirintos maiores, até 23×23, mais animais e mais rápidos, menos sementes e atordoamentos mais curtos.",
+    "A tartaruga vai e vem por um caminho. A raposa patrulha e vira à direita sempre que pode. O macaco é mais rápido e em cada cruzamento toma a curva seguinte numa ordem fixa, por isso podes aprender os percursos. O ouriço, a partir do nível 13, segue-te quando ficas a poucos passos dele."
   ],
   "fruit-maze.steps": [
     "Move-te com as setas ou com W A S D. No telemóvel, mantém os botões de seta ou desliza no tabuleiro.",
     "Passa por cima da fruta para a apanhar. O contador em cima diz quantas faltam.",
+    "A partir do nível 11, carrega em Espaço, no botão 🌰 ou toca no tabuleiro para atirar uma semente para onde o rapaz está virado.",
     "Apanha toda a fruta para acabar o nível. Esc ou o botão de pausa servem para parares um momento."
   ],
   "meta.fruit-maze.title": "Fruit Maze: jogo grátis online · Fruit Destroy",
-  "meta.fruit-maze.desc": "Guia o menino por um labirinto do pomar, apanha toda a fruta e desvia-te dos animais. 10 níveis. Fruit Maze é um labirinto arcade visto de cima. Guias um menino pelos caminhos do pomar, apanhas toda a fruta do mapa e afastas-te dos animais.",
+  "meta.fruit-maze.desc": "Guia o rapaz por um labirinto de pomar, apanha toda a fruta e foge dos animais. 20 níveis, com sementes para atirar a partir do nível 11. Fruit Maze é um labirinto arcade visto de cima. Guias um menino pelos caminhos do pomar, apanhas toda a fruta do mapa e afastas-te dos animais.",
   "fruit-puzzle.name": "Fruit Puzzle",
   "fruit-puzzle.h1": "Fruit Puzzle",
   "fruit-puzzle.card": "Desliza as peças para recompor uma imagem de fruta.",
@@ -698,5 +698,12 @@
     "Guarda a impressão ou limpa o papel."
   ],
   "meta.citrus-stamps.title": "Citrus Stamps: atividade criativa · Fruit Destroy",
-  "meta.citrus-stamps.desc": "Imprime padrões com metades de fruta, como carimbos a sério. Imprime com fruta cortada, como farias com metade de um limão e um frasco de tinta. Cada marca sai um pouco diferente."
+  "meta.citrus-stamps.desc": "Imprime padrões com metades de fruta, como carimbos a sério. Imprime com fruta cortada, como farias com metade de um limão e um frasco de tinta. Cada marca sai um pouco diferente.",
+  "playMaze": "Jogar Fruit Maze",
+  "mainGame": "Jogo principal",
+  "mazeLevels": "{n} níveis",
+  "mhF1": "Apanha toda a fruta",
+  "mhF2": "Foge dos animais",
+  "mhF3": "Atira sementes a partir do nível 11",
+  "exploreAllN": "Ver as {n} atividades"
 }

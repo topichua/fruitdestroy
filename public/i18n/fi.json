@@ -361,7 +361,6 @@
   "bubble-pop.opt.slow": "Hidas aje",
   "bubble-pop.opt.lively": "Vilkas",
   "newTag": "Uusi",
-  "heroMaze": "Fruit Maze: 10 tasoa hedelmiä ja ystävällisiä eläimiä",
   "fruit-slice.name": "Fruit Slice",
   "fruit-slice.h1": "Fruit Slice",
   "fruit-slice.card": "Pyyhkäise ja viipaloi lentävää hedelmää. Mehukkaita puolikkaita, lyhyet kierrokset.",
@@ -490,19 +489,20 @@
   "meta.fruit-memory.desc": "Käännä kortteja ja etsi sama hedelmä. Klassinen muistipeli hedelmäkorteilla. Käännä kaksi korttia. Jos ne täsmäävät, ne jäävät auki.",
   "fruit-maze.name": "Fruit Maze",
   "fruit-maze.h1": "Fruit Maze",
-  "fruit-maze.card": "Ohjaa poika hedelmätarhan läpi, kerää jokainen hedelmä ja vältä eläimet. 10 tasoa.",
+  "fruit-maze.card": "Ohjaa poika hedelmätarhan labyrintin läpi, kerää kaikki hedelmät ja väistele eläimiä. 20 tasoa, ja tasolta 11 voit heittää siemeniä.",
   "fruit-maze.about": [
     "Fruit Maze on ylhäältä kuvattu arcade-labyrintti. Ohjaat poikaa puutarhan polkuja pitkin, keräät kaikki hedelmät kartalta ja pysyt erossa eläimistä.",
-    "Omena on 10 pistettä, banaani 15, appelsiini 20 ja mansikka 25, ja tason läpäisystä saa 100 lisää. Sinulla on kolme elämää. Eläimeen törmääminen vie yhden elämän ja palauttaa sinut puutarhaportille, minne eläimet eivät tule, kahden sekunnin turvalla. Tasoa on 10. Jokainen on hieman isompi ja tuo yhden eläimen lisää: pienestä 11×11-puutarhasta, jossa on yksi kilpikonna, aina 19×19-hedelmätarhaan, jossa on kymmenen kilpikonnaa, kettua ja apinaa.",
-    "Kilpikonna kävelee yhtä polkua edestakaisin. Kettu partioi ja kääntyy aina oikealle, kun voi. Apina on nopeampi ja ottaa joka risteyksessä seuraavan käännöksen aina samassa järjestyksessä, joten reitit oppii."
+    "Omena on 10 pistettä, banaani 15, appelsiini 20 ja mansikka 25, ja tason läpäisystä saa 100 lisää. Sinulla on kolme elämää. Eläimeen törmääminen vie yhden elämän ja palauttaa sinut puutarhaportille, minne eläimet eivät tule, kahden sekunnin turvalla. Tasoja on 20. Ensimmäiset kymmenen kasvavat pienestä 11×11-puutarhasta, jossa on yksi kilpikonna, 19×19-tarhaan, jossa on kymmenen eläintä. Tasolta 11 poika voi heittää siemeniä: paina välilyöntiä (tai 🌰-painiketta) ja tainnuta eläin muutamaksi sekunniksi. Sen jälkeen jokainen taso on vaikeampi: isommat labyrintit aina 23×23 asti, enemmän ja nopeampia eläimiä, vähemmän siemeniä ja lyhyempi tainnutus.",
+    "Kilpikonna kävelee yhtä polkua edestakaisin. Kettu partioi ja kääntyy aina oikealle, kun voi. Apina on nopeampi ja ottaa joka risteyksessä seuraavan käännöksen aina samassa järjestyksessä, joten reitit oppii. Siili, tasolta 13 alkaen, seuraa sinua, kun tulet muutaman askeleen päähän."
   ],
   "fruit-maze.steps": [
     "Liiku nuolinäppäimillä tai W A S D. Puhelimella pidä nuolinäppäimiä painettuna tai pyyhkäise kentällä.",
     "Kävele hedelmän yli, niin keräät sen. Yläreunan laskuri näyttää, montako on jäljellä.",
+    "Tasolta 11 paina välilyöntiä, 🌰-painiketta tai napauta pelilautaa heittääksesi siemenen siihen suuntaan, johon poika katsoo.",
     "Kerää jokainen hedelmä, niin taso on läpi. Esc tai taukopainike, jos haluat pitää tauon."
   ],
   "meta.fruit-maze.title": "Fruit Maze: ilmainen nettipeli · Fruit Destroy",
-  "meta.fruit-maze.desc": "Ohjaa poika hedelmätarhan läpi, kerää jokainen hedelmä ja vältä eläimet. 10 tasoa. Fruit Maze on ylhäältä kuvattu arcade-labyrintti. Ohjaat poikaa puutarhan polkuja pitkin, keräät kaikki hedelmät kartalta ja pysyt erossa eläimistä.",
+  "meta.fruit-maze.desc": "Ohjaa poika hedelmätarhan labyrintin läpi, kerää kaikki hedelmät ja väistele eläimiä. 20 tasoa, ja tasolta 11 voit heittää siemeniä. Fruit Maze on ylhäältä kuvattu arcade-labyrintti. Ohjaat poikaa puutarhan polkuja pitkin, keräät kaikki hedelmät kartalta ja pysyt erossa eläimistä.",
   "fruit-puzzle.name": "Fruit Puzzle",
   "fruit-puzzle.h1": "Fruit Puzzle",
   "fruit-puzzle.card": "Liu'uta paloja, kunnes hedelmäkuva on taas ehjä.",
@@ -698,5 +698,12 @@
     "Tallenna painoksesi tai tyhjennä paperi."
   ],
   "meta.citrus-stamps.title": "Citrus Stamps: luova aktiviteetti · Fruit Destroy",
-  "meta.citrus-stamps.desc": "Paina kuvioita halkaistuilla hedelmillä, kuin oikeilla hedelmäleimasimilla. Paina halkaistulla hedelmällä, niin kuin oikealla sitruunanpuolikkaalla ja väripurkilla. Jokainen jälki tulee vähän erilaiseksi."
+  "meta.citrus-stamps.desc": "Paina kuvioita halkaistuilla hedelmillä, kuin oikeilla hedelmäleimasimilla. Paina halkaistulla hedelmällä, niin kuin oikealla sitruunanpuolikkaalla ja väripurkilla. Jokainen jälki tulee vähän erilaiseksi.",
+  "playMaze": "Pelaa Fruit Mazea",
+  "mainGame": "Pääpeli",
+  "mazeLevels": "{n} tasoa",
+  "mhF1": "Kerää kaikki hedelmät",
+  "mhF2": "Väistele eläimiä",
+  "mhF3": "Siemeniä tasolta 11",
+  "exploreAllN": "Kaikki {n} aktiviteettia"
 }

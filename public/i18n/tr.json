@@ -361,7 +361,6 @@
   "bubble-pop.opt.slow": "Yavaş",
   "bubble-pop.opt.lively": "Canlı",
   "newTag": "Yeni",
-  "heroMaze": "Fruit Maze: meyve ve sevimli hayvanlarla 10 seviye",
   "fruit-slice.name": "Fruit Slice",
   "fruit-slice.h1": "Fruit Slice",
   "fruit-slice.card": "Uçan meyveyi kaydırarak dilimle. Sulu yarımlar, kısa turlar.",
@@ -490,19 +489,20 @@
   "meta.fruit-memory.desc": "Kartları çevir, aynı meyveyi bul. Meyve kartlarıyla klasik bir hafıza oyunu. İki kart aç; aynıysa açık kalır.",
   "fruit-maze.name": "Fruit Maze",
   "fruit-maze.h1": "Fruit Maze",
-  "fruit-maze.card": "Oğlanı bahçe labirentinden geçir, bütün meyveyi topla, hayvanlardan kaç. 10 seviye.",
+  "fruit-maze.card": "Çocuğu meyve bahçesi labirentinde gezdir, bütün meyveleri topla ve hayvanlardan kaç. 20 seviye, 11. seviyeden itibaren tohum atabilirsin.",
   "fruit-maze.about": [
     "Fruit Maze yukarıdan görünen bir labirent oyunu. Oğlanı bahçe yollarında götürür, haritadaki bütün meyveyi toplar, hayvanlardan uzak durursun.",
-    "Elma 10 puan, muz 15, portakal 20, çilek 25, seviyeyi bitirmek de 100 puan kazandırır. Üç canın var. Hayvana çarpmak bir can alır ve seni hayvanların girmediği bahçe kapısına geri yollar, iki saniye de güvende tutar. 10 seviye var. Her biri biraz daha büyük ve bir hayvan daha getirir: tek kaplumbağalı küçük bir 11×11 bahçeden, on kaplumbağa, tilki ve maymunlu 19×19 bahçeye.",
-    "Kaplumbağa bir yolda gidip gelir. Tilki devriye gezer ve fırsat bulunca hep sağa döner. Maymun daha hızlıdır ve her kavşakta sıradaki dönüşü sabit bir düzende alır, yollarını ezberleyebilirsin."
+    "Elma 10 puan, muz 15, portakal 20, çilek 25, seviyeyi bitirmek de 100 puan kazandırır. Üç canın var. Hayvana çarpmak bir can alır ve seni hayvanların girmediği bahçe kapısına geri yollar, iki saniye de güvende tutar. 20 seviye var. İlk on seviye tek kaplumbağalı küçük bir 11×11 bahçeden on hayvanlı 19×19 bir meyve bahçesine kadar büyür. 11. seviyeden itibaren çocuk tohum atabilir: bir hayvanı birkaç saniye sersemletmek için Boşluk tuşuna (ya da 🌰 düğmesine) bas. Ondan sonra her seviye daha zorlaşır: 23×23'e kadar büyüyen labirentler, daha çok ve daha hızlı hayvan, daha az tohum ve daha kısa sersemleme.",
+    "Kaplumbağa bir yolda gidip gelir. Tilki devriye gezer ve fırsat bulunca hep sağa döner. Maymun daha hızlıdır ve her kavşakta sıradaki dönüşü sabit bir düzende alır, yollarını ezberleyebilirsin. 13. seviyeden itibaren gelen kirpi, birkaç adım yaklaştığında peşine düşer."
   ],
   "fruit-maze.steps": [
     "Ok tuşlarıyla ya da W A S D ile yürü. Telefonda ok düğmelerini basılı tut ya da tahtada kaydır.",
     "Toplamak için meyvenin üstünden geç. Üstteki sayaç kaç tane kaldığını gösterir.",
+    "11. seviyeden itibaren Boşluk tuşuna, 🌰 düğmesine bas ya da tahtaya dokun; çocuk baktığı yöne tohum atar.",
     "Seviyeyi bitirmek için bütün meyveyi topla. Dinlenmek için Esc ya da duraklatma düğmesi."
   ],
   "meta.fruit-maze.title": "Fruit Maze: ücretsiz çevrimiçi oyun · Fruit Destroy",
-  "meta.fruit-maze.desc": "Oğlanı bahçe labirentinden geçir, bütün meyveyi topla, hayvanlardan kaç. 10 seviye. Fruit Maze yukarıdan görünen bir labirent oyunu. Oğlanı bahçe yollarında götürür, haritadaki bütün meyveyi toplar, hayvanlardan uzak durursun.",
+  "meta.fruit-maze.desc": "Çocuğu meyve bahçesi labirentinde gezdir, bütün meyveleri topla ve hayvanlardan kaç. 20 seviye, 11. seviyeden itibaren tohum atabilirsin. Fruit Maze yukarıdan görünen bir labirent oyunu. Oğlanı bahçe yollarında götürür, haritadaki bütün meyveyi toplar, hayvanlardan uzak durursun.",
   "fruit-puzzle.name": "Fruit Puzzle",
   "fruit-puzzle.h1": "Fruit Puzzle",
   "fruit-puzzle.card": "Meyve resmini yeniden kurmak için taşları kaydır.",
@@ -698,5 +698,12 @@
     "Baskını kaydet ya da kâğıdı temizle."
   ],
   "meta.citrus-stamps.title": "Citrus Stamps: yaratıcı etkinlik · Fruit Destroy",
-  "meta.citrus-stamps.desc": "Kesik meyve yarımlarıyla, gerçek meyve damgası gibi desen bas. Gerçek bir limon yarısı ve bir boya kabıyla basar gibi kesik meyveyle bas. Her baskı biraz farklı çıkar."
+  "meta.citrus-stamps.desc": "Kesik meyve yarımlarıyla, gerçek meyve damgası gibi desen bas. Gerçek bir limon yarısı ve bir boya kabıyla basar gibi kesik meyveyle bas. Her baskı biraz farklı çıkar.",
+  "playMaze": "Fruit Maze oyna",
+  "mainGame": "Ana oyun",
+  "mazeLevels": "{n} seviye",
+  "mhF1": "Bütün meyveleri topla",
+  "mhF2": "Hayvanlardan kaç",
+  "mhF3": "11. seviyeden itibaren tohum at",
+  "exploreAllN": "{n} etkinliğin hepsine bak"
 }

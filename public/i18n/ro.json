@@ -361,7 +361,6 @@
   "bubble-pop.opt.slow": "Plutire lentă",
   "bubble-pop.opt.lively": "Vii",
   "newTag": "Nou",
-  "heroMaze": "Fruit Maze: 10 niveluri cu fructe și gângănii simpatice",
   "fruit-slice.name": "Fruit Slice",
   "fruit-slice.h1": "Fruit Slice",
   "fruit-slice.card": "Treci cu degetul ca să tai fructele care zboară. Jumătăți zemoase, runde rapide.",
@@ -490,19 +489,20 @@
   "meta.fruit-memory.desc": "Întoarce cărțile și găsește fructul la fel. Un joc de memorie clasic cu cărți de fructe. Întoarce două: dacă se potrivesc, rămân deschise.",
   "fruit-maze.name": "Fruit Maze",
   "fruit-maze.h1": "Fruit Maze",
-  "fruit-maze.card": "Condu băiatul printr-un labirint de livadă, adună toate fructele și ocolește animalele. 10 niveluri.",
+  "fruit-maze.card": "Ghidează băiatul printr-un labirint de livadă, adună toate fructele și ferește-te de animale. 20 de niveluri, iar de la nivelul 11 poți arunca semințe.",
   "fruit-maze.about": [
     "Fruit Maze este un labirint arcade văzut de sus. Conduci un băiat pe cărările livezii, aduni toate fructele de pe hartă și stai departe de animale.",
-    "Mărul face 10 puncte, banana 15, portocala 20 și căpșuna 25, plus 100 pentru nivelul terminat. Ai trei vieți. Dacă te lovești de un animal, pierzi o viață și te întorci la poarta grădinii, unde animalele nu intră, cu două secunde de răgaz. Sunt 10 niveluri. Fiecare e puțin mai mare și aduce încă un animal: de la o grădină mică 11×11 cu o singură țestoasă la o livadă 19×19 cu zece țestoase, vulpi și maimuțe.",
-    "Țestoasa merge înainte și înapoi pe o cărare. Vulpea patrulează și cotește la dreapta ori de câte ori poate. Maimuța e mai iute și la fiecare răscruce ia următoarea cotitură într-o ordine fixă, așa că le poți învăța traseele."
+    "Mărul face 10 puncte, banana 15, portocala 20 și căpșuna 25, plus 100 pentru nivelul terminat. Ai trei vieți. Dacă te lovești de un animal, pierzi o viață și te întorci la poarta grădinii, unde animalele nu intră, cu două secunde de răgaz. Sunt 20 de niveluri. Primele zece cresc de la o grădină mică 11×11 cu o singură broască țestoasă la o livadă 19×19 cu zece animale. De la nivelul 11 băiatul poate arunca semințe: apasă Spațiu (sau butonul 🌰) ca să amețești un animal câteva secunde. Apoi fiecare nivel e mai greu: labirinturi mai mari, până la 23×23, animale mai multe și mai rapide, mai puține semințe și amețeală mai scurtă.",
+    "Țestoasa merge înainte și înapoi pe o cărare. Vulpea patrulează și cotește la dreapta ori de câte ori poate. Maimuța e mai iute și la fiecare răscruce ia următoarea cotitură într-o ordine fixă, așa că le poți învăța traseele. Ariciul, de la nivelul 13, te urmărește când ajungi la câțiva pași de el."
   ],
   "fruit-maze.steps": [
     "Mișcă-te cu săgețile sau cu W A S D. Pe telefon, ține butoanele cu săgeți sau trece cu degetul pe tablă.",
     "Treci peste un fruct ca să-l iei. Contorul de sus arată câte au mai rămas.",
+    "De la nivelul 11 apasă Spațiu, butonul 🌰 sau atinge tabla ca să arunci o sămânță în direcția în care privește băiatul.",
     "Adună toate fructele ca să termini nivelul. Esc sau butonul de pauză sunt pentru o pauză."
   ],
   "meta.fruit-maze.title": "Fruit Maze: joc gratuit online · Fruit Destroy",
-  "meta.fruit-maze.desc": "Condu băiatul printr-un labirint de livadă, adună toate fructele și ocolește animalele. 10 niveluri. Fruit Maze este un labirint arcade văzut de sus. Conduci un băiat pe cărările livezii, aduni toate fructele de pe hartă și stai departe de animale.",
+  "meta.fruit-maze.desc": "Ghidează băiatul printr-un labirint de livadă, adună toate fructele și ferește-te de animale. 20 de niveluri, iar de la nivelul 11 poți arunca semințe. Fruit Maze este un labirint arcade văzut de sus. Conduci un băiat pe cărările livezii, aduni toate fructele de pe hartă și stai departe de animale.",
   "fruit-puzzle.name": "Fruit Puzzle",
   "fruit-puzzle.h1": "Fruit Puzzle",
   "fruit-puzzle.card": "Mută plăcuțele ca să refaci o imagine cu fructe.",
@@ -698,5 +698,12 @@
     "Salvează imprimarea sau șterge hârtia."
   ],
   "meta.citrus-stamps.title": "Citrus Stamps: activitate creativă · Fruit Destroy",
-  "meta.citrus-stamps.desc": "Imprimă modele cu jumătăți de fructe, ca ștampile adevărate. Imprimă cu fructe tăiate, cum ai face cu o jumătate de lămâie adevărată și un borcan de vopsea. Fiecare urmă iese puțin altfel."
+  "meta.citrus-stamps.desc": "Imprimă modele cu jumătăți de fructe, ca ștampile adevărate. Imprimă cu fructe tăiate, cum ai face cu o jumătate de lămâie adevărată și un borcan de vopsea. Fiecare urmă iese puțin altfel.",
+  "playMaze": "Joacă Fruit Maze",
+  "mainGame": "Jocul principal",
+  "mazeLevels": "{n} niveluri",
+  "mhF1": "Adună toate fructele",
+  "mhF2": "Ferește-te de animale",
+  "mhF3": "Semințe de la nivelul 11",
+  "exploreAllN": "Toate cele {n} activități"
 }
