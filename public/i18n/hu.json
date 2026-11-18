@@ -361,7 +361,6 @@
   "bubble-pop.opt.slow": "Lassú sodrás",
   "bubble-pop.opt.lively": "Élénk",
   "newTag": "Új",
-  "heroMaze": "Fruit Maze: 10 pálya gyümölccsel és barátságos állatokkal",
   "fruit-slice.name": "Fruit Slice",
   "fruit-slice.h1": "Fruit Slice",
   "fruit-slice.card": "Húzd el az ujjad, és szeleteld a repülő gyümölcsöt. Lédús felek, rövid körök.",
@@ -490,19 +489,20 @@
   "meta.fruit-memory.desc": "Fordíts kártyákat, és találd meg az ugyanolyan gyümölcsöt. Klasszikus memória gyümölcskártyákkal. Fordíts kettőt. Ha egyeznek, nyitva maradnak.",
   "fruit-maze.name": "Fruit Maze",
   "fruit-maze.h1": "Fruit Maze",
-  "fruit-maze.card": "Vezesd a fiút a gyümölcsösön át, szedd fel az összes gyümölcsöt, és kerüld az állatokat. 10 pálya.",
+  "fruit-maze.card": "Vezesd a fiút a gyümölcsöskert útvesztőjén át, gyűjts össze minden gyümölcsöt, és kerüld el az állatokat. 20 pálya, a 11.-től magokat is dobhatsz.",
   "fruit-maze.about": [
     "A Fruit Maze egy felülnézetes árkádlaborintus. Egy fiút vezetsz a kerti ösvényeken, felszeded az összes gyümölcsöt a pályán, és távol maradsz az állatoktól.",
-    "Az alma 10 pont, a banán 15, a narancs 20, az eper 25, a pálya teljesítéséért pedig még 100. Három életed van. Ha állatba ütközöl, elvesztesz egy életet, és visszakerülsz a kertkapuhoz, ahová az állatok sosem mennek, két másodperc védelemmel. 10 pálya van. Mindegyik egy kicsit nagyobb, és eggyel több állat van benne: a kis 11×11-es kerttől egyetlen teknőssel a 19×19-es gyümölcsösig, ahol tíz teknős, róka és majom van.",
-    "A teknős egy ösvényen jár fel-alá. A róka járőrözik, és mindig jobbra fordul, ha tud. A majom gyorsabb, és minden kereszteződésben a következő kanyart veszi egy rögzített sorrendben, úgyhogy az útvonalaikat meg lehet tanulni."
+    "Az alma 10 pont, a banán 15, a narancs 20, az eper 25, a pálya teljesítéséért pedig még 100. Három életed van. Ha állatba ütközöl, elvesztesz egy életet, és visszakerülsz a kertkapuhoz, ahová az állatok sosem mennek, két másodperc védelemmel. 20 pálya van. Az első tíz egy egyetlen teknőssel lakott kis 11×11-es kerttől egy tíz állatos 19×19-es gyümölcsösig nő. A 11. pályától a fiú magokat dobhat: nyomd meg a szóközt (vagy a 🌰 gombot), és egy állat pár másodpercre elkábul. Ezután minden pálya nehezebb: nagyobb útvesztők 23×23-ig, több és gyorsabb állat, kevesebb mag és rövidebb kábulat.",
+    "A teknős egy ösvényen jár fel-alá. A róka járőrözik, és mindig jobbra fordul, ha tud. A majom gyorsabb, és minden kereszteződésben a következő kanyart veszi egy rögzített sorrendben, úgyhogy az útvonalaikat meg lehet tanulni. A sün, a 13. pályától, követ téged, ha néhány lépésnyire megközelíted."
   ],
   "fruit-maze.steps": [
     "Mozogj a nyilakkal vagy a W A S D billentyűkkel. Telefonon tartsd lenyomva a nyílgombokat, vagy húzz a pályán.",
     "Sétálj rá a gyümölcsre, hogy felszedd. A felső számláló mutatja, mennyi van még.",
+    "A 11. pályától nyomd meg a szóközt, a 🌰 gombot, vagy koppints a pályára, hogy magot dobj arra, amerre a fiú néz.",
     "Szedd fel az összes gyümölcsöt a pálya teljesítéséhez. Az Esc vagy a szünet gomb, ha pihennél."
   ],
   "meta.fruit-maze.title": "Fruit Maze: ingyenes online játék · Fruit Destroy",
-  "meta.fruit-maze.desc": "Vezesd a fiút a gyümölcsösön át, szedd fel az összes gyümölcsöt, és kerüld az állatokat. 10 pálya. A Fruit Maze egy felülnézetes árkádlaborintus. Egy fiút vezetsz a kerti ösvényeken, felszeded az összes gyümölcsöt a pályán, és távol maradsz az állatoktól.",
+  "meta.fruit-maze.desc": "Vezesd a fiút a gyümölcsöskert útvesztőjén át, gyűjts össze minden gyümölcsöt, és kerüld el az állatokat. 20 pálya, a 11.-től magokat is dobhatsz. A Fruit Maze egy felülnézetes árkádlaborintus. Egy fiút vezetsz a kerti ösvényeken, felszeded az összes gyümölcsöt a pályán, és távol maradsz az állatoktól.",
   "fruit-puzzle.name": "Fruit Puzzle",
   "fruit-puzzle.h1": "Fruit Puzzle",
   "fruit-puzzle.card": "Told a lapkákat, amíg a gyümölcskép újra egész.",
@@ -698,5 +698,12 @@
     "Mentsd a nyomatot, vagy töröld a papírt."
   ],
   "meta.citrus-stamps.title": "Citrus Stamps: kreatív aktivitás · Fruit Destroy",
-  "meta.citrus-stamps.desc": "Nyomj mintákat félbevágott gyümölccsel, mint igazi gyümölcspecséttel. Nyomj vágott gyümölccsel, ahogy egy igazi fél citrommal és egy tégely festékkel tennéd. Minden lenyomat kicsit más lesz."
+  "meta.citrus-stamps.desc": "Nyomj mintákat félbevágott gyümölccsel, mint igazi gyümölcspecséttel. Nyomj vágott gyümölccsel, ahogy egy igazi fél citrommal és egy tégely festékkel tennéd. Minden lenyomat kicsit más lesz.",
+  "playMaze": "Fruit Maze játék",
+  "mainGame": "Fő játék",
+  "mazeLevels": "{n} pálya",
+  "mhF1": "Gyűjts össze minden gyümölcsöt",
+  "mhF2": "Kerüld el az állatokat",
+  "mhF3": "Magvak a 11. pályától",
+  "exploreAllN": "Mind a(z) {n} tevékenység"
 }

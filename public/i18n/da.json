@@ -361,7 +361,6 @@
   "bubble-pop.opt.slow": "Langsom drift",
   "bubble-pop.opt.lively": "Livligt",
   "newTag": "Ny",
-  "heroMaze": "Fruit Maze: 10 niveauer med frugt og venlige dyr",
   "fruit-slice.name": "Fruit Slice",
   "fruit-slice.h1": "Fruit Slice",
   "fruit-slice.card": "Stryg for at skære flyvende frugt. Saftige halvdele, korte runder.",
@@ -490,19 +489,20 @@
   "meta.fruit-memory.desc": "Vend kort og find den samme frugt. Et klassisk memory med frugtkort. Vend to kort. Passer de, bliver de liggende åbne.",
   "fruit-maze.name": "Fruit Maze",
   "fruit-maze.h1": "Fruit Maze",
-  "fruit-maze.card": "Før drengen gennem en frugthave, saml hver frugt og undgå dyrene. 10 niveauer.",
+  "fruit-maze.card": "Led drengen gennem en frugthave-labyrint, saml al frugten og undgå dyrene. 20 niveauer, og fra niveau 11 kan du kaste frø.",
   "fruit-maze.about": [
     "Fruit Maze er en arkadelabyrint set oppefra. Du fører en dreng ad havestierne, samler hver frugt på kortet og holder afstand til dyrene.",
-    "Æbler giver 10 point, bananer 15, appelsiner 20 og jordbær 25, plus 100 når du klarer niveauet. Du har tre liv. Støder du ind i et dyr, koster det et liv, og du havner tilbage ved haveporten, hvor dyrene aldrig går, med to sekunders beskyttelse. Der er 10 niveauer. Hvert niveau er lidt større og har et dyr mere: fra en lille have på 11×11 med en enkelt skildpadde til en frugthave på 19×19 med ti skildpadder, ræve og aber.",
-    "Skildpadden går frem og tilbage ad én sti. Ræven patruljerer og drejer altid til højre, når den kan. Aben er hurtigere og tager det næste sving i en fast rækkefølge ved hvert kryds, så du kan lære deres veje."
+    "Æbler giver 10 point, bananer 15, appelsiner 20 og jordbær 25, plus 100 når du klarer niveauet. Du har tre liv. Støder du ind i et dyr, koster det et liv, og du havner tilbage ved haveporten, hvor dyrene aldrig går, med to sekunders beskyttelse. Der er 20 niveauer. De første ti vokser fra en lille have på 11×11 med en enkelt skildpadde til en frugthave på 19×19 med ti dyr. Fra niveau 11 kan drengen kaste frø: tryk på mellemrum (eller 🌰-knappen) for at bedøve et dyr i nogle sekunder. Derefter bliver hvert niveau sværere: større labyrinter op til 23×23, flere og hurtigere dyr, færre frø og kortere bedøvelse.",
+    "Skildpadden går frem og tilbage ad én sti. Ræven patruljerer og drejer altid til højre, når den kan. Aben er hurtigere og tager det næste sving i en fast rækkefølge ved hvert kryds, så du kan lære deres veje. Pindsvinet, fra niveau 13, følger efter dig, når du kommer få skridt fra det."
   ],
   "fruit-maze.steps": [
     "Bevæg dig med piletasterne eller W A S D. På mobilen holder du pilknapperne eller stryger hen over feltet.",
     "Gå hen over frugt for at samle den. Tælleren øverst viser, hvor meget der er tilbage.",
+    "Fra niveau 11 trykker du på mellemrum, 🌰-knappen eller på brættet for at kaste et frø derhen, hvor drengen kigger.",
     "Saml hver frugt for at klare niveauet. Esc eller pauseknappen, hvis du vil holde en pause."
   ],
   "meta.fruit-maze.title": "Fruit Maze: gratis onlinespil · Fruit Destroy",
-  "meta.fruit-maze.desc": "Før drengen gennem en frugthave, saml hver frugt og undgå dyrene. 10 niveauer. Fruit Maze er en arkadelabyrint set oppefra. Du fører en dreng ad havestierne, samler hver frugt på kortet og holder afstand til dyrene.",
+  "meta.fruit-maze.desc": "Led drengen gennem en frugthave-labyrint, saml al frugten og undgå dyrene. 20 niveauer, og fra niveau 11 kan du kaste frø. Fruit Maze er en arkadelabyrint set oppefra. Du fører en dreng ad havestierne, samler hver frugt på kortet og holder afstand til dyrene.",
   "fruit-puzzle.name": "Fruit Puzzle",
   "fruit-puzzle.h1": "Fruit Puzzle",
   "fruit-puzzle.card": "Skub brikker, til frugtbilledet er helt igen.",
@@ -698,5 +698,12 @@
     "Gem trykket eller tøm papiret."
   ],
   "meta.citrus-stamps.title": "Citrus Stamps: kreativ aktivitet · Fruit Destroy",
-  "meta.citrus-stamps.desc": "Tryk mønstre med skårne frugthalvdele, som med rigtige frugtstempler. Tryk med skåret frugt, som med en rigtig citronhalvdel og en krukke maling. Hvert aftryk bliver lidt forskelligt."
+  "meta.citrus-stamps.desc": "Tryk mønstre med skårne frugthalvdele, som med rigtige frugtstempler. Tryk med skåret frugt, som med en rigtig citronhalvdel og en krukke maling. Hvert aftryk bliver lidt forskelligt.",
+  "playMaze": "Spil Fruit Maze",
+  "mainGame": "Hovedspil",
+  "mazeLevels": "{n} niveauer",
+  "mhF1": "Saml al frugten",
+  "mhF2": "Undgå dyrene",
+  "mhF3": "Kast frø fra niveau 11",
+  "exploreAllN": "Alle {n} aktiviteter"
 }

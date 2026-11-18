@@ -361,7 +361,6 @@
   "bubble-pop.opt.slow": "Lėtai",
   "bubble-pop.opt.lively": "Gyvai",
   "newTag": "Nauja",
-  "heroMaze": "Fruit Maze: 10 lygių su vaisiais ir linksmais žvėreliais",
   "fruit-slice.name": "Fruit Slice",
   "fruit-slice.h1": "Fruit Slice",
   "fruit-slice.card": "Pjaustykite braukimu kylančius vaisius. Sultingos puselės, greiti raundai.",
@@ -490,19 +489,20 @@
   "meta.fruit-memory.desc": "Verskite korteles ir ieškokite vienodų vaisių. Klasikinė atmintis su vaisių kortelėmis. Atverskite dvi: jei jos vienodos, lieka atverstos.",
   "fruit-maze.name": "Fruit Maze",
   "fruit-maze.h1": "Fruit Maze",
-  "fruit-maze.card": "Nuveskite berniuką sodo labirintu, surinkite visus vaisius ir aplenkite gyvūnus. 10 lygių.",
+  "fruit-maze.card": "Vesk berniuką sodo labirintu, surink visus vaisius ir venk gyvūnų. 20 lygių, o nuo 11 galima mėtyti sėklas.",
   "fruit-maze.about": [
     "Fruit Maze — arkadinis labirintas iš viršaus. Vedate berniuką sodo takeliais, renkate visus vaisius žemėlapyje ir laikotės atokiau nuo gyvūnų.",
-    "Obuolys duoda 10 taškų, bananas 15, apelsinas 20, braškė 25 ir dar 100 už įveiktą lygį. Turite tris gyvybes. Susidūrimas su gyvūnu atima vieną gyvybę ir grąžina prie sodo vartelių, kur gyvūnai neina, ir duoda dvi sekundes atokvėpio. Lygių yra 10. Kiekvienas šiek tiek didesnis ir prideda vieną gyvūną: nuo mažo 11×11 sodo su vienu vėžliu iki 19×19 sodo su dešimt vėžlių, lapių ir beždžionių.",
-    "Vėžlys vaikšto pirmyn atgal vienu takeliu. Lapė patruliuoja ir visada suka dešinėn, kai gali. Beždžionė greitesnė ir kiekvienoje sankryžoje ima kitą posūkį ta pačia tvarka, tad maršrutus galima išmokti."
+    "Obuolys duoda 10 taškų, bananas 15, apelsinas 20, braškė 25 ir dar 100 už įveiktą lygį. Turite tris gyvybes. Susidūrimas su gyvūnu atima vieną gyvybę ir grąžina prie sodo vartelių, kur gyvūnai neina, ir duoda dvi sekundes atokvėpio. Lygių yra 20. Pirmieji dešimt auga nuo mažo 11×11 sodo su vienu vėžliu iki 19×19 sodo su dešimčia gyvūnų. Nuo 11 lygio berniukas gali mėtyti sėklas: paspausk tarpą (arba mygtuką 🌰) ir kelioms sekundėms apsvaigink gyvūną. Toliau kiekvienas lygis sunkesnis: didesni labirintai iki 23×23, daugiau ir greitesnių gyvūnų, mažiau sėklų ir trumpesnis apsvaigimas.",
+    "Vėžlys vaikšto pirmyn atgal vienu takeliu. Lapė patruliuoja ir visada suka dešinėn, kai gali. Beždžionė greitesnė ir kiekvienoje sankryžoje ima kitą posūkį ta pačia tvarka, tad maršrutus galima išmokti. Ežys, nuo 13 lygio, seka tave, kai prieini per kelis žingsnius."
   ],
   "fruit-maze.steps": [
     "Eikite rodyklėmis arba W A S D. Telefone laikykite rodyklių mygtukus arba braukite per lauką.",
     "Užminkite ant vaisiaus, kad jį paimtumėte. Skaitiklis viršuje rodo, kiek liko.",
+    "Nuo 11 lygio paspausk tarpą, mygtuką 🌰 arba bakstelėk lentą, kad mestum sėklą ten, kur žiūri berniukas.",
     "Surinkite visus vaisius, kad įveiktumėte lygį. Esc arba pauzės mygtukas — pailsėti."
   ],
   "meta.fruit-maze.title": "Fruit Maze: nemokamas žaidimas internete · Fruit Destroy",
-  "meta.fruit-maze.desc": "Nuveskite berniuką sodo labirintu, surinkite visus vaisius ir aplenkite gyvūnus. 10 lygių. Fruit Maze — arkadinis labirintas iš viršaus. Vedate berniuką sodo takeliais, renkate visus vaisius žemėlapyje ir laikotės atokiau nuo gyvūnų.",
+  "meta.fruit-maze.desc": "Vesk berniuką sodo labirintu, surink visus vaisius ir venk gyvūnų. 20 lygių, o nuo 11 galima mėtyti sėklas. Fruit Maze — arkadinis labirintas iš viršaus. Vedate berniuką sodo takeliais, renkate visus vaisius žemėlapyje ir laikotės atokiau nuo gyvūnų.",
   "fruit-puzzle.name": "Fruit Puzzle",
   "fruit-puzzle.h1": "Fruit Puzzle",
   "fruit-puzzle.card": "Stumdykite plyteles, kad sudėtumėte paveikslą su vaisiumi.",
@@ -698,5 +698,12 @@
     "Išsaugokite atspaudą arba išvalykite popierių."
   ],
   "meta.citrus-stamps.title": "Citrus Stamps: kūrybinė veikla · Fruit Destroy",
-  "meta.citrus-stamps.desc": "Spausdinkite raštus vaisių puselėmis, kaip tikrais antspaudais. Spausdinkite perpjautais vaisiais, kaip tikra citrinos puse ir dažų indeliu. Kiekvienas atspaudas išeina šiek tiek kitoks."
+  "meta.citrus-stamps.desc": "Spausdinkite raštus vaisių puselėmis, kaip tikrais antspaudais. Spausdinkite perpjautais vaisiais, kaip tikra citrinos puse ir dažų indeliu. Kiekvienas atspaudas išeina šiek tiek kitoks.",
+  "playMaze": "Žaisti Fruit Maze",
+  "mainGame": "Pagrindinis žaidimas",
+  "mazeLevels": "Lygių: {n}",
+  "mhF1": "Surink visus vaisius",
+  "mhF2": "Venk gyvūnų",
+  "mhF3": "Sėklos nuo 11 lygio",
+  "exploreAllN": "Visos veiklos ({n})"
 }

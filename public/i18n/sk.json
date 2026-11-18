@@ -361,7 +361,6 @@
   "bubble-pop.opt.slow": "Pomalý pohyb",
   "bubble-pop.opt.lively": "Živo",
   "newTag": "Nové",
-  "heroMaze": "Fruit Maze: 10 úrovní ovocia a priateľských zvieratiek",
   "fruit-slice.name": "Fruit Slice",
   "fruit-slice.h1": "Fruit Slice",
   "fruit-slice.card": "Potiahni a rozkroj letiace ovocie. Šťavnaté polovice, krátke kolá.",
@@ -490,19 +489,20 @@
   "meta.fruit-memory.desc": "Otáčaj karty a hľadaj rovnaké ovocie. Klasické pexeso s kartami ovocia. Otoč dve: keď sú rovnaké, ostanú odkryté.",
   "fruit-maze.name": "Fruit Maze",
   "fruit-maze.h1": "Fruit Maze",
-  "fruit-maze.card": "Preveď chlapca bludiskom v sade, pozbieraj všetko ovocie a vyhni sa zvieratám. 10 úrovní.",
+  "fruit-maze.card": "Preveď chlapca sadovým bludiskom, pozbieraj všetko ovocie a vyhýbaj sa zvieratám. 20 úrovní a od 11. môžeš hádzať semienka.",
   "fruit-maze.about": [
     "Fruit Maze je arkádové bludisko zhora. Vedieš chlapca po chodníčkoch záhrady, zbieraš všetko ovocie na mape a držíš sa ďalej od zvierat.",
-    "Jablko dá 10 bodov, banán 15, pomaranč 20 a jahoda 25, plus 100 za dokončenie úrovne. Máš tri životy. Náraz do zvieraťa vezme jeden život a vráti ťa k bránke, kam zvieratá nechodia, s dvoma sekundami bezpečia. Je tu 10 úrovní. Každá je o niečo väčšia a má o jedno zviera viac: od malej záhrady 11×11 s jednou korytnačkou po sad 19×19 s desiatimi korytnačkami, líškami a opičkami.",
-    "Korytnačka chodí sem a tam po jednom chodníčku. Líška stráži a zatáča doprava, kedykoľvek môže. Opička je rýchlejšia a na každej križovatke berie ďalšiu odbočku v pevnom poradí, takže sa ich trasy dajú naučiť."
+    "Jablko dá 10 bodov, banán 15, pomaranč 20 a jahoda 25, plus 100 za dokončenie úrovne. Máš tri životy. Náraz do zvieraťa vezme jeden život a vráti ťa k bránke, kam zvieratá nechodia, s dvoma sekundami bezpečia. Je tu 20 úrovní. Prvých desať rastie od malej záhrady 11×11 s jedinou korytnačkou po sad 19×19 s desiatimi zvieratami. Od úrovne 11 môže chlapec hádzať semienka: stlač medzerník (alebo tlačidlo 🌰) a zviera na pár sekúnd omráčiš. Potom je každá úroveň ťažšia: väčšie bludiská až 23×23, viac a rýchlejších zvierat, menej semienok a kratšie omráčenie.",
+    "Korytnačka chodí sem a tam po jednom chodníčku. Líška stráži a zatáča doprava, kedykoľvek môže. Opička je rýchlejšia a na každej križovatke berie ďalšiu odbočku v pevnom poradí, takže sa ich trasy dajú naučiť. Jež, od úrovne 13, ide za tebou, keď sa k nemu priblížiš na pár krokov."
   ],
   "fruit-maze.steps": [
     "Hýb sa šípkami alebo W A S D. Na telefóne drž šípky, alebo ťahaj po ploche.",
     "Prejdi cez ovocie a zober ho. Počítadlo hore ukazuje, koľko ostáva.",
+    "Od úrovne 11 stlač medzerník, tlačidlo 🌰 alebo ťukni na hraciu plochu a hodíš semienko smerom, kam sa chlapec pozerá.",
     "Zober všetko ovocie a úroveň je hotová. Esc alebo tlačidlo pauzy, keď si chceš oddýchnuť."
   ],
   "meta.fruit-maze.title": "Fruit Maze: hra zadarmo online · Fruit Destroy",
-  "meta.fruit-maze.desc": "Preveď chlapca bludiskom v sade, pozbieraj všetko ovocie a vyhni sa zvieratám. 10 úrovní. Fruit Maze je arkádové bludisko zhora. Vedieš chlapca po chodníčkoch záhrady, zbieraš všetko ovocie na mape a držíš sa ďalej od zvierat.",
+  "meta.fruit-maze.desc": "Preveď chlapca sadovým bludiskom, pozbieraj všetko ovocie a vyhýbaj sa zvieratám. 20 úrovní a od 11. môžeš hádzať semienka. Fruit Maze je arkádové bludisko zhora. Vedieš chlapca po chodníčkoch záhrady, zbieraš všetko ovocie na mape a držíš sa ďalej od zvierat.",
   "fruit-puzzle.name": "Fruit Puzzle",
   "fruit-puzzle.h1": "Fruit Puzzle",
   "fruit-puzzle.card": "Posúvaj dieliky a zlož obrázok ovocia.",
@@ -698,5 +698,12 @@
     "Ulož odtlačok, alebo papier zmaž."
   ],
   "meta.citrus-stamps.title": "Citrus Stamps: tvorivá aktivita · Fruit Destroy",
-  "meta.citrus-stamps.desc": "Tlač vzory rozkrojenými polovicami ovocia, ako ozajstnými pečiatkami. Tlač rozkrojeným ovocím, ako ozajstnou polovicou citróna a nádobkou farby. Každý odtlačok vyjde trochu inak."
+  "meta.citrus-stamps.desc": "Tlač vzory rozkrojenými polovicami ovocia, ako ozajstnými pečiatkami. Tlač rozkrojeným ovocím, ako ozajstnou polovicou citróna a nádobkou farby. Každý odtlačok vyjde trochu inak.",
+  "playMaze": "Hrať Fruit Maze",
+  "mainGame": "Hlavná hra",
+  "mazeLevels": "Úrovne: {n}",
+  "mhF1": "Pozbieraj všetko ovocie",
+  "mhF2": "Vyhýbaj sa zvieratám",
+  "mhF3": "Semienka od úrovne 11",
+  "exploreAllN": "Všetky aktivity ({n})"
 }

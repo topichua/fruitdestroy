@@ -361,7 +361,6 @@
   "bubble-pop.opt.slow": "Pomalý pohyb",
   "bubble-pop.opt.lively": "Živě",
   "newTag": "Nové",
-  "heroMaze": "Fruit Maze: 10 úrovní ovoce a přátelských zvířátek",
   "fruit-slice.name": "Fruit Slice",
   "fruit-slice.h1": "Fruit Slice",
   "fruit-slice.card": "Přejeď a rozkroj letící ovoce. Šťavnaté půlky, krátká kola.",
@@ -490,19 +489,20 @@
   "meta.fruit-memory.desc": "Otáčej karty a hledej stejné ovoce. Klasická pexeso hra s kartami ovoce. Otoč dvě: když jsou stejné, zůstanou odhalené.",
   "fruit-maze.name": "Fruit Maze",
   "fruit-maze.h1": "Fruit Maze",
-  "fruit-maze.card": "Proveď kluka bludištěm v sadu, posbírej všechno ovoce a vyhni se zvířatům. 10 úrovní.",
+  "fruit-maze.card": "Proveď kluka sadovým bludištěm, sesbírej všechno ovoce a vyhýbej se zvířatům. 20 úrovní a od 11. můžeš házet semínka.",
   "fruit-maze.about": [
     "Fruit Maze je arkádové bludiště shora. Vedeš kluka po cestičkách zahrady, sbíráš všechno ovoce na mapě a držíš se dál od zvířat.",
-    "Jablko dá 10 bodů, banán 15, pomeranč 20 a jahoda 25, plus 100 za dokončení úrovně. Máš tři životy. Náraz do zvířete vezme jeden život a vrátí tě k brance, kam zvířata nechodí, se dvěma sekundami bezpečí. Je tu 10 úrovní. Každá je o něco větší a má o jedno zvíře víc: od malé zahrady 11×11 s jednou želvou po sad 19×19 s deseti želvami, liškami a opičkami.",
-    "Želva chodí sem a tam po jedné cestičce. Liška hlídkuje a zatáčí doprava, kdykoli může. Opička je rychlejší a na každé křižovatce bere další odbočku v pevném pořadí, takže se jejich trasy dají naučit."
+    "Jablko dá 10 bodů, banán 15, pomeranč 20 a jahoda 25, plus 100 za dokončení úrovně. Máš tři životy. Náraz do zvířete vezme jeden život a vrátí tě k brance, kam zvířata nechodí, se dvěma sekundami bezpečí. Je tu 20 úrovní. Prvních deset roste od malé zahrady 11×11 s jedinou želvou po sad 19×19 s deseti zvířaty. Od úrovně 11 může kluk házet semínka: stiskni mezerník (nebo tlačítko 🌰) a zvíře na pár sekund omráčíš. Pak je každá úroveň těžší: větší bludiště až 23×23, víc a rychlejších zvířat, méně semínek a kratší omráčení.",
+    "Želva chodí sem a tam po jedné cestičce. Liška hlídkuje a zatáčí doprava, kdykoli může. Opička je rychlejší a na každé křižovatce bere další odbočku v pevném pořadí, takže se jejich trasy dají naučit. Ježek, od úrovně 13, jde za tebou, jakmile se k němu přiblížíš na pár kroků."
   ],
   "fruit-maze.steps": [
     "Hýbej se šipkami nebo W A S D. Na telefonu drž šipky, nebo táhni po poli.",
     "Přejdi přes ovoce a seber ho. Počítadlo nahoře ukazuje, kolik zbývá.",
+    "Od úrovně 11 stiskni mezerník, tlačítko 🌰 nebo klepni na hrací plochu a hodíš semínko směrem, kam se kluk dívá.",
     "Seber všechno ovoce a úroveň je hotová. Esc nebo tlačítko pauzy, když si chceš oddechnout."
   ],
   "meta.fruit-maze.title": "Fruit Maze: hra zdarma online · Fruit Destroy",
-  "meta.fruit-maze.desc": "Proveď kluka bludištěm v sadu, posbírej všechno ovoce a vyhni se zvířatům. 10 úrovní. Fruit Maze je arkádové bludiště shora. Vedeš kluka po cestičkách zahrady, sbíráš všechno ovoce na mapě a držíš se dál od zvířat.",
+  "meta.fruit-maze.desc": "Proveď kluka sadovým bludištěm, sesbírej všechno ovoce a vyhýbej se zvířatům. 20 úrovní a od 11. můžeš házet semínka. Fruit Maze je arkádové bludiště shora. Vedeš kluka po cestičkách zahrady, sbíráš všechno ovoce na mapě a držíš se dál od zvířat.",
   "fruit-puzzle.name": "Fruit Puzzle",
   "fruit-puzzle.h1": "Fruit Puzzle",
   "fruit-puzzle.card": "Posouvej dílky a slož obrázek ovoce.",
@@ -698,5 +698,12 @@
     "Ulož otisk, nebo papír smaž."
   ],
   "meta.citrus-stamps.title": "Citrus Stamps: tvořivá aktivita · Fruit Destroy",
-  "meta.citrus-stamps.desc": "Tiskni vzory rozkrojenými půlkami ovoce, jako opravdovými razítky. Tiskni rozkrojeným ovocem, jako opravdovou půlkou citronu a kelímkem barvy. Každý otisk vyjde trochu jinak."
+  "meta.citrus-stamps.desc": "Tiskni vzory rozkrojenými půlkami ovoce, jako opravdovými razítky. Tiskni rozkrojeným ovocem, jako opravdovou půlkou citronu a kelímkem barvy. Každý otisk vyjde trochu jinak.",
+  "playMaze": "Hrát Fruit Maze",
+  "mainGame": "Hlavní hra",
+  "mazeLevels": "Úrovně: {n}",
+  "mhF1": "Sesbírej všechno ovoce",
+  "mhF2": "Vyhýbej se zvířatům",
+  "mhF3": "Semínka od úrovně 11",
+  "exploreAllN": "Všechny aktivity ({n})"
 }

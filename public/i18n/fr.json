@@ -361,7 +361,6 @@
   "bubble-pop.opt.slow": "Dérive lente",
   "bubble-pop.opt.lively": "Vives",
   "newTag": "Nouveau",
-  "heroMaze": "Fruit Maze : 10 niveaux de fruits et de petites bêtes",
   "fruit-slice.name": "Fruit Slice",
   "fruit-slice.h1": "Fruit Slice",
   "fruit-slice.card": "Glisse pour trancher les fruits qui volent. Des moitiés juteuses, des manches rapides.",
@@ -490,19 +489,20 @@
   "meta.fruit-memory.desc": "Retourne les cartes et trouve les fruits identiques. Un jeu de mémoire classique avec des cartes de fruits. Retourne-en deux : si elles vont ensemble, elles restent ouvertes.",
   "fruit-maze.name": "Fruit Maze",
   "fruit-maze.h1": "Fruit Maze",
-  "fruit-maze.card": "Guide le garçon dans un labyrinthe du verger, ramasse tous les fruits et évite les animaux. 10 niveaux.",
+  "fruit-maze.card": "Guide le garçon dans un labyrinthe de verger, ramasse tous les fruits et évite les animaux. 20 niveaux, avec des graines à lancer dès le niveau 11.",
   "fruit-maze.about": [
     "Fruit Maze est un labyrinthe d'arcade vu du dessus. Tu guides un garçon le long des allées du verger, tu ramasses tous les fruits de la carte et tu restes à l'écart des animaux.",
-    "La pomme vaut 10 points, la banane 15, l'orange 20 et la fraise 25, plus 100 pour finir le niveau. Tu as trois vies. Si tu touches un animal, tu perds une vie et tu reviens au portail du jardin, là où les animaux ne vont jamais, avec deux secondes de répit. Il y a 10 niveaux. Chacun est un peu plus grand et ajoute un animal : d'un petit jardin 11×11 avec une seule tortue à un verger 19×19 avec dix tortues, des renards et des singes.",
-    "La tortue va et vient sur un seul chemin. Le renard patrouille en tournant à droite dès qu'il peut. Le singe est plus rapide et, à chaque croisement, prend le virage suivant dans un ordre fixe : tu peux donc apprendre leurs trajets."
+    "La pomme vaut 10 points, la banane 15, l'orange 20 et la fraise 25, plus 100 pour finir le niveau. Tu as trois vies. Si tu touches un animal, tu perds une vie et tu reviens au portail du jardin, là où les animaux ne vont jamais, avec deux secondes de répit. Il y a 20 niveaux. Les dix premiers grandissent d'un petit jardin 11×11 avec une seule tortue jusqu'à un verger 19×19 avec dix animaux. Dès le niveau 11, le garçon peut lancer des graines : appuie sur Espace (ou sur le bouton 🌰) pour étourdir un animal quelques secondes. Ensuite, chaque niveau est plus difficile : labyrinthes plus grands jusqu'à 23×23, animaux plus nombreux et plus rapides, moins de graines et étourdissement plus court.",
+    "La tortue va et vient sur un seul chemin. Le renard patrouille en tournant à droite dès qu'il peut. Le singe est plus rapide et, à chaque croisement, prend le virage suivant dans un ordre fixe : tu peux donc apprendre leurs trajets. Le hérisson, dès le niveau 13, te suit quand tu t'approches à quelques pas."
   ],
   "fruit-maze.steps": [
     "Déplace-toi avec les flèches ou W A S D. Sur téléphone, maintiens les boutons fléchés ou glisse sur le plateau.",
     "Marche sur un fruit pour le ramasser. Le compteur en haut dit combien il en reste.",
+    "Dès le niveau 11, appuie sur Espace, sur le bouton 🌰 ou touche le plateau pour lancer une graine là où regarde le garçon.",
     "Ramasse tous les fruits pour finir le niveau. Esc ou le bouton pause servent à faire une pause."
   ],
   "meta.fruit-maze.title": "Fruit Maze : jeu gratuit en ligne · Fruit Destroy",
-  "meta.fruit-maze.desc": "Guide le garçon dans un labyrinthe du verger, ramasse tous les fruits et évite les animaux. 10 niveaux. Fruit Maze est un labyrinthe d'arcade vu du dessus. Tu guides un garçon le long des allées du verger, tu ramasses tous les fruits de la carte et tu restes à l'écart des animaux.",
+  "meta.fruit-maze.desc": "Guide le garçon dans un labyrinthe de verger, ramasse tous les fruits et évite les animaux. 20 niveaux, avec des graines à lancer dès le niveau 11. Fruit Maze est un labyrinthe d'arcade vu du dessus. Tu guides un garçon le long des allées du verger, tu ramasses tous les fruits de la carte et tu restes à l'écart des animaux.",
   "fruit-puzzle.name": "Fruit Puzzle",
   "fruit-puzzle.h1": "Fruit Puzzle",
   "fruit-puzzle.card": "Fais glisser les tuiles pour reconstituer une image de fruit.",
@@ -698,5 +698,12 @@
     "Enregistre ton impression ou efface le papier."
   ],
   "meta.citrus-stamps.title": "Citrus Stamps : activité créative · Fruit Destroy",
-  "meta.citrus-stamps.desc": "Imprime des motifs avec des moitiés de fruits, comme de vrais tampons. Imprime avec des fruits coupés, comme tu le ferais avec un vrai demi-citron et un pot de peinture. Chaque empreinte sort un peu différente."
+  "meta.citrus-stamps.desc": "Imprime des motifs avec des moitiés de fruits, comme de vrais tampons. Imprime avec des fruits coupés, comme tu le ferais avec un vrai demi-citron et un pot de peinture. Chaque empreinte sort un peu différente.",
+  "playMaze": "Jouer à Fruit Maze",
+  "mainGame": "Jeu principal",
+  "mazeLevels": "{n} niveaux",
+  "mhF1": "Ramasse tous les fruits",
+  "mhF2": "Évite les animaux",
+  "mhF3": "Lance des graines dès le niveau 11",
+  "exploreAllN": "Voir les {n} activités"
 }

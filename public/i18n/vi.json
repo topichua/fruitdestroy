@@ -361,7 +361,6 @@
   "bubble-pop.opt.slow": "Trôi chậm",
   "bubble-pop.opt.lively": "Nhộn",
   "newTag": "Mới",
-  "heroMaze": "Fruit Maze: 10 màn trái cây và thú nhỏ dễ thương",
   "fruit-slice.name": "Fruit Slice",
   "fruit-slice.h1": "Fruit Slice",
   "fruit-slice.card": "Vuốt để cắt trái đang bay. Nửa trái mọng nước, ván ngắn.",
@@ -490,19 +489,20 @@
   "meta.fruit-memory.desc": "Lật thẻ và tìm trái giống nhau. Game nhớ quen thuộc với thẻ trái cây. Lật hai thẻ; nếu giống nhau, chúng ở lại mở.",
   "fruit-maze.name": "Fruit Maze",
   "fruit-maze.h1": "Fruit Maze",
-  "fruit-maze.card": "Dẫn cậu bé qua mê cung vườn cây, nhặt hết trái và tránh thú. 10 màn.",
+  "fruit-maze.card": "Dẫn cậu bé đi qua mê cung vườn cây, nhặt hết trái cây và né các con thú. 20 màn, từ màn 11 có thể ném hạt.",
   "fruit-maze.about": [
     "Fruit Maze là mê cung arcade nhìn từ trên xuống. Bạn dẫn một cậu bé dọc lối vườn, nhặt mọi trái trên bản đồ và tránh xa lũ thú.",
-    "Táo được 10 điểm, chuối 15, cam 20 và dâu tây 25, cộng 100 khi qua màn. Bạn có ba mạng. Đụng thú thì mất một mạng và bị đưa về cổng vườn, nơi thú không bao giờ tới, với hai giây an toàn. Có 10 màn. Mỗi màn lớn hơn một chút và thêm một con: từ khu vườn 11×11 nhỏ với một con rùa, đến vườn 19×19 với mười con rùa, cáo và khỉ.",
-    "Rùa đi tới đi lui trên một lối. Cáo tuần tra và luôn rẽ phải khi rẽ được. Khỉ nhanh hơn, và ở mỗi ngã nó chọn lối kế tiếp theo một thứ tự cố định, nên bạn học được đường của chúng."
+    "Táo được 10 điểm, chuối 15, cam 20 và dâu tây 25, cộng 100 khi qua màn. Bạn có ba mạng. Đụng thú thì mất một mạng và bị đưa về cổng vườn, nơi thú không bao giờ tới, với hai giây an toàn. Có 20 màn. Mười màn đầu lớn dần từ khu vườn 11×11 nhỏ với một chú rùa đến vườn cây 19×19 có mười con thú. Từ màn 11 cậu bé có thể ném hạt: nhấn phím cách (hoặc nút 🌰) để làm một con thú choáng vài giây. Sau đó mỗi màn lại khó hơn: mê cung lớn hơn, tới 23×23, thú nhiều hơn và nhanh hơn, ít hạt hơn và thời gian choáng ngắn hơn.",
+    "Rùa đi tới đi lui trên một lối. Cáo tuần tra và luôn rẽ phải khi rẽ được. Khỉ nhanh hơn, và ở mỗi ngã nó chọn lối kế tiếp theo một thứ tự cố định, nên bạn học được đường của chúng. Con nhím, từ màn 13, sẽ đi theo bạn khi bạn lại gần trong vài bước."
   ],
   "fruit-maze.steps": [
     "Di chuyển bằng phím mũi tên hoặc W A S D. Trên điện thoại, giữ nút mũi tên hoặc vuốt trên bàn.",
     "Đi qua trái để nhặt. Bộ đếm phía trên cho biết còn bao nhiêu.",
+    "Từ màn 11, nhấn phím cách, nút 🌰 hoặc chạm vào bàn chơi để ném hạt về phía cậu bé đang nhìn.",
     "Nhặt hết trái để qua màn. Bấm Esc hoặc nút tạm dừng để nghỉ."
   ],
   "meta.fruit-maze.title": "Fruit Maze: game online miễn phí · Fruit Destroy",
-  "meta.fruit-maze.desc": "Dẫn cậu bé qua mê cung vườn cây, nhặt hết trái và tránh thú. 10 màn. Fruit Maze là mê cung arcade nhìn từ trên xuống. Bạn dẫn một cậu bé dọc lối vườn, nhặt mọi trái trên bản đồ và tránh xa lũ thú.",
+  "meta.fruit-maze.desc": "Dẫn cậu bé đi qua mê cung vườn cây, nhặt hết trái cây và né các con thú. 20 màn, từ màn 11 có thể ném hạt. Fruit Maze là mê cung arcade nhìn từ trên xuống. Bạn dẫn một cậu bé dọc lối vườn, nhặt mọi trái trên bản đồ và tránh xa lũ thú.",
   "fruit-puzzle.name": "Fruit Puzzle",
   "fruit-puzzle.h1": "Fruit Puzzle",
   "fruit-puzzle.card": "Trượt các ô để ghép lại bức tranh trái cây.",
@@ -698,5 +698,12 @@
     "Lưu bản in, hoặc xóa giấy."
   ],
   "meta.citrus-stamps.title": "Citrus Stamps: hoạt động sáng tạo · Fruit Destroy",
-  "meta.citrus-stamps.desc": "In họa tiết bằng nửa trái đã cắt, như con dấu trái cây thật. In bằng trái đã cắt, như khi bạn cầm nửa quả chanh và một hũ màu. Mỗi lần in ra một chút khác."
+  "meta.citrus-stamps.desc": "In họa tiết bằng nửa trái đã cắt, như con dấu trái cây thật. In bằng trái đã cắt, như khi bạn cầm nửa quả chanh và một hũ màu. Mỗi lần in ra một chút khác.",
+  "playMaze": "Chơi Fruit Maze",
+  "mainGame": "Trò chơi chính",
+  "mazeLevels": "{n} màn",
+  "mhF1": "Nhặt hết trái cây",
+  "mhF2": "Né các con thú",
+  "mhF3": "Ném hạt từ màn 11",
+  "exploreAllN": "Xem cả {n} hoạt động"
 }

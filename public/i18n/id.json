@@ -361,7 +361,6 @@
   "bubble-pop.opt.slow": "Melayang pelan",
   "bubble-pop.opt.lively": "Lincah",
   "newTag": "Baru",
-  "heroMaze": "Fruit Maze: 10 level buah dan hewan yang ramah",
   "fruit-slice.name": "Fruit Slice",
   "fruit-slice.h1": "Fruit Slice",
   "fruit-slice.card": "Gesek untuk mengiris buah yang terbang. Belahan berair, ronde cepat.",
@@ -490,19 +489,20 @@
   "meta.fruit-memory.desc": "Balik kartu dan cari buah yang sama. Game memori klasik dengan kartu buah. Buka dua kartu; kalau sama, kartu itu tetap terbuka.",
   "fruit-maze.name": "Fruit Maze",
   "fruit-maze.h1": "Fruit Maze",
-  "fruit-maze.card": "Pandu anak laki-laki melewati labirin kebun, kumpulkan semua buah, dan hindari hewan. 10 level.",
+  "fruit-maze.card": "Bimbing anak laki-laki melewati labirin kebun buah, kumpulkan semua buah dan hindari hewan. 20 level, dengan biji untuk dilempar mulai level 11.",
   "fruit-maze.about": [
     "Fruit Maze adalah labirin arcade yang dilihat dari atas. Kamu memandu anak laki-laki di jalur kebun, mengambil semua buah di peta, dan menjauh dari hewan.",
-    "Apel bernilai 10 poin, pisang 15, jeruk 20, dan stroberi 25, plus 100 kalau level selesai. Kamu punya tiga nyawa. Menabrak hewan mengurangi satu nyawa dan mengembalikanmu ke gerbang kebun, tempat hewan tidak pernah masuk, dengan dua detik aman. Ada 10 level. Masing-masing sedikit lebih besar dan menambah satu hewan: dari kebun kecil 11×11 dengan satu kura-kura sampai kebun 19×19 dengan sepuluh kura-kura, rubah, dan monyet.",
-    "Kura-kura berjalan bolak-balik di satu jalur. Rubah berpatroli dan selalu belok kanan kalau bisa. Monyet lebih cepat dan di setiap persimpangan mengambil belokan berikutnya dalam urutan tetap, jadi rutenya bisa dipelajari."
+    "Apel bernilai 10 poin, pisang 15, jeruk 20, dan stroberi 25, plus 100 kalau level selesai. Kamu punya tiga nyawa. Menabrak hewan mengurangi satu nyawa dan mengembalikanmu ke gerbang kebun, tempat hewan tidak pernah masuk, dengan dua detik aman. Ada 20 level. Sepuluh level pertama tumbuh dari kebun kecil 11×11 dengan satu kura-kura hingga kebun buah 19×19 dengan sepuluh hewan. Mulai level 11 si anak bisa melempar biji: tekan Spasi (atau tombol 🌰) untuk membuat hewan pusing beberapa detik. Setelah itu setiap level makin sulit: labirin lebih besar hingga 23×23, hewan lebih banyak dan lebih cepat, biji lebih sedikit, dan pusingnya lebih singkat.",
+    "Kura-kura berjalan bolak-balik di satu jalur. Rubah berpatroli dan selalu belok kanan kalau bisa. Monyet lebih cepat dan di setiap persimpangan mengambil belokan berikutnya dalam urutan tetap, jadi rutenya bisa dipelajari. Landak, mulai level 13, mengikutimu saat kamu berada beberapa langkah darinya."
   ],
   "fruit-maze.steps": [
     "Bergerak dengan tombol panah atau W A S D. Di ponsel, tahan tombol panah atau gesek di papan.",
     "Lewati buah untuk mengambilnya. Penghitung di atas menunjukkan sisa buah.",
+    "Mulai level 11, tekan Spasi, tombol 🌰, atau ketuk papan untuk melempar biji ke arah yang dihadap si anak.",
     "Kumpulkan semua buah untuk menyelesaikan level. Tekan Esc atau tombol jeda untuk beristirahat."
   ],
   "meta.fruit-maze.title": "Fruit Maze: game online gratis · Fruit Destroy",
-  "meta.fruit-maze.desc": "Pandu anak laki-laki melewati labirin kebun, kumpulkan semua buah, dan hindari hewan. 10 level. Fruit Maze adalah labirin arcade yang dilihat dari atas. Kamu memandu anak laki-laki di jalur kebun, mengambil semua buah di peta, dan menjauh dari hewan.",
+  "meta.fruit-maze.desc": "Bimbing anak laki-laki melewati labirin kebun buah, kumpulkan semua buah dan hindari hewan. 20 level, dengan biji untuk dilempar mulai level 11. Fruit Maze adalah labirin arcade yang dilihat dari atas. Kamu memandu anak laki-laki di jalur kebun, mengambil semua buah di peta, dan menjauh dari hewan.",
   "fruit-puzzle.name": "Fruit Puzzle",
   "fruit-puzzle.h1": "Fruit Puzzle",
   "fruit-puzzle.card": "Geser ubin untuk menyusun kembali gambar buah.",
@@ -698,5 +698,12 @@
     "Simpan cetakan atau bersihkan kertas."
   ],
   "meta.citrus-stamps.title": "Citrus Stamps: aktivitas kreatif · Fruit Destroy",
-  "meta.citrus-stamps.desc": "Cetak pola dengan belahan buah, seperti stempel buah sungguhan. Cetak dengan buah yang dipotong, seperti setengah lemon sungguhan dan sebotol cat. Setiap cetakan keluar sedikit berbeda."
+  "meta.citrus-stamps.desc": "Cetak pola dengan belahan buah, seperti stempel buah sungguhan. Cetak dengan buah yang dipotong, seperti setengah lemon sungguhan dan sebotol cat. Setiap cetakan keluar sedikit berbeda.",
+  "playMaze": "Main Fruit Maze",
+  "mainGame": "Game utama",
+  "mazeLevels": "{n} level",
+  "mhF1": "Kumpulkan semua buah",
+  "mhF2": "Hindari hewan",
+  "mhF3": "Lempar biji mulai level 11",
+  "exploreAllN": "Lihat semua {n} aktivitas"
 }

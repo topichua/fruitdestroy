@@ -361,7 +361,6 @@
   "bubble-pop.opt.slow": "Flotando despacio",
   "bubble-pop.opt.lively": "Con vidilla",
   "newTag": "Nuevo",
-  "heroMaze": "Fruit Maze: 10 niveles de fruta y animalitos simpáticos",
   "fruit-slice.name": "Fruit Slice",
   "fruit-slice.h1": "Fruit Slice",
   "fruit-slice.card": "Desliza para cortar la fruta que vuela. Mitades jugosas, rondas rápidas.",
@@ -490,19 +489,20 @@
   "meta.fruit-memory.desc": "Voltea cartas y encuentra la fruta que coincide. Un juego de memoria clásico con cartas de fruta. Da la vuelta a dos: si coinciden, se quedan descubiertas.",
   "fruit-maze.name": "Fruit Maze",
   "fruit-maze.h1": "Fruit Maze",
-  "fruit-maze.card": "Guía al niño por un laberinto del huerto, recoge toda la fruta y esquiva a los animales. 10 niveles.",
+  "fruit-maze.card": "Guía al niño por un laberinto de huerto, recoge toda la fruta y esquiva a los animales. 20 niveles, con semillas para lanzar desde el nivel 11.",
   "fruit-maze.about": [
     "Fruit Maze es un laberinto arcade visto desde arriba. Guías a un niño por los caminos del huerto, recoges toda la fruta del mapa y te apartas de los animales.",
-    "La manzana vale 10 puntos, el plátano 15, la naranja 20 y la fresa 25, más 100 por superar el nivel. Tienes tres vidas. Si chocas con un animal, pierdes una vida y vuelves a la cancela del jardín, donde los animales no entran, con dos segundos de margen. Hay 10 niveles. Cada uno es un poco más grande y trae un animal más: de un jardín pequeño de 11×11 con una sola tortuga a un huerto de 19×19 con diez tortugas, zorros y monos.",
-    "La tortuga va y viene por un camino. El zorro patrulla y gira a la derecha siempre que puede. El mono es más rápido y en cada cruce toma el siguiente giro en un orden fijo, así que puedes aprenderte sus rutas."
+    "La manzana vale 10 puntos, el plátano 15, la naranja 20 y la fresa 25, más 100 por superar el nivel. Tienes tres vidas. Si chocas con un animal, pierdes una vida y vuelves a la cancela del jardín, donde los animales no entran, con dos segundos de margen. Hay 20 niveles. Los diez primeros crecen desde un jardín pequeño de 11×11 con una sola tortuga hasta un huerto de 19×19 con diez animales. Desde el nivel 11 el niño puede lanzar semillas: pulsa Espacio (o el botón 🌰) para aturdir a un animal unos segundos. A partir de ahí cada nivel es más difícil: laberintos más grandes, hasta 23×23, más animales y más rápidos, menos semillas y aturdimientos más cortos.",
+    "La tortuga va y viene por un camino. El zorro patrulla y gira a la derecha siempre que puede. El mono es más rápido y en cada cruce toma el siguiente giro en un orden fijo, así que puedes aprenderte sus rutas. El erizo, desde el nivel 13, te sigue cuando te acercas a unos pocos pasos."
   ],
   "fruit-maze.steps": [
     "Muévete con las flechas o con W A S D. En el móvil, mantén los botones de flecha o desliza sobre el tablero.",
     "Pasa por encima de la fruta para recogerla. El contador de arriba dice cuántas quedan.",
+    "Desde el nivel 11, pulsa Espacio, el botón 🌰 o toca el tablero para lanzar una semilla hacia donde mira el niño.",
     "Recoge toda la fruta para acabar el nivel. Esc o el botón de pausa sirven para parar un momento."
   ],
   "meta.fruit-maze.title": "Fruit Maze: juego gratis online · Fruit Destroy",
-  "meta.fruit-maze.desc": "Guía al niño por un laberinto del huerto, recoge toda la fruta y esquiva a los animales. 10 niveles. Fruit Maze es un laberinto arcade visto desde arriba. Guías a un niño por los caminos del huerto, recoges toda la fruta del mapa y te apartas de los animales.",
+  "meta.fruit-maze.desc": "Guía al niño por un laberinto de huerto, recoge toda la fruta y esquiva a los animales. 20 niveles, con semillas para lanzar desde el nivel 11. Fruit Maze es un laberinto arcade visto desde arriba. Guías a un niño por los caminos del huerto, recoges toda la fruta del mapa y te apartas de los animales.",
   "fruit-puzzle.name": "Fruit Puzzle",
   "fruit-puzzle.h1": "Fruit Puzzle",
   "fruit-puzzle.card": "Desliza las fichas para recomponer una imagen de fruta.",
@@ -698,5 +698,12 @@
     "Guarda la estampa o limpia el papel."
   ],
   "meta.citrus-stamps.title": "Citrus Stamps: actividad creativa · Fruit Destroy",
-  "meta.citrus-stamps.desc": "Estampa dibujos con mitades de fruta, como sellos de verdad. Estampa con fruta cortada, como harías con medio limón de verdad y un bote de pintura. Cada huella sale un poco distinta."
+  "meta.citrus-stamps.desc": "Estampa dibujos con mitades de fruta, como sellos de verdad. Estampa con fruta cortada, como harías con medio limón de verdad y un bote de pintura. Cada huella sale un poco distinta.",
+  "playMaze": "Jugar a Fruit Maze",
+  "mainGame": "Juego principal",
+  "mazeLevels": "{n} niveles",
+  "mhF1": "Recoge toda la fruta",
+  "mhF2": "Esquiva a los animales",
+  "mhF3": "Lanza semillas desde el nivel 11",
+  "exploreAllN": "Ver las {n} actividades"
 }

@@ -361,7 +361,6 @@
   "bubble-pop.opt.slow": "Wolny dryf",
   "bubble-pop.opt.lively": "Żywo",
   "newTag": "Nowe",
-  "heroMaze": "Fruit Maze: 10 poziomów owoców i przyjaznych zwierzaków",
   "fruit-slice.name": "Fruit Slice",
   "fruit-slice.h1": "Fruit Slice",
   "fruit-slice.card": "Przeciągnij, żeby kroić lecące owoce. Soczyste połówki, krótkie rundy.",
@@ -490,19 +489,20 @@
   "meta.fruit-memory.desc": "Odwracaj karty i szukaj takich samych owoców. Klasyczna gra pamięciowa z kartami owoców. Odkryj dwie: jeśli są takie same, zostają odkryte.",
   "fruit-maze.name": "Fruit Maze",
   "fruit-maze.h1": "Fruit Maze",
-  "fruit-maze.card": "Poprowadź chłopca przez labirynt w sadzie, zbierz każdy owoc i omijaj zwierzęta. 10 poziomów.",
+  "fruit-maze.card": "Prowadź chłopca przez sadowy labirynt, zbierz wszystkie owoce i unikaj zwierząt. 20 poziomów, a od 11. można rzucać pestkami.",
   "fruit-maze.about": [
     "Fruit Maze to zręcznościowy labirynt widziany z góry. Prowadzisz chłopca alejkami sadu, zbierasz każdy owoc z mapy i trzymasz się z dala od zwierząt.",
-    "Jabłko daje 10 punktów, banan 15, pomarańcza 20, a truskawka 25, plus 100 za ukończenie poziomu. Masz trzy życia. Zderzenie ze zwierzęciem zabiera jedno życie i cofa cię do furtki, gdzie zwierzęta nie wchodzą, i daje dwie sekundy bezpieczeństwa. Jest 10 poziomów. Każdy jest trochę większy i ma o jedno zwierzę więcej: od małego ogrodu 11×11 z jednym żółwiem do sadu 19×19 z dziesięcioma żółwiami, lisami i małpkami.",
-    "Żółw chodzi tam i z powrotem jedną ścieżką. Lis patroluje i skręca w prawo, kiedy może. Małpka jest szybsza i na każdym skrzyżowaniu bierze kolejny zakręt w stałej kolejności, więc da się nauczyć ich tras."
+    "Jabłko daje 10 punktów, banan 15, pomarańcza 20, a truskawka 25, plus 100 za ukończenie poziomu. Masz trzy życia. Zderzenie ze zwierzęciem zabiera jedno życie i cofa cię do furtki, gdzie zwierzęta nie wchodzą, i daje dwie sekundy bezpieczeństwa. Jest 20 poziomów. Pierwsze dziesięć rośnie od małego ogrodu 11×11 z jednym żółwiem do sadu 19×19 z dziesięcioma zwierzętami. Od poziomu 11 chłopiec może rzucać pestkami: naciśnij Spację (albo przycisk 🌰), żeby ogłuszyć zwierzę na kilka sekund. Potem każdy poziom jest trudniejszy: większe labirynty, aż do 23×23, więcej i szybszych zwierząt, mniej pestek i krótsze ogłuszenie.",
+    "Żółw chodzi tam i z powrotem jedną ścieżką. Lis patroluje i skręca w prawo, kiedy może. Małpka jest szybsza i na każdym skrzyżowaniu bierze kolejny zakręt w stałej kolejności, więc da się nauczyć ich tras. Jeż, od poziomu 13, idzie za tobą, gdy znajdziesz się kilka kroków od niego."
   ],
   "fruit-maze.steps": [
     "Ruszaj się strzałkami albo W A S D. Na telefonie przytrzymaj przyciski ze strzałkami albo przeciągnij po planszy.",
     "Wejdź na owoc, żeby go zebrać. Licznik u góry pokazuje, ile zostało.",
+    "Od poziomu 11 naciśnij Spację, przycisk 🌰 albo stuknij w planszę, żeby rzucić pestkę w stronę, w którą patrzy chłopiec.",
     "Zbierz każdy owoc, żeby ukończyć poziom. Esc albo przycisk pauzy, żeby odpocząć."
   ],
   "meta.fruit-maze.title": "Fruit Maze: darmowa gra online · Fruit Destroy",
-  "meta.fruit-maze.desc": "Poprowadź chłopca przez labirynt w sadzie, zbierz każdy owoc i omijaj zwierzęta. 10 poziomów. Fruit Maze to zręcznościowy labirynt widziany z góry. Prowadzisz chłopca alejkami sadu, zbierasz każdy owoc z mapy i trzymasz się z dala od zwierząt.",
+  "meta.fruit-maze.desc": "Prowadź chłopca przez sadowy labirynt, zbierz wszystkie owoce i unikaj zwierząt. 20 poziomów, a od 11. można rzucać pestkami. Fruit Maze to zręcznościowy labirynt widziany z góry. Prowadzisz chłopca alejkami sadu, zbierasz każdy owoc z mapy i trzymasz się z dala od zwierząt.",
   "fruit-puzzle.name": "Fruit Puzzle",
   "fruit-puzzle.h1": "Fruit Puzzle",
   "fruit-puzzle.card": "Przesuwaj kafelki, żeby złożyć obrazek z owocem.",
@@ -698,5 +698,12 @@
     "Zapisz odcisk albo wyczyść papier."
   ],
   "meta.citrus-stamps.title": "Citrus Stamps: twórcza aktywność · Fruit Destroy",
-  "meta.citrus-stamps.desc": "Odbijaj wzory przekrojonymi połówkami owoców, jak prawdziwymi stemplami. Odbijaj przekrojonymi owocami, jak prawdziwą połówką cytryny i słoiczkiem farby. Każdy odcisk wychodzi trochę inaczej."
+  "meta.citrus-stamps.desc": "Odbijaj wzory przekrojonymi połówkami owoców, jak prawdziwymi stemplami. Odbijaj przekrojonymi owocami, jak prawdziwą połówką cytryny i słoiczkiem farby. Każdy odcisk wychodzi trochę inaczej.",
+  "playMaze": "Graj w Fruit Maze",
+  "mainGame": "Główna gra",
+  "mazeLevels": "Poziomy: {n}",
+  "mhF1": "Zbierz wszystkie owoce",
+  "mhF2": "Unikaj zwierząt",
+  "mhF3": "Pestki od poziomu 11",
+  "exploreAllN": "Wszystkie aktywności ({n})"
 }

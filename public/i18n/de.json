@@ -361,7 +361,6 @@
   "bubble-pop.opt.slow": "Langsam treibend",
   "bubble-pop.opt.lively": "Lebhaft",
   "newTag": "Neu",
-  "heroMaze": "Fruit Maze: 10 Level mit Früchten und freundlichen Tieren",
   "fruit-slice.name": "Fruit Slice",
   "fruit-slice.h1": "Fruit Slice",
   "fruit-slice.card": "Wisch, um fliegendes Obst zu zerteilen. Saftige Hälften, kurze Runden.",
@@ -490,19 +489,20 @@
   "meta.fruit-memory.desc": "Dreh Karten um und finde das gleiche Obst. Ein klassisches Memory mit Obstkarten. Dreh zwei Karten um; passen sie, bleiben sie offen.",
   "fruit-maze.name": "Fruit Maze",
   "fruit-maze.h1": "Fruit Maze",
-  "fruit-maze.card": "Führ den Jungen durch ein Obstgarten-Labyrinth, sammle jede Frucht und weich den Tieren aus. 10 Level.",
+  "fruit-maze.card": "Führ den Jungen durch ein Obstgarten-Labyrinth, sammle jede Frucht und weich den Tieren aus. 20 Level, ab Level 11 mit Kernen zum Werfen.",
   "fruit-maze.about": [
     "Fruit Maze ist ein Arcade-Labyrinth von oben. Du führst einen Jungen die Gartenwege entlang, sammelst jede Frucht auf der Karte und hältst Abstand zu den Tieren.",
-    "Äpfel geben 10 Punkte, Bananen 15, Orangen 20 und Erdbeeren 25, plus 100 fürs Schaffen des Levels. Du hast drei Leben. Stößt du an ein Tier, kostet das ein Leben und schickt dich zurück ans Gartentor, wohin die Tiere nie gehen, mit zwei Sekunden Schutz. Es gibt 10 Level. Jedes ist etwas größer und bringt ein Tier mehr: vom kleinen Garten 11×11 mit einer Schildkröte bis zum Obstgarten 19×19 mit zehn Schildkröten, Füchsen und Affen.",
-    "Die Schildkröte läuft einen Weg hin und her. Der Fuchs patrouilliert und biegt immer rechts ab, wenn er kann. Der Affe ist schneller und nimmt an jeder Kreuzung die nächste Abbiegung in fester Reihenfolge, du kannst dir ihre Wege also merken."
+    "Äpfel geben 10 Punkte, Bananen 15, Orangen 20 und Erdbeeren 25, plus 100 fürs Schaffen des Levels. Du hast drei Leben. Stößt du an ein Tier, kostet das ein Leben und schickt dich zurück ans Gartentor, wohin die Tiere nie gehen, mit zwei Sekunden Schutz. Es gibt 20 Level. Die ersten zehn wachsen vom kleinen Garten 11×11 mit einer einzigen Schildkröte bis zum Obstgarten 19×19 mit zehn Tieren. Ab Level 11 kann der Junge Kerne werfen: Drück die Leertaste (oder den 🌰-Knopf), um ein Tier ein paar Sekunden zu betäuben. Danach wird jedes Level schwerer: größere Labyrinthe bis 23×23, mehr und schnellere Tiere, weniger Kerne und kürzere Betäubung.",
+    "Die Schildkröte läuft einen Weg hin und her. Der Fuchs patrouilliert und biegt immer rechts ab, wenn er kann. Der Affe ist schneller und nimmt an jeder Kreuzung die nächste Abbiegung in fester Reihenfolge, du kannst dir ihre Wege also merken. Der Igel, ab Level 13, folgt dir, sobald du ein paar Schritte an ihn herankommst."
   ],
   "fruit-maze.steps": [
     "Beweg dich mit den Pfeiltasten oder W A S D. Auf dem Handy die Pfeilbuttons halten oder über das Feld wischen.",
     "Lauf über Obst, um es einzusammeln. Der Zähler oben zeigt, wie viel noch liegt.",
+    "Ab Level 11 drück die Leertaste, den 🌰-Knopf oder tipp aufs Spielfeld, um einen Kern in Blickrichtung des Jungen zu werfen.",
     "Sammle jede Frucht, um das Level zu schaffen. Esc oder die Pause-Taste für eine Pause."
   ],
   "meta.fruit-maze.title": "Fruit Maze: kostenloses Onlinespiel · Fruit Destroy",
-  "meta.fruit-maze.desc": "Führ den Jungen durch ein Obstgarten-Labyrinth, sammle jede Frucht und weich den Tieren aus. 10 Level. Fruit Maze ist ein Arcade-Labyrinth von oben. Du führst einen Jungen die Gartenwege entlang, sammelst jede Frucht auf der Karte und hältst Abstand zu den Tieren.",
+  "meta.fruit-maze.desc": "Führ den Jungen durch ein Obstgarten-Labyrinth, sammle jede Frucht und weich den Tieren aus. 20 Level, ab Level 11 mit Kernen zum Werfen. Fruit Maze ist ein Arcade-Labyrinth von oben. Du führst einen Jungen die Gartenwege entlang, sammelst jede Frucht auf der Karte und hältst Abstand zu den Tieren.",
   "fruit-puzzle.name": "Fruit Puzzle",
   "fruit-puzzle.h1": "Fruit Puzzle",
   "fruit-puzzle.card": "Schieb Kacheln, bis das Obstbild wieder ganz ist.",
@@ -698,5 +698,12 @@
     "Speichere deinen Druck oder leer das Papier."
   ],
   "meta.citrus-stamps.title": "Citrus Stamps: kreative Aktivität · Fruit Destroy",
-  "meta.citrus-stamps.desc": "Druck Muster mit aufgeschnittenen Obsthälften, wie mit echten Obststempeln. Druck mit aufgeschnittenem Obst, so wie mit einer echten halben Zitrone und einem Töpfchen Farbe. Jeder Abdruck kommt ein bisschen anders raus."
+  "meta.citrus-stamps.desc": "Druck Muster mit aufgeschnittenen Obsthälften, wie mit echten Obststempeln. Druck mit aufgeschnittenem Obst, so wie mit einer echten halben Zitrone und einem Töpfchen Farbe. Jeder Abdruck kommt ein bisschen anders raus.",
+  "playMaze": "Fruit Maze spielen",
+  "mainGame": "Hauptspiel",
+  "mazeLevels": "{n} Level",
+  "mhF1": "Sammle jede Frucht",
+  "mhF2": "Weich den Tieren aus",
+  "mhF3": "Kerne werfen ab Level 11",
+  "exploreAllN": "Alle {n} Aktivitäten"
 }

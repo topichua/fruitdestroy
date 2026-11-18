@@ -361,7 +361,6 @@
   "bubble-pop.opt.slow": "Ngadalë",
   "bubble-pop.opt.lively": "Gjallë",
   "newTag": "E re",
-  "heroMaze": "Fruit Maze: 10 nivele me fruta dhe kafshëza gazmore",
   "fruit-slice.name": "Fruit Slice",
   "fruit-slice.h1": "Fruit Slice",
   "fruit-slice.card": "Prit me rrëshqitje frutat që fluturojnë. Gjysma të lëngshme, raunde të shpejta.",
@@ -490,19 +489,20 @@
   "meta.fruit-memory.desc": "Kthe kartat dhe gjej frutin e njëjtë. Një lojë klasike memorie me karta frutash. Hap dy: nëse janë të njëjta, mbeten hapur.",
   "fruit-maze.name": "Fruit Maze",
   "fruit-maze.h1": "Fruit Maze",
-  "fruit-maze.card": "Çoje djalin nëpër labirintin e kopshtit, mblidh çdo frut dhe shmangu kafshëve. 10 nivele.",
+  "fruit-maze.card": "Udhëhiqe djalin nëpër labirintin e pemishtes, mblidh të gjitha frutat dhe shmang kafshët. 20 nivele, dhe nga niveli 11 mund të hedhësh fara.",
   "fruit-maze.about": [
     "Fruit Maze është një labirint arkade i parë nga lart. E çon djalin nëpër shtigjet e kopshtit, mbledh çdo frut në hartë dhe rri larg kafshëve.",
-    "Molla jep 10 pikë, banania 15, portokalli 20, luleshtrydhja 25 dhe edhe 100 për nivelin e kaluar. Ke tri jetë. Përplasja me një kafshë të merr një jetë dhe të kthen te porta e kopshtit, ku kafshët s’hyjnë, plus dy sekonda qetësi. Janë 10 nivele. Secili është pak më i madh dhe shton një kafshë: nga një kopsht i vogël 11×11 me një breshkë te një kopsht 19×19 me dhjetë breshka, dhelpra dhe majmunë.",
-    "Breshka ecën para-prapa në një shteg. Dhelpra patrullon dhe kthehet gjithmonë djathtas kur mundet. Majmuni është më i shpejtë dhe në çdo kryqëzim merr kthesën tjetër në një rend të fiksuar, kështu rrugët i mëson."
+    "Molla jep 10 pikë, banania 15, portokalli 20, luleshtrydhja 25 dhe edhe 100 për nivelin e kaluar. Ke tri jetë. Përplasja me një kafshë të merr një jetë dhe të kthen te porta e kopshtit, ku kafshët s’hyjnë, plus dy sekonda qetësi. Janë 20 nivele. Dhjetë të parat rriten nga një kopsht i vogël 11×11 me një breshkë të vetme deri te një pemishte 19×19 me dhjetë kafshë. Nga niveli 11 djali mund të hedhë fara: shtyp Hapësirën (ose butonin 🌰) për ta trullosur një kafshë për disa sekonda. Pas kësaj çdo nivel bëhet më i vështirë: labirinte më të mëdha deri në 23×23, më shumë kafshë e më të shpejta, më pak fara dhe trullosje më e shkurtër.",
+    "Breshka ecën para-prapa në një shteg. Dhelpra patrullon dhe kthehet gjithmonë djathtas kur mundet. Majmuni është më i shpejtë dhe në çdo kryqëzim merr kthesën tjetër në një rend të fiksuar, kështu rrugët i mëson. Iriqi, nga niveli 13, të ndjek kur i afrohesh disa hapa."
   ],
   "fruit-maze.steps": [
     "Lëviz me shigjetat ose me W A S D. Në telefon mbaj shtypur butonat e shigjetave ose rrëshqit mbi fushë.",
     "Kalo mbi frutin që ta mbledhësh. Numëruesi lart tregon sa kanë mbetur.",
+    "Nga niveli 11 shtyp Hapësirën, butonin 🌰 ose prek tabelën për të hedhur një farë nga sheh djali.",
     "Mblidh çdo frut që të mbarosh nivelin. Esc ose butoni i pauzës — për të pushuar."
   ],
   "meta.fruit-maze.title": "Fruit Maze: lojë falas në internet · Fruit Destroy",
-  "meta.fruit-maze.desc": "Çoje djalin nëpër labirintin e kopshtit, mblidh çdo frut dhe shmangu kafshëve. 10 nivele. Fruit Maze është një labirint arkade i parë nga lart. E çon djalin nëpër shtigjet e kopshtit, mbledh çdo frut në hartë dhe rri larg kafshëve.",
+  "meta.fruit-maze.desc": "Udhëhiqe djalin nëpër labirintin e pemishtes, mblidh të gjitha frutat dhe shmang kafshët. 20 nivele, dhe nga niveli 11 mund të hedhësh fara. Fruit Maze është një labirint arkade i parë nga lart. E çon djalin nëpër shtigjet e kopshtit, mbledh çdo frut në hartë dhe rri larg kafshëve.",
   "fruit-puzzle.name": "Fruit Puzzle",
   "fruit-puzzle.h1": "Fruit Puzzle",
   "fruit-puzzle.card": "Rrëshqit pllakat që të ribësh figurën e frutit.",
@@ -698,5 +698,12 @@
     "Ruaj shtypjen ose pastro letrën."
   ],
   "meta.citrus-stamps.title": "Citrus Stamps: aktivitet krijues · Fruit Destroy",
-  "meta.citrus-stamps.desc": "Shtyp motive me gjysma frutash të prera, si me vula të vërteta frutash. Shtyp me fruta të prera, si me një gjysmë limoni të vërtetë dhe një enë boje. Çdo shtypje del pak ndryshe."
+  "meta.citrus-stamps.desc": "Shtyp motive me gjysma frutash të prera, si me vula të vërteta frutash. Shtyp me fruta të prera, si me një gjysmë limoni të vërtetë dhe një enë boje. Çdo shtypje del pak ndryshe.",
+  "playMaze": "Luaj Fruit Maze",
+  "mainGame": "Loja kryesore",
+  "mazeLevels": "{n} nivele",
+  "mhF1": "Mblidh të gjitha frutat",
+  "mhF2": "Shmang kafshët",
+  "mhF3": "Fara nga niveli 11",
+  "exploreAllN": "Të gjitha {n} aktivitetet"
 }
